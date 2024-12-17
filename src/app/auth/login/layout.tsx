@@ -28,7 +28,7 @@ export default function Page() {
 
   const { setCurrentUser } = useUserStore();
   const defaultState: SignIn = {
-    emailOrPhone: "",
+    email: "",
     password: "",
   };
 
@@ -40,7 +40,7 @@ export default function Page() {
 
   const onSubmit = async (values: SignIn) => {
     const userLogin = login({
-      emailOrPhone: values.emailOrPhone,
+      email: values.email,
       password: values.password,
     });
 
@@ -83,7 +83,7 @@ export default function Page() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
-                name="emailOrPhone"
+                name="email"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="mb-3">

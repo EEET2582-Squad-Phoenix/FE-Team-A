@@ -19,7 +19,6 @@ export interface ResIUser {
   dto: IUser;
 }
 
-//CHANGE TO JWS
 export interface JWSPayload {
   authRole: AuthRole;
   userRole: UserRole;

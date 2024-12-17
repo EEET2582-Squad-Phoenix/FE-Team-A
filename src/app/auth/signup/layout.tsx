@@ -25,9 +25,9 @@ export default function DefaultRegisterForm() {
   const { login } = useUserStore();
   const router = useRouter();
   const defaultState: SignUp = {
-    fullName: "",
-    emailAddress: "",
-    phoneNumber: "",
+    firstName: "",
+    lastName: "",
+    email: "",
     password: "",
     confirmPassword: "",
   };
@@ -41,7 +41,7 @@ export default function DefaultRegisterForm() {
   const onSubmit = async (values: SignUp) => {
     const onRegister = userRegister({
       ...values,
-      userRole: "ROLE_DONOR",
+      userRole: "DONOR",
     });
     toast.promise(onRegister, {
       loading: "Creating your account...",
@@ -79,11 +79,11 @@ export default function DefaultRegisterForm() {
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex gap-4 mb-3">
                 <FormField
-                  name="fullName"
+                  name="firstName"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem className="flex-1 basis-1/3">
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel>First Name</FormLabel>
                       <Input {...field} placeholder="Your full name:" />
                       <FormMessage />
                     </FormItem>
@@ -91,14 +91,14 @@ export default function DefaultRegisterForm() {
                 />
               </div>
 
-              {/* Phone Number Field */}
+              {/* Last Name Field */}
               <FormField
-                name="phoneNumber"
+                name="lastName"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="mb-3">
-                    <FormLabel>Phone Number</FormLabel>
-                    <Input {...field} placeholder="Enter your phone number:" />
+                    <FormLabel>Last Name</FormLabel>
+                    <Input {...field} placeholder="Enter your last name:" />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -106,7 +106,7 @@ export default function DefaultRegisterForm() {
 
               {/* Email Address Field */}
               <FormField
-                name="emailAddress"
+                name="email"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="mb-3">

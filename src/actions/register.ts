@@ -2,15 +2,15 @@ import { IUser } from "@/types/user";
 import API from "@/utils/axiosClient";
 
 export async function userRegister(values: {
-  fullName: string;
-  phoneNumber: string;
-  emailAddress: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   userRole: string;
   password: string;
 }) {
   try {
     const res = await API.post<{ message: string; dto: IUser }>(
-      "/auth/register",
+      "api/auth/signup",
       {
         ...values,
       },

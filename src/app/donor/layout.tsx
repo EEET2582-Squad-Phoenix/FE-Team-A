@@ -5,6 +5,7 @@ import { Sidebar } from "../../components/layout/Sidebar/Sidebar";
 import { useSidebarToggle } from "@/store/use-sidebar-toggle";
 import DynamicBreadcrumb from "@/components/dynamic-breadcrumb/DynamicBreadcrumb";
 import { Toaster } from "sonner";
+import { Navbar } from "@/components/layout/TopBar/NavBar";
 
 export default function Layout({ children }: PropsWithChildren) {
   const { isOpen } = useSidebarToggle();
@@ -25,6 +26,7 @@ export default function Layout({ children }: PropsWithChildren) {
           `,
         )}
       >
+        <Navbar title = "Welcome"/>
         <DynamicBreadcrumb />
         {children}
       </main>

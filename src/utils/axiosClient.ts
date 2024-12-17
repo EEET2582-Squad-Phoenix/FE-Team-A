@@ -1,6 +1,6 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 
-const backendUrl = "https://localhost:8443";  //CHANGE THIS
+const backendUrl = "http://localhost:5001";  //CHANGE THIS
 
 const isServer = typeof window === "undefined";
 
@@ -38,7 +38,7 @@ API.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
     const baseUrl = config.baseURL;
 
     if (!baseUrl) {
-      config.baseURL = "https://localhost:3000";
+      config.baseURL = "http://localhost:3000";
     }
 
     return config;
