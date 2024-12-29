@@ -1,0 +1,61 @@
+
+
+GUEST donations
+
+ {/* Statistic. TODO: make it a component */}
+
+ Make use of Carousel component from shadcn
+
+
+
+ 1. Donations             ///// ON-GOING //////
+
+    Purpose: Allow users to view their donation history and manage donations.
+    Content:
+        A list of past donations, including:
+            Donation amount.
+            Donation date.
+            Project donated to.
+            Any attached messages.
+        Options for recurring/monthly donations.
+        Cancel or modify recurring donations.
+
+       //related
+        Attach and view donation messages.
+ 
+
+2. Subscriptions
+
+    Purpose: Allow users to manage their subscriptions to notifications for new projects.
+    Content:
+        A list of active subscriptions, categorized by:
+            Regions.
+            Categories.
+        Edit or remove subscriptions.
+        Option to subscribe to additional regions or categories.
+
+        //related
+        Manage notifications for new projects based on regions or categories.
+
+3. Analytics
+
+    Purpose: Provide users with an analytical view of their impact.
+    Content:
+        Graphs or visualizations:
+            Total donations over time.
+            Categories where donations are concentrated.
+        Statistics:
+            Number of projects supported.
+            Total amount donated.
+            Regional and categorical breakdown of donations.
+    
+
+4. Profile //NOT PRIORITIZED
+
+    Purpose: Allow users to manage their account information.
+    Content:
+        View and update:
+            Personal details (name, email, image, etc.).
+            Payment methods.
+        Manage security settings (password, multi-factor authentication, etc.).
+    

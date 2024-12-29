@@ -10,7 +10,7 @@ export default async function Page() {
       {/* Highlighted Projects Carousel */}
       <ProjectCarousel />
 
-      {/* Other Dashboard Content */}
+      {/* Statistic. TODO: make it a component */}
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Your Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

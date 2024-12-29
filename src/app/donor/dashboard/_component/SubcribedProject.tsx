@@ -52,7 +52,7 @@ const SubcribedProject = () => {
             >
               <div className="bg-white shadow-lg rounded-lg">
                 <img
-                  src="/gura.jpg" // Using the gura.jpg image from the public folder
+                  src="/gura.jpg" 
                   alt={project.name}
                   className="w-full h-40 object-cover rounded-t-lg"
                 />
