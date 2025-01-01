@@ -1,151 +1,61 @@
 import API from "@/utils/axiosClient";
-import { IUser, JWSPayload } from "@/types/user";
-import jwt, { verify } from "jsonwebtoken";
-// import { getUserImg } from "@/utils/utils";
-import { AuthRole, UserRole } from "@/types/role";
+import { IUser, JWTPayload } from "@/types/user";
+import { jwtDecode } from "jwt-decode";
 
-// const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY || "fallback-public-key";
-
-// export function extractRoleInfo(
-//   user: IUser,
-//   authRole: AuthRole,
-//   userRole: UserRole
-// ) {
-//   return {
-//     ...user,
-//     // imageUrl: getUserImg(authRole, userRole),
-//     userRole: userRole,
-//     authRole: authRole,
-//   } as IUser;
-// }
-
-export async function auth(value: IUser) {
-  await API.post(
-    "/api/auth",
-    { ...value },
-    {
-      baseURL: "http://localhost:5001",
-    }
-  );
-}
-
-
-//OLD
-// export async function getMe(sessionToken: string) {
-//   try {
-//     const res = await API.get<{ message: string; dto: IUser; error?: boolean }>(
-//       "/auth/me",
-//       {
-//         headers: {
-//           Authorization: `Bearer ${sessionToken}`,
-//         },
-//       },
-//     );
-//     const decodeData = jwtDecode<JWTPayload>(res.data.dto.accessToken);
-//     return {
-//       message: res.data.message,
-//       dto: extractRoleInfo(
-//         res.data.dto,
-//         decodeData.authRole,
-//         decodeData.userRole,
-//       ),
-//     };
-//   } catch (e) {
-//     return {
-//       message: "Failed to retrieve me",
-//       dto: null,
-//       error: true,
-//     };
-//   }
-// }
-
-// export async function getMe(sessionToken: string) {
-//   try {
-//     const res = await API.get<{ message: string; dto: IUser; error?: boolean }>(
-//       "/auth/me",
-//       {
-//         headers: {
-//           Authorization: `Bearer ${sessionToken}`,
-//         },
-//       }
-//     );
-
-//     const decodeData = jwt.verify(res.data.dto.accessToken, publicKey, {
-//       algorithms: ["RS256"],
-//     }) as JWSPayload;
-
-//     return {
-//       message: res.data.message,
-//       dto: extractRoleInfo(
-//         res.data.dto,
-//         decodeData.authRole,
-//         decodeData.userRole
-//       ),
-//     };
-//   } catch (e) {
-//     return {
-//       message: "Failed to retrieve me",
-//       dto: null,
-//       error: true,
-//     };
-//   }
-// }
-
-export async function signOut() {
-  await API.post(
-    "/api/auth/logout",
-    {},
-    {
-      baseURL: "https://localhost:5001",
-    }
-  );
-}
-
-// export async function login(values: {
-//   emailOrPhone: string;
-//   password: string;
-// }) {
-//   const res = await API.post<{ message: string; dto: IUser }>("/auth/sign-in", {
-//     emailOrPhone: values.emailOrPhone,
-//     password: values.password,
-//   });
-
-//   const decodeData = jwt.verify(res.data.dto.accessToken, publicKey, {
-//     algorithms: ["RS256"],
-//   }) as JWSPayload;
-
-//   return extractRoleInfo(
-//     res.data.dto,
-//     decodeData.authRole,
-//     decodeData.userRole
-//   );
-// }
-
-export async function login(values: { email: string; password: string }) {
+export async function signOut(): Promise<void> {
   try {
-    const res = await API.post<{ message: string; dto: IUser }>(
-      "/api/auth/signin", 
-      {
-        email: values.email,
-        password: values.password,
-      },
-      {
-        baseURL: "http://localhost:5001", 
-      }
-    );
-
-    const userData = res.data.dto;
-
-    if (typeof window !== "undefined") {
-      localStorage.setItem("token", userData.accessToken); 
-    }
-
-    // Return user data for further usage
-    return userData;
-  } catch (error: any) {
-    console.error("Login failed:", error.response?.data || error.message);
-    throw new Error(
-      error.response?.data?.error || "Failed to log in. Please try again."
-    );
+    await API.post("api/auth/logout", {}, { withCredentials: true });
+    console.log("User successfully logged out.");
+  } catch (error) {
+    console.error("Failed to sign out:", error);
   }
 }
+
+export function decodeJWT(token: string): JWTPayload {
+  try {
+    return jwtDecode<JWTPayload>(token);
+  } catch (e) {
+    console.error("Failed to decode token", e);
+    throw new Error("Invalid token");
+  }
+}
+
+export function extractRoleInfo(user: IUser): IUser {
+  return {
+    ...user,
+    // avatarUrl: user.avatarUrl || `/api/users/${user._id}/avatar`, 
+    avatarUrl: getUserImgFromType(user.userType),
+  };
+}
+
+export function getUserImgFromType(userType: IUser["userType"]): string {
+  switch (userType) {
+    case "DONOR":
+      return "/gura.jpg";
+    //add role here
+    default:
+      return "";
+  }
+}
+
+export async function login(values: { email: string; password: string }): Promise<IUser> {
+  const res = await API.post<{ message: string; dto: IUser }>("api/auth/login", values, {
+    withCredentials: true, 
+  });
+
+  return extractRoleInfo(res.data);
+}
+
+export async function getMe(): Promise<IUser | null> {
+  try {
+    const res = await API.get<{ message: string; dto: IUser }>("api/auth/me", {
+      withCredentials: true,
+    });
+
+    return extractRoleInfo(res.data.dto);
+  } catch (error) {
+    console.error("Failed to fetch user profile:", error);
+    return null;
+  }
+}
+

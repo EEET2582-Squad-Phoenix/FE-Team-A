@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import NotificationsBell from "@/components/Notifications";
-import { clientSessionToken } from "@/utils/axiosClient";
+// import { clientSessionToken } from "@/utils/axiosClient";
 
 export default function UserButtonSmall() {
   const { currentUser, logout } = useUserStore();
@@ -27,25 +27,25 @@ export default function UserButtonSmall() {
             <Avatar className="h-6 w-6">
               <AvatarImage
                 className="rounded-full"
-                src={currentUser?.imageUrl}
-                alt={`${currentUser?.fullName}'s image`}
+                src="/gura.jpg"
+                alt={`${currentUser?.firstName}'s image`}
               />
               <AvatarFallback>
-                {currentUser?.fullName.charAt(0).toUpperCase()}
+                {currentUser?.firstName.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
           </div>
         </PopoverTrigger>
         <PopoverContent className="flex flex-col gap-2">
           <p className="font-semibold text-primary text-sm">
-            {currentUser?.emailAddress}
+            {currentUser?.email}
           </p>
           <Button
             variant="outline"
             className="flex gap-2 items-center w-full justify-start"
             onClick={() => {
               userSignOut().then((res) => {
-                router.push("api/auth/login");
+                router.push("/auth/login");
               });
             }}
           >
@@ -54,8 +54,9 @@ export default function UserButtonSmall() {
           </Button>
         </PopoverContent>
       </Popover>
-
-      <NotificationsBell token={clientSessionToken.value} />
+      
+      {/* <NotificationsBell token={clientSessionToken.value} /> */}
+      <NotificationsBell  />
     </div>
   );
 }

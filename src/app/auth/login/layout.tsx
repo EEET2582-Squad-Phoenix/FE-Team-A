@@ -17,11 +17,9 @@ import { PasswordVisibility } from "@/utils/passwordVisibility";
 import { Label } from "@/components/ui/label";
 import { SignIn, signInSchema } from "@/schema";
 import { useRouter } from "next/navigation";
-import { auth, login } from "@/actions/auth";
+import { login } from "@/actions/auth";
 import { toast } from "sonner";
 import { useUserStore } from "@/store/user-store";
-import { clientSessionToken } from "@/utils/axiosClient";
-import { UserRole } from "@/types/role";
 
 export default function Page() {
   const router = useRouter();
@@ -43,30 +41,30 @@ export default function Page() {
       email: values.email,
       password: values.password,
     });
-
+  
     toast.promise(userLogin, {
       loading: "Authenticating user...",
       success: async (data) => {
-        setCurrentUser(data);
-        clientSessionToken.value = data.accessToken;
-        await auth(data);
-        if (data.userRole === UserRole.ROLE_DONOR) {
+        setCurrentUser(data); 
+        if (data.userType === "DONOR") {
           router.push("/donor");
-        // } else if (data.userRole === UserRole.ROLE_ADMIN) {
-        //   router.push("/sprayer/assign-orders");
-        } else if (data.userRole === UserRole.ROLE_ORGANIZATION) {
+        } else if (data.userType === "ORGANIZATION") {
           router.push("/organization");
         }
-        return `Login successfully!`;
+        return `Login successful! Welcome ${data.firstName}!`;
       },
       error: (e) => {
-        switch (e.response.status) {
-          case 401:
-            return e.response.data.message as string;
-          case 404:
-            return e.response.data.message as string;
-          default:
-            return "Internal Server Error";
+        if (e.response) {
+          switch (e.response.status) {
+            case 401:
+            case 404:
+              return e.response.data.message || "Invalid credentials.";
+            default:
+              return "An unexpected server error occurred.";
+          }
+        } else {
+          console.error("Error details:", e);
+          return "A network error occurred. Please try again.";
         }
       },
     });

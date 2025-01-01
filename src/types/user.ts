@@ -1,16 +1,14 @@
-import { AuthRole, UserRole } from "@/types/role";
-
 export interface IUser {
-  id: string;
-  fullName: string;
-  phoneNumber: string;
-  emailAddress: string;
-  createdAt: Date;
-  updatedAt: Date;
-  imageUrl: string;
-  authRole: "ROLE_USER" | "ROLE_ADMIN";
-  userRole: "ROLE_DONOR" | "ROLE_ORGANIZATION";
-  accessToken: string;
+  _id: string; 
+  firstName: string; 
+  lastName: string; 
+  email: string; 
+  avatarUrl: string | null; 
+  language: string; 
+  userType: "DONOR" | "ORGANIZATION"; 
+  monthlyDonation: number | null; 
+  subscriptions: string[]; 
+  isVerified: boolean; 
 }
 
 export interface ResIUser {
@@ -19,10 +17,9 @@ export interface ResIUser {
   dto: IUser;
 }
 
-export interface JWSPayload {
-  authRole: AuthRole;
-  userRole: UserRole;
-  sub: string;
-  iat: number;
-  exp: number;
+export interface JWTPayload {
+  accountId: string; 
+  email: string;  
+  iat: number; 
+  exp: number; 
 }

@@ -8,16 +8,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-// import { ScrollArea } from "@/components/ui/scroll-area";
+ import { ScrollArea } from "@/components/ui/scroll-area";
 // import { getNotifications } from "@/actions/notifications";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 interface NotificationsBellProps {
-  token: string;
+  // token: string;
 }
 
-const NotificationsBell: React.FC<NotificationsBellProps> = ({ token }) => {
+// const NotificationsBell: React.FC<NotificationsBellProps> = ({ token }) => {
+  const NotificationsBell: React.FC<NotificationsBellProps> = () => {
 //   const socket = useSocket(token);
   const [incomingMessage, setIncomingMessage] = useState("");
 //   const { notifications, setNotifications } = useNotificationStore();
@@ -72,22 +73,25 @@ const NotificationsBell: React.FC<NotificationsBellProps> = ({ token }) => {
         </div>
       </PopoverTrigger>
       <PopoverContent>
-        {/* <ScrollArea>
-          {notifications.length > 0 ? (
-            <div>
-              {incomingMessage.length > 0 && incomingMessage}
-              {notifications.map((notification, index) => (
-                <p key={notification.id}>{notification.content}</p>
-              ))}
-            </div>
-          ) : (
+        <ScrollArea>
+          {
+          // notifications.length > 0 ? (
+          //   <div>
+          //     {incomingMessage.length > 0 && incomingMessage}
+          //     {notifications.map((notification, index) => (
+          //       <p key={notification.id}>{notification.content}</p>
+          //     ))}
+          //   </div>
+          // ) : 
+          (
             <div className="flex items-center justify-center gap-2">
               <p className="italic">No notifications!</p>
             </div>
-          )}
-        </ScrollArea> */}
+          )
+          }
+        </ScrollArea>
       </PopoverContent>
-      {/*<Toaster position="top-center" />*/}
+      {/* <Toaster position="top-center" /> */}
     </Popover>
   );
 };

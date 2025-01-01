@@ -5,7 +5,7 @@ import { useUserStore } from "@/store/user-store";
 import { signOut } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import NotificationsBell from "@/components/Notifications";
-import { clientSessionToken } from "@/utils/axiosClient";
+// import { clientSessionToken } from "@/utils/axiosClient";
 
 export function UserButton() {
   const { logout, currentUser } = useUserStore();
@@ -20,24 +20,25 @@ export function UserButton() {
         <Avatar className="h-6 w-6">
           <AvatarImage
             className="rounded-full"
-            src={currentUser?.imageUrl}
-            alt={`${currentUser?.fullName}'s image`}
+            src="/gura.jpg"
+            alt={`${currentUser?.firstName}'s image`}
           />
           <AvatarFallback>
-            {currentUser?.fullName.charAt(0).toUpperCase()}
+            {currentUser?.firstName.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
         <p className="text-semibold text-primary text-sm">
-          {currentUser?.emailAddress}
+          {currentUser?.email}
         </p>
       </div>
-      <NotificationsBell token={clientSessionToken.value} />
+      {/* <NotificationsBell token={clientSessionToken.value} /> */}
+      <NotificationsBell />
 
       <Button
         variant="outline"
         className="flex gap-2 items-center w-full justify-start"
         onClick={() => {
-          userSignOut().then((res) => router.push("api/auth/login"));
+          userSignOut().then((res) => router.push("/auth/login"));
         }}
       >
         <LucideIcon name="LogOut" />
