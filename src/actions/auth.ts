@@ -39,8 +39,8 @@ export function getUserImgFromType(userType: IUser["userType"]): string {
 }
 
 export async function login(values: { email: string; password: string }): Promise<IUser> {
-  const res = await API.post<{ message: string; dto: IUser }>("api/auth/login", values, {
-    withCredentials: true, 
+  const res = await API.post<IUser>("/api/auth/login", values, {
+    withCredentials: true,
   });
 
   return extractRoleInfo(res.data);
@@ -48,11 +48,11 @@ export async function login(values: { email: string; password: string }): Promis
 
 export async function getMe(): Promise<IUser | null> {
   try {
-    const res = await API.get<{ message: string; dto: IUser }>("api/auth/me", {
+    const res = await API.get<IUser>("api/auth/me", {
       withCredentials: true,
     });
 
-    return extractRoleInfo(res.data.dto);
+    return extractRoleInfo(res.data);
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
     return null;

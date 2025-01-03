@@ -18,7 +18,6 @@ export function Sidebar() {
     { name: "Projects", path: "/donor/projects" },
     { name: "Analytics", path: "/donor/analytics" },
     { name: "My Donation", path: "/donor/donation" },
-    { name: "Subscription", path: "/donor/subscription" },
   ];
 
   if (!sidebar) return null;

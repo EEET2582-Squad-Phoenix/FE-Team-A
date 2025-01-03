@@ -1,5 +1,5 @@
 import React from "react";
-import ProjectCarousel from "@/components/highlightedProjectCarousel/ProjectCarousel";
+import ProjectCarousel from "@/components/carousel/Carousel";
 import SubcribedProject from "./_component/SubcribedProject";
 import Leaderboard from "@/components/leaderboard/Leaderboard";
 

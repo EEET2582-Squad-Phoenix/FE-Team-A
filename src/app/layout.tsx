@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { AppWrapper } from "@/components/wrapper/AppWrapper"; // Adjust this to the actual path
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +29,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AppWrapper>
+          {children}
+        </AppWrapper>
       </body>
     </html>
   );

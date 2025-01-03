@@ -1,26 +1,34 @@
 import { create } from "zustand";
 import { IUser } from "@/types/user";
+import { getMe } from "@/actions/auth";
 
 type UserState = {
-  currentUser: IUser | undefined;
+  currentUser: IUser | null;
 };
 
 type UserAction = {
-  setCurrentUser: (user: IUser | undefined) => void;
+  setCurrentUser: (user: IUser | null) => void; 
   logout: () => void;
-  login: (user: IUser | undefined) => void;
+  login: (user: IUser) => void;
+  fetchCurrentUser: () => Promise<void>; 
 };
 
 type UserStore = UserState & UserAction;
 
 export const useUserStore = create<UserStore>(
   (set): UserStore => ({
-    currentUser: undefined,
-    setCurrentUser: (user: IUser | undefined) => set({ currentUser: user }),
-    logout: () => set({ currentUser: undefined }),
-    login: (user: IUser | undefined) =>
-      set((state) => {
-        return { ...state, currentUser: user };
-      }),
-  }),
+    currentUser: null, 
+    setCurrentUser: (user: IUser | null) => set({ currentUser: user }), 
+    logout: () => set({ currentUser: null }), 
+    login: (user: IUser) => set({ currentUser: user }),
+    fetchCurrentUser: async () => {
+      try {
+        const user = await getMe(); 
+        set({ currentUser: user }); 
+      } catch (error) {
+        console.error("Error fetching current user:", error);
+        set({ currentUser: null }); 
+      }
+    },
+  })
 );
