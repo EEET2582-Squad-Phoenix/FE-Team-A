@@ -2,6 +2,7 @@ import React from "react";
 import ProjectCarousel from "@/components/carousel/Carousel";
 import SubcribedProject from "./_component/SubcribedProject";
 import Leaderboard from "@/components/leaderboard/Leaderboard";
+import Shortcuts from "@/components/shortcuts/Shortcuts";
 
 export default async function Page() {
   return (
@@ -9,6 +10,10 @@ export default async function Page() {
       <h1 className="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
       {/* Highlighted Projects Carousel */}
       <ProjectCarousel />
+
+      <div className="mt-8">
+        <Shortcuts userRole="donor"/>
+      </div>
 
       {/* Statistic. TODO: make it a component */}
       <div className="mt-8">

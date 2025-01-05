@@ -1,24 +1,47 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useSidebarToggle } from "@/store/use-sidebar-toggle";
+import { useUserStore } from "@/store/user-store";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarToggle } from "./SidebarToggle";
 
 export function Sidebar() {
   const sidebar = useSidebarToggle();
+  const { currentUser } = useUserStore(); // Access current user
   const pathname = usePathname();
 
-  const navItems = [
+  // Define navigation items for each role
+  const donorNavItems = [
     { name: "Dashboard", path: "/donor/dashboard" },
     { name: "Projects", path: "/donor/projects" },
     { name: "Analytics", path: "/donor/analytics" },
     { name: "My Donation", path: "/donor/donation" },
   ];
+
+  const charityNavItems = [
+    { name: "Dashboard", path: "/charity/dashboard" },
+    { name: "Projects", path: "/charity/projects" },
+    { name: "Donations Overview", path: "/charity/donations" },
+    { name: "Credit Card Info", path: "/charity/credit-card" },
+    { name: "Deleted Shard", path: "/charity/projects/deleted" },
+    { name: "Statistics", path: "/charity/statistics" },
+  ];
+
+  const guestNavItems = [
+    { name: "Projects", path: "/projects" }, // Only show "Projects" to guests
+  ];
+
+  // Determine which nav items to render based on user state
+  const navItems = currentUser
+    ? currentUser.userType === "DONOR"
+      ? donorNavItems
+      : charityNavItems
+    : guestNavItems;
 
   if (!sidebar) return null;
 
@@ -35,9 +58,9 @@ export function Sidebar() {
       <SidebarToggle isOpen={sidebar?.isOpen} setIsOpen={sidebar?.setIsOpen} />
 
       <div className="relative h-full flex flex-col overflow-y-auto shadow-md dark:shadow-zinc-800">
-        {/* Add Logo here */}
+        {/* Add Logo */}
         <div className="flex items-center justify-center gap-2 h-12 p-4">
-          <Link href="/dashboard" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               src={`/Logo.svg`}
               alt="Application Logo"

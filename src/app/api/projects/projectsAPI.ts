@@ -15,7 +15,7 @@ export const fetchProjects = async (
 ): Promise<ProjectsResponse> => {
   const params = new URLSearchParams({ page: String(page), limit: String(limit) });
 
-  // Add optional filters
+  // Add filters
   if (filters.name) params.append("name", filters.name);
   if (filters.charityID) params.append("charityID", filters.charityID);
   if (filters.country) params.append("country", filters.country);
