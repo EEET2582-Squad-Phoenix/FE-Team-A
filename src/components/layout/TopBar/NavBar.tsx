@@ -1,6 +1,6 @@
 import { SheetMenu } from "./SheetMenu";
 import { UserButton } from "./UserButton";
-import UserButtonSmall from "./UserbuttonSmall";
+
 
 interface NavbarProps {
   title: string;
@@ -14,7 +14,7 @@ export function Navbar({ title }: NavbarProps) {
           <h1 className="font-bold">{title}</h1>
         </div>
         <>
-          <UserButtonSmall />
+          
           <UserButton />
         </>
       </div>

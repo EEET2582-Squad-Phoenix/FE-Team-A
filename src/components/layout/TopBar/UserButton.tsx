@@ -31,8 +31,6 @@ export function UserButton() {
           {currentUser?.email}
         </p>
       </div>
-      {/* <NotificationsBell token={clientSessionToken.value} /> */}
-      <NotificationsBell />
 
       <Button
         variant="outline"

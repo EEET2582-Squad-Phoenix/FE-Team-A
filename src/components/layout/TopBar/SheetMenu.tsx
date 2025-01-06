@@ -32,7 +32,7 @@ export function SheetMenu() {
           >
             <Link href="/booking" className="flex items-center gap-2">
               <Image
-                src="/logo/logo.svg"
+                src="/Logo.svg"
                 alt="logo image"
                 width={40}
                 height={40}
