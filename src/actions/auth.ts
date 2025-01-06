@@ -22,17 +22,17 @@ export function decodeJWT(token: string): JWTPayload {
 
 export function extractRoleInfo(user: IUser): IUser {
   return {
-    ...user,
-    // avatarUrl: user.avatarUrl || `/api/users/${user._id}/avatar`, 
-    avatarUrl: getUserImgFromType(user.userType),
+    ...user, 
+    avatarUrl: getUserImgFromType(user.role),
   };
 }
 
-export function getUserImgFromType(userType: IUser["userType"]): string {
+export function getUserImgFromType(userType: IUser["role"]): string {
   switch (userType) {
     case "DONOR":
       return "/gura.jpg";
-    //add role here
+    case "CHARITY":
+        return "/mumei.jpg";
     default:
       return "";
   }
@@ -49,6 +49,19 @@ export async function login(values: { email: string; password: string }): Promis
 export async function getMe(): Promise<IUser | null> {
   try {
     const res = await API.get<IUser>("api/auth/me", {
+      withCredentials: true,
+    });
+
+    return extractRoleInfo(res.data);
+  } catch (error) {
+    console.error("Failed to fetch user profile:", error);
+    return null;
+  }
+}
+
+export async function getCharity(): Promise<IUser | null> {
+  try {
+    const res = await API.get<IUser>("api/auth/charity", {
       withCredentials: true,
     });
 

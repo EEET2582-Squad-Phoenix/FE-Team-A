@@ -5,12 +5,12 @@ export enum AuthRole {
   
   export enum UserRole {
     ROLE_DONOR = "ROLE_DONOR",
-    ROLE_ORGANIZATION = "ROLE_ORGANIZATION",
+    ROLE_CHARITY = "ROLE_CHARITY",
   }
   
   const dictRoleString: Record<string, string> = {
     DONOR: "donor",
-    ORGANIZATION: "organization",
+    CHARITY: "charity",
   };
   
   export function getRoleString(userRole: UserRole) {

@@ -12,36 +12,43 @@ import { SidebarToggle } from "./SidebarToggle";
 
 export function Sidebar() {
   const sidebar = useSidebarToggle();
-  const { currentUser } = useUserStore(); // Access current user
+  const { isLoading } = useUserStore();
   const pathname = usePathname();
 
   // Define navigation items for each role
-  const donorNavItems = [
-    { name: "Dashboard", path: "/donor/dashboard" },
-    { name: "Projects", path: "/donor/projects" },
-    { name: "Analytics", path: "/donor/analytics" },
-    { name: "My Donation", path: "/donor/donation" },
-  ];
+  const navigation = {
+    DONOR: [
+      { name: "DONOR Dashboard", path: "/donor/dashboard" },
+      { name: "DONOR Projects", path: "/donor/projects" },
+      { name: "DONOR My Donation", path: "/donor/donation" },
+    ],
+    CHARITY: [
+      { name: "CHARITY Dashboard", path: "/charity/dashboard" },
+      { name: "CHARITY Projects", path: "/charity/projects" },
+      { name: "CHARITY Donations Overview", path: "/charity/donations" },
+      { name: "CHARITY Credit Card Info", path: "/charity/credit-card" },
+      { name: "CHARITY Deleted Shard", path: "/charity/projects/deleted" },
+      { name: "CHARITY Statistics", path: "/charity/statistics" },
+    ],
+    GUEST: [{ name: "Home", path: "/projects" }],
+  };
 
-  const charityNavItems = [
-    { name: "Dashboard", path: "/charity/dashboard" },
-    { name: "Projects", path: "/charity/projects" },
-    { name: "Donations Overview", path: "/charity/donations" },
-    { name: "Credit Card Info", path: "/charity/credit-card" },
-    { name: "Deleted Shard", path: "/charity/projects/deleted" },
-    { name: "Statistics", path: "/charity/statistics" },
-  ];
+  const navItems = React.useMemo(() => {
+    if (isLoading) return []; 
 
-  const guestNavItems = [
-    { name: "Projects", path: "/projects" }, // Only show "Projects" to guests
-  ];
+    const baseRole = pathname.startsWith("/donor")
+      ? "DONOR"
+      : pathname.startsWith("/organization")
+      ? "CHARITY"
+      : "GUEST";
 
-  // Determine which nav items to render based on user state
-  const navItems = currentUser
-    ? currentUser.userType === "DONOR"
-      ? donorNavItems
-      : charityNavItems
-    : guestNavItems;
+    // Use the correct navigation based on role
+    return baseRole === "DONOR"
+      ? navigation.DONOR
+      : baseRole === "CHARITY"
+      ? navigation.CHARITY
+      : navigation.GUEST;
+  }, [pathname, isLoading]);
 
   if (!sidebar) return null;
 
@@ -52,7 +59,7 @@ export function Sidebar() {
           fixed left-0 top-0 z-20 h-full -translate-x-full border-r transition-[width] duration-300 ease-in-out
           lg:translate-x-0 bg-[#212529] text-white
         `,
-        sidebar?.isOpen === false ? "w-[68px]" : "w-60",
+        sidebar?.isOpen === false ? "w-[68px]" : "w-60"
       )}
     >
       <SidebarToggle isOpen={sidebar?.isOpen} setIsOpen={sidebar?.setIsOpen} />
@@ -72,7 +79,7 @@ export function Sidebar() {
                 "font-bold text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
                 sidebar?.isOpen === false
                   ? "-translate-x-96 opacity-0 hidden"
-                  : "translate-x-0 opacity-100",
+                  : "translate-x-0 opacity-100"
               )}
             >
               Charitan

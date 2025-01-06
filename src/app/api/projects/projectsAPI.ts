@@ -21,7 +21,7 @@ export const fetchProjects = async (
   if (filters.country) params.append("country", filters.country);
   if (filters.category) params.append("category", filters.category);
 
-  const response = await API.get<ProjectsResponse>(`/api/projects?${params.toString()}`);
+  const response = await API.get<ProjectsResponse>(`/api/charity-project?${params.toString()}`);
   return response.data;
 };
 

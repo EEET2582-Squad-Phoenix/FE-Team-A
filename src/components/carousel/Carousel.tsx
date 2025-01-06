@@ -5,11 +5,14 @@ import CarouselSlide from "./CarouselSlide";
 import { IProject } from "@/types/project";
 import { fetchHighlightedProjects } from "@/app/api/projects/projectsAPI";
 import { Button } from "../ui/button";
-import { ChevronRight, ChevronLeft } from "lucide-react"
+import { ChevronRight, ChevronLeft } from "lucide-react";
+import ProjectDetailsPopup from "../project/ProjectDetailsPopup"; // Adjust the import path
 
 export default function Carousel() {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal state
 
   useEffect(() => {
     const loadHighlightedProjects = async () => {
@@ -46,6 +49,16 @@ export default function Carousel() {
     );
   };
 
+  const handleSlideClick = (project: IProject) => {
+    setSelectedProject(project); // Set selected project when a slide is clicked
+    setIsModalOpen(true); // Open modal when a project is selected
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); // Close the modal
+    setSelectedProject(null); // Clear the selected project
+  };
+
   return (
     <div className="relative overflow-hidden w-full max-w-4xl mx-auto">
       {/* Carousel Content */}
@@ -57,9 +70,10 @@ export default function Carousel() {
       >
         {projects.map((project, index) => (
           <CarouselSlide
-            key={project._id}
+            key={project.id}
             project={project}
             isActive={index === currentIndex}
+            onClick={() => handleSlideClick(project)} 
           />
         ))}
       </div>
@@ -79,7 +93,7 @@ export default function Carousel() {
         variant="outline" size="icon"
         className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-600"
       >
-       <ChevronRight />
+        <ChevronRight />
       </Button>
 
       {/* Carousel Indicators */}
@@ -94,6 +108,11 @@ export default function Carousel() {
           />
         ))}
       </div>
+
+      {/* Project Detail Modal */}
+      {isModalOpen && selectedProject && (
+        <ProjectDetailsPopup project={selectedProject} closeModal={closeModal} />
+      )}
     </div>
   );
 }

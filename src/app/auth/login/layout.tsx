@@ -46,9 +46,9 @@ export default function Page() {
       loading: "Authenticating user...",
       success: async (data) => {
         setCurrentUser(data); 
-        if (data.userType === "DONOR") {
+        if (data.role === "DONOR") {
           router.push("/donor");
-        } else if (data.userType === "ORGANIZATION") {
+        } else if (data.role === "CHARITY") {
           router.push("/organization");
         }
         return `Login successful! Welcome ${data.firstName}!`;

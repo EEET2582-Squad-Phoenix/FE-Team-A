@@ -3,15 +3,19 @@ Important:
     
     DONOR:
 
-        Shortcuts
+        Shortcuts to Manage notification subscriptions (Region and categories)
 
-        Open project details -> donate + signup for recurring donation (Huy and Hung working on it)
+        Actually donate
+        
         Statistic: hook the api in and UI
+
         Donation History: hook api in and UI (Huy working on it)
+
         Cancel or modify recurring donations.
 
         Project carousel in dashboard: hook API in when available
-        Manage notification subscriptions (Region and categories)
+
+        
 
 
     ORGANIZATION:

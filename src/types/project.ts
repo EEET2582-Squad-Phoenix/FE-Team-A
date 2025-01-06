@@ -9,8 +9,8 @@ export enum ProjectCategory {
   }
   
 export interface IProject {
-  _id: string; // Maps to MongoDB's _id
-  charityID: string; // Reference to the Charity object
+  id: string; // Maps to MongoDB's _id
+  charity: string; // Reference to the Charity object
   name: string; // Project name
   img: string[]; // Array of image URLs
   vid: string[]; // Array of video URLs

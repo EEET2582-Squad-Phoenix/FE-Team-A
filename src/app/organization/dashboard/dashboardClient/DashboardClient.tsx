@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import ProjectCarousel from "@/components/carousel/Carousel";
 import QuickStatistics from "@/components/statistic/QuickStatistics";
-import Leaderboard from "@/components/leaderboard/Leaderboard"; 
+import Leaderboard from "@/components/leaderboard/Leaderboard";
 import Shortcuts from "@/components/shortcuts/Shortcuts";
-import { fetchCharityStatistics } from "@/app/api/statistics/statisticsAPI";
+import { fetchCharityStatistics } from "@/app/api/ranking/rankingAPI";
 import { CharityStatistics } from "@/types/statistic";
 
 const DashboardClient = () => {
@@ -34,7 +34,7 @@ const DashboardClient = () => {
       <ProjectCarousel />
 
       <div className="mt-8">
-        <Shortcuts userRole="organization"/>
+        <Shortcuts userRole="organization" />
       </div>
 
       {/* Quick Statistics */}
@@ -42,7 +42,7 @@ const DashboardClient = () => {
         <QuickStatistics statistics={statistics} loading={loading} />
       </div> */}
 
-<div className="mt-8">
+      <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Your Stats</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="p-4 bg-white shadow rounded-lg">
@@ -63,7 +63,6 @@ const DashboardClient = () => {
       <div className="mt-8">
         <Leaderboard />
       </div>
-
     </div>
   );
 };
