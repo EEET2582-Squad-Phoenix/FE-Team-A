@@ -5,32 +5,34 @@ import { useUserStore } from "@/store/user-store";
 import { signOut } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { ICharityUser, IDonorUser } from "@/types/user";
+import { useState } from "react";
+import { SubscriptionDialog } from "@/app/donor/dashboard/_component/SubscriptionDialog";
 
 export function UserButton() {
   const { logout, currentUser } = useUserStore();
   const router = useRouter();
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const userSignOut = async () => {
     await signOut();
     logout();
   };
 
-  // Type narrowing to check if the current user is a donor
   const isDonorUser = (user: unknown): user is IDonorUser => {
     return !!user && (user as IDonorUser).email !== undefined;
   };
 
-  // Type narrowing to check if the current user is a charity
   const isCharityUser = (user: unknown): user is ICharityUser => {
     return !!user && (user as ICharityUser).name !== undefined;
   };
 
   const userDisplayName = () => {
-    if (!currentUser) return ""; // Fallback if no user is logged in
+    if (!currentUser) return "";
     if (isDonorUser(currentUser)) {
-      return currentUser.email; // Render email for donors
+      return currentUser.email;
     } else if (isCharityUser(currentUser)) {
-      return currentUser.name; // Render name for charities
+      return currentUser.name;
     }
     return "";
   };
@@ -47,6 +49,15 @@ export function UserButton() {
 
   return (
     <div className="h-full items-center gap-2 hidden sm:flex">
+      <Button
+        variant="ghost"
+        className="flex gap-2 items-center border border-black rounded-full p-2"
+        onClick={() => setIsDialogOpen(true)}
+      >
+        <LucideIcon name="Lightbulb" />
+        Notification Settings
+      </Button>
+
       <div className="rounded-md flex items-center border border-primary border-solid p-2 h-10 gap-2">
         <Avatar className="h-6 w-6">
           <AvatarImage
@@ -58,6 +69,8 @@ export function UserButton() {
         </Avatar>
         <p className="text-semibold text-primary text-sm">{userDisplayName()}</p>
       </div>
+
+      <SubscriptionDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
 
       <Button
         variant="outline"
