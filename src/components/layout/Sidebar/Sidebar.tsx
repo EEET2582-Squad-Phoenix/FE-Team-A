@@ -9,8 +9,6 @@ import { useUserStore } from "@/store/user-store";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarToggle } from "./SidebarToggle";
-
-// Import Lucide icons
 import { Home, BarChart, CreditCard, Folder, Trash, Users } from "lucide-react";
 
 export function Sidebar() {
@@ -47,7 +45,6 @@ export function Sidebar() {
       ? "CHARITY"
       : "GUEST";
 
-    // Use the correct navigation based on role
     return baseRole === "DONOR"
       ? navigation.DONOR
       : baseRole === "CHARITY"

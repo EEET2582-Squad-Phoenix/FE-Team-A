@@ -34,13 +34,12 @@ export interface IDonorUser extends IBaseUser {
   firstName: string;
   lastName: string;
   email: string;
-  subscriptions: any[]; // Define based on subscription structure
+  subscriptions: any[]; 
   language: string;
 }
 
 // Specific fields for charities
 export interface ICharityUser extends IBaseUser {
-  firstName: string; //for login
   name: string;
   address: string;
   taxCode: string;
