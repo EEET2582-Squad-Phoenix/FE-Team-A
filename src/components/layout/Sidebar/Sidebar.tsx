@@ -24,12 +24,12 @@ export function Sidebar() {
       { name: "My Donation", path: "/donor/donation", icon: <BarChart size={20} /> },
     ],
     CHARITY: [
-      { name: "Dashboard", path: "/charity/dashboard", icon: <Home size={20} /> },
-      { name: "Projects", path: "/charity/projects", icon: <Folder size={20} /> },
-      { name: "Donations Overview", path: "/charity/donations", icon: <BarChart size={20} /> },
-      { name: "Credit Card Info", path: "/charity/credit-card", icon: <CreditCard size={20} /> },
-      { name: "Deleted Shard", path: "/charity/projects/deleted", icon: <Trash size={20} /> },
-      { name: "Statistics", path: "/charity/statistics", icon: <Users size={20} /> },
+      { name: "Dashboard", path: "/organization/dashboard", icon: <Home size={20} /> },
+      { name: "Projects", path: "/organization/projects", icon: <Folder size={20} /> },
+      { name: "Donations Overview", path: "/organization/donations", icon: <BarChart size={20} /> },
+      { name: "Credit Card Info", path: "/organization/credit-card", icon: <CreditCard size={20} /> },
+      { name: "Deleted Shard", path: "/organization/projects/deleted", icon: <Trash size={20} /> },
+      { name: "Statistics", path: "/organization/statistics", icon: <Users size={20} /> },
     ],
     GUEST: [
       { name: "Home", path: "/projects", icon: <Home size={20} /> }
