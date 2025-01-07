@@ -1,6 +1,5 @@
 import API from "@/utils/axiosClient";
-import { IUser, JWTPayload } from "@/types/user";
-import { jwtDecode } from "jwt-decode";
+import { ICharityUser, IDonorUser, IUser } from "@/types/user";
 
 export async function signOut(): Promise<void> {
   try {
@@ -11,23 +10,25 @@ export async function signOut(): Promise<void> {
   }
 }
 
-export function decodeJWT(token: string): JWTPayload {
-  try {
-    return jwtDecode<JWTPayload>(token);
-  } catch (e) {
-    console.error("Failed to decode token", e);
-    throw new Error("Invalid token");
+export function extractRoleInfo(user: IUser): IUser {
+  if (user.accountId.role === "DONOR") {
+    const donorUser = user as IDonorUser; // Typecast to Donor
+    return {
+      ...donorUser,
+      avatarUrl: donorUser.avatarUrl || getUserImgFromType(user.accountId.role),
+    };
+  } else if (user.accountId.role === "CHARITY") {
+    const charityUser = user as ICharityUser; // Typecast to Charity
+    return {
+      ...charityUser,
+      avatarUrl: getUserImgFromType(user.accountId.role), 
+    };
+  } else {
+    throw new Error("Unknown role in extractRoleInfo");
   }
 }
 
-export function extractRoleInfo(user: IUser): IUser {
-  return {
-    ...user, 
-    avatarUrl: getUserImgFromType(user.role),
-  };
-}
-
-export function getUserImgFromType(userType: IUser["role"]): string {
+export function getUserImgFromType(userType: IUser["accountId"]["role"]): string {
   switch (userType) {
     case "DONOR":
       return "/gura.jpg";
@@ -38,20 +39,22 @@ export function getUserImgFromType(userType: IUser["role"]): string {
   }
 }
 
-export async function login(values: { email: string; password: string }): Promise<IUser> {
-  const res = await API.post<IUser>("/api/auth/login", values, {
-    withCredentials: true,
-  });
-
-  return extractRoleInfo(res.data);
+export async function login(values: { email: string; password: string }): Promise<void> {
+  try {
+    await API.post("/api/auth/login", values, { withCredentials: true });
+  } catch (error) {
+    console.error("Login failed:", error);
+    throw error;  
+  }
 }
+
 
 export async function getMe(): Promise<IUser | null> {
   try {
     const res = await API.get<IUser>("api/auth/me", {
       withCredentials: true,
     });
-
+    console.log(res.data);
     return extractRoleInfo(res.data);
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
@@ -59,16 +62,4 @@ export async function getMe(): Promise<IUser | null> {
   }
 }
 
-export async function getCharity(): Promise<IUser | null> {
-  try {
-    const res = await API.get<IUser>("api/auth/charity", {
-      withCredentials: true,
-    });
-
-    return extractRoleInfo(res.data);
-  } catch (error) {
-    console.error("Failed to fetch user profile:", error);
-    return null;
-  }
-}
 

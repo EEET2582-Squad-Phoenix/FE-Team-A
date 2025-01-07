@@ -17,7 +17,7 @@ import { PasswordVisibility } from "@/utils/passwordVisibility";
 import { Label } from "@/components/ui/label";
 import { SignIn, signInSchema } from "@/schema";
 import { useRouter } from "next/navigation";
-import { login } from "@/actions/auth";
+import { getMe, login } from "@/actions/auth";
 import { toast } from "sonner";
 import { useUserStore } from "@/store/user-store";
 
@@ -25,6 +25,7 @@ export default function Page() {
   const router = useRouter();
 
   const { setCurrentUser } = useUserStore();
+  
   const defaultState: SignIn = {
     email: "",
     password: "",
@@ -44,14 +45,21 @@ export default function Page() {
   
     toast.promise(userLogin, {
       loading: "Authenticating user...",
-      success: async (data) => {
-        setCurrentUser(data); 
-        if (data.role === "DONOR") {
-          router.push("/donor");
-        } else if (data.role === "CHARITY") {
-          router.push("/organization");
+      success: async () => {
+        // After login, fetch the current user's info.
+        const user = await getMe(); 
+  
+        if (user) {
+          setCurrentUser(user); // Set the fetched user in the store
+          if (user.accountId.role === "DONOR") {
+            router.push("/donor");
+          } else if (user.accountId.role === "CHARITY") {
+            router.push("/organization");
+          }
+          return 
+        } else {
+          return "Failed to fetch user data.";
         }
-        return `Login successful! Welcome ${data.firstName}!`;
       },
       error: (e) => {
         if (e.response) {
@@ -69,7 +77,7 @@ export default function Page() {
       },
     });
   };
-
+  
   return (
     <div className="flex screen justify-center">
       <div className=" justify-center items-center w-full lg:w-auto">
