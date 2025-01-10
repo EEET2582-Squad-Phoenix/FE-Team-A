@@ -1,36 +1,39 @@
 export enum ProjectCategory {
-    FOOD = "Food",
-    HEALTH = "Health",
-    EDUCATION = "Education",
-    ENVIRONMENT = "Environment",
-    RELIGION = "Religion",
-    HOUSING = "Housing",
-    OTHER = "Other",
+    FOOD = "FOOD",
+    HEALTH = "HEALTH",
+    EDUCATION = "EDUCATION",
+    ENVIRONMENT = "ENVIRONMENT",
+    RELIGION = "RELIGION",
+    HOUSING = "HOUSING",
+    OTHER = "OTHER",
   }
   
 export interface IProject {
-  id: string; // Maps to MongoDB's _id
-  charity: string; // Reference to the Charity object
-  name: string; // Project name
-  img: string[]; // Array of image URLs
-  vid: string[]; // Array of video URLs
-  description: string; // Project description
-  country: string; // Country where the project is conducted
-  status: "UNAPPROVED" | "ACTIVE" | "HALTED" | "INACTIVATED" | "HIDDEN" | "COMPLETED"; // Status of the project
-  region: "AFRICA" | "EUROPE" | "ASIA" | "AMERICA"; // Region of the project
-  category: "Food" | "Health" | "Education" | "Environment" | "Religion" | "Housing" | "Other"; // Category of the project
-  isHighlighted: boolean; // Whether the project is highlighted
-  fundStatus: "ON-GOING" | "FULL"; // Fundraising status
-  goalAmount: number; // Total goal amount for fundraising
-  raisedAmount: number; // Current amount raised
-  follower: string[]; // Array of donor IDs following this project
-  duration: Date; // Duration of the project
-  isVerified: boolean; // Whether the project is verified
-  createdAt: Date; // Timestamp for when the project was created
-  updatedAt: Date; // Timestamp for when the project was last updated
+  id: string; 
+  charityID: string; 
+  name: string; 
+  imageURLs: string[]; 
+  videoURLs: string[]; 
+  description: string; 
+  status: "UNAPPROVED" | "ACTIVE" | "HALTED" | "INACTIVATED" | "COMPLETED"; 
+  haltedReason: string;
+  isGlobal: boolean;
+  country: string; 
+  continent: string;
+  // region: "AFRICA" | "EUROPE" | "ASIA" | "AMERICA"; 
+  category: ProjectCategory[];
+  isHighlighted: boolean; 
+  fundStatus: "ON-GOING" | "FULL"; 
+  goalAmount: number; 
+  raisedAmount: number; 
+  follower: string[]; 
+  // duration: Date; 
+  startDate: Date;
+  endDate: Date;
+  isVerified: boolean; 
+  createdAt: Date; 
+  updatedAt: Date; 
 }
-
-    // Response interface for a paginated list of projects.
    
   export interface ResProjects {
     message: string;

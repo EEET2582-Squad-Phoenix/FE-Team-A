@@ -1,32 +1,52 @@
 import React from "react";
-import { IDonation, IRecurringDonation } from "@/types/donation";
+import { IDonation } from "@/types/donation";
+import { Clock, RefreshCcw, CheckCircle } from "lucide-react"; 
 
-type DonationCardProps = {
-  donation: IDonation | IRecurringDonation; // Supports both types
-  isRecurring?: boolean; // Optional flag for recurring donations
-};
+interface DonationCardProps {
+  donation: IDonation;
+}
 
-export default function DonationCard({ donation, isRecurring = false }: DonationCardProps) {
-  const subtitle = isRecurring
-    ? `Next Payment: ${(donation as IRecurringDonation).nextDate}`
-    : `Date: ${(donation as IDonation).date}`;
-  const amountSuffix = isRecurring ? "/ month" : "";
+const DonationCard: React.FC<DonationCardProps> = ({ donation }) => {
+  const formattedDate = new Date(donation.createdAt).toLocaleDateString();
+  
+  const donationStatus = donation.isRecurring ? 'Recurring' : 'One-time';
 
   return (
-    <div className="p-4 bg-white shadow rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center">
-      <div>
-        <h3 className="text-lg font-semibold">{donation.projectName}</h3>
-        <p className="text-gray-600">{subtitle}</p>
-        {"message" in donation && donation.message && (
-          <p className="italic text-gray-500 mt-1">
-            Message: {donation.message}
-          </p>
-        )}
+    <div className="transition-transform transform p-4 bg-gradient-to-r from-blue-100 via-indigo-200 to-purple-300 rounded-lg shadow-lg hover:shadow-2xl flex justify-between items-center w-full h-30 mb-4">
+      <div className="flex-1">
+        <div className="flex items-center mb-2">
+          <h3 className="text-lg font-semibold text-indigo-800 flex-1">{donation.projectName}</h3>
+          <span
+            className={`px-2 py-1 text-xs rounded-full ${
+              donation.isRecurring ? "bg-green-200 text-green-700" : "bg-yellow-200 text-yellow-700"
+            }`}
+          >
+            {donationStatus}
+          </span>
+        </div>
+        
+        <p className="mt-1 text-sm text-gray-700 italic truncate">{donation.message || "No message provided"}</p>
+        
+        <p className="mt-1 text-xs text-gray-500">
+          <Clock className="inline-block mr-1" size={14} />
+          Donated on: {formattedDate}
+        </p>
       </div>
-      <div className="text-xl font-bold">
-        <span className="text-green-500">{`$${donation.amount.toFixed(2)}`}</span>
-        <span className="text-sm text-gray-500">{` ${amountSuffix}`}</span>
+      
+      <div className="text-right">
+        <p className="text-sm text-gray-600">Donation Amount:</p>
+        <p className="font-bold text-2xl text-green-600">${donation.amount}</p>
+      </div>
+      
+      <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
+        {donation.isRecurring ? (
+          <RefreshCcw className="text-green-600" size={16} />
+        ) : (
+          <CheckCircle className="text-yellow-500" size={16} />
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default DonationCard;
