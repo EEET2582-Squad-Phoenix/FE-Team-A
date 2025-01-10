@@ -16,9 +16,9 @@ export default function CarouselSlide({ project, isActive, onClick }: CarouselSl
       }`}
       onClick={onClick} // Trigger onClick when clicked on the slide
     >
-      {project.img && project.img.length > 0 ? (
+      {project.imageURLs && project.imageURLs.length > 0 ? (
         <Image
-          src={project.img[0] || "/gura.jpg"} // Default image if none exists
+          src={project.imageURLs[0] || "/gura.jpg"} // Default image if none exists
           alt={project.name}
           width={1200}
           height={500}

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import AddCreditCardModal from "./AddCreditCardModal";
 import { CreditCard } from "@/types/creditCard";
+import { Plus } from "lucide-react";
 
 type AddCreditCardButtonProps = {
-  onAdd: (card: CreditCard) => void;
+  onAdd: () => void;
 };
 
 const AddCreditCardButton = ({ onAdd }: AddCreditCardButtonProps) => {
@@ -12,7 +13,12 @@ const AddCreditCardButton = ({ onAdd }: AddCreditCardButtonProps) => {
 
   return (
     <>
-      <Button variant="outline" onClick={() => setIsOpen(true)}>
+      <Button
+        variant="outline"
+        className="bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg shadow-md flex items-center gap-2 px-4 py-2 hover:from-green-500 hover:to-green-700"
+        onClick={() => setIsOpen(true)}
+      >
+        <Plus className="w-5 h-5" />
         Add Credit Card
       </Button>
       <AddCreditCardModal

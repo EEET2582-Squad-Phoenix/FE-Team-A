@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import DonationHistory from "../_components/DonationHistory"; 
+import { HandCoins } from "lucide-react";
 
 export default function DonationsClientPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,9 +19,16 @@ export default function DonationsClientPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Your Donations</h1>
+      <div className="text-gray-900 mb-10">
+        <h1 className="text-3xl font-semibold flex items-center gap-4">
+          <HandCoins className="w-8 h-8" /> 
+          Your Donations
+        </h1>
+        <p className="text-sm text-gray-600">
+          View your donation history, mange your recurring subscription.
+        </p>
+      </div>
 
-      {/* Donation History Section */}
       <div className="mb-12">
         <h2 className="text-2xl font-bold mb-4">Donation History</h2>
 

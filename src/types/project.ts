@@ -9,6 +9,7 @@ export enum ProjectCategory {
   }
   
 export interface IProject {
+  _id: string; //for suggested project api
   id: string; 
   charityID: string; 
   name: string; 
@@ -20,14 +21,12 @@ export interface IProject {
   isGlobal: boolean;
   country: string; 
   continent: string;
-  // region: "AFRICA" | "EUROPE" | "ASIA" | "AMERICA"; 
   category: ProjectCategory[];
   isHighlighted: boolean; 
   fundStatus: "ON-GOING" | "FULL"; 
   goalAmount: number; 
   raisedAmount: number; 
   follower: string[]; 
-  // duration: Date; 
   startDate: Date;
   endDate: Date;
   isVerified: boolean; 

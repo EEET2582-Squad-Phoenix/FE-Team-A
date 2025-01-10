@@ -58,7 +58,7 @@ const DonorLeaderboard = () => {
                 </span>
                 <img
                   src={donor.avatar || "/gura.jpg"}
-                  alt={`${donor.firstName}`}
+                  alt={'N/A'}
                   className="w-12 h-12 object-cover rounded-full border-2 border-indigo-700 mr-4"
                 />
                 <span className="text-lg font-medium">

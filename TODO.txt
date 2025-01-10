@@ -2,18 +2,14 @@
 Important:
     
     DONOR:
-
-        Think of some other shortcuts for donor
-
-        Actually donate //partial
-        
+     
         Statistic: hook the api in and UI
-
         Cancel or modify recurring donations.
 
-        Project subscribed in dashboard: hook API in when available
+        API to get user subscription details, add to noti Manage
+        API to get all country + fix the filter
 
-        
+    
 
 
     ORGANIZATION:

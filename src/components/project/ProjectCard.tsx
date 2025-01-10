@@ -8,6 +8,13 @@ export default function ProjectCard({ project }: { project: IProject }) {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const truncateDescription = (description: string, maxLength: number) => {
+    if (description.length > maxLength) {
+      return description.slice(0, maxLength) + "...";
+    }
+    return description;
+  };
+
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden">
       <img
@@ -17,7 +24,9 @@ export default function ProjectCard({ project }: { project: IProject }) {
       />
       <div className="p-4">
         <h3 className="text-lg font-bold">{project.name}</h3>
-        <p className="text-gray-600 text-sm">{project.description}</p>
+        <p className="text-gray-600 text-sm">
+          {truncateDescription(project.description, 100)}
+        </p>
         <span className="block text-green-500 font-semibold mt-2">
           {project.fundStatus}
         </span>

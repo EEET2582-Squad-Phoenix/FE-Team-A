@@ -78,7 +78,6 @@ export default function Carousel() {
         ))}
       </div>
 
-      {/* Previous Button */}
       <Button
         onClick={goToPreviousSlide}
         variant="outline" size="icon"
@@ -87,7 +86,6 @@ export default function Carousel() {
         <ChevronLeft />
       </Button>
 
-      {/* Next Button */}
       <Button
         onClick={goToNextSlide}
         variant="outline" size="icon"
@@ -96,7 +94,6 @@ export default function Carousel() {
         <ChevronRight />
       </Button>
 
-      {/* Carousel Indicators */}
       <div className="flex justify-center mt-4 space-x-2">
         {projects.map((_, index) => (
           <button
@@ -109,7 +106,6 @@ export default function Carousel() {
         ))}
       </div>
 
-      {/* Project Detail Modal */}
       {isModalOpen && selectedProject && (
         <ProjectDetailsPopup project={selectedProject} closeModal={closeModal} />
       )}

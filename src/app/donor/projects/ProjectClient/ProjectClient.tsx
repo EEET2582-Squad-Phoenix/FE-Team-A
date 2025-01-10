@@ -5,6 +5,7 @@ import ProjectList from "@/components/project/ProjectList";
 import Filter from "@/components/filters/Filter";
 import { IProject, FilterState, ProjectCategory } from "@/types/project";
 import { fetchProjects } from "@/app/api/projects/projectsAPI";
+import { Folder } from "lucide-react";
 
 const COUNTRY_OPTIONS = [
   "Vietnam",
@@ -30,8 +31,8 @@ export default function ProjectClient() {
 
   const loadProjects = async (currentPage = 1, isLoadMore = false) => {
     if (!isLoadMore) {
-      setProjects([]); 
-      setPage(1); 
+      setProjects([]);
+      setPage(1);
     }
 
     setIsLoading(true);
@@ -93,7 +94,16 @@ export default function ProjectClient() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Explore Projects</h1>
+      <div className="text-gray-900 mb-10">
+        <h1 className="text-3xl font-semibold flex items-center gap-4">
+          <Folder className="w-8 h-8" />{" "}
+          Explore Projects
+        </h1>
+        <p className="text-sm text-gray-600">
+          Discover exciting projects, filter by category and location, and get
+          involved today.
+        </p>
+      </div>
       <Filter
         filters={filters}
         categories={Object.values(ProjectCategory)}

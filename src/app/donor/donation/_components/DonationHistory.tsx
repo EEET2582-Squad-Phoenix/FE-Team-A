@@ -17,8 +17,6 @@ const DonationHistory: React.FC<DonationHistoryProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (donations.length > 0) return;
-
     const loadDonations = async () => {
       setIsLoading(true);
       try {
@@ -33,7 +31,7 @@ const DonationHistory: React.FC<DonationHistoryProps> = ({
     };
 
     loadDonations();
-  }, [donations]);  
+  }, []);  
 
   const startIndex = (currentPage - 1) * pageSize;
   const visibleDonations = donations.slice(startIndex, startIndex + pageSize);

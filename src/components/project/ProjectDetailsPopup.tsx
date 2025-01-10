@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import { IProject } from "@/types/project";
 import ProjectImages from "./ProjectImages";
 import ProjectVideos from "./ProjectVideos";
@@ -22,10 +23,7 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(event.target as Node)
-      ) {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
         closeModal();
       }
     };
@@ -46,8 +44,8 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
     setIsDonationModalOpen(false);
   };
 
-  return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center p-4">
+  const modalContent = (
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center p-4 z-[9999]">
       <div
         ref={popupRef}
         className="bg-white rounded-lg shadow-lg p-8 w-full sm:w-10/12 lg:w-8/12 max-h-[90vh] overflow-y-auto relative"
@@ -68,10 +66,7 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
 
         <ProjectDuration startDate={project.startDate} endDate={project.endDate} />
 
-        <ProjectStats
-          goalAmount={project.goalAmount}
-          raisedAmount={project.raisedAmount}
-        />
+        <ProjectStats goalAmount={project.goalAmount} raisedAmount={project.raisedAmount} />
 
         <div className="mt-8">
           <h3 className="text-xl font-semibold mb-2">Support this Project</h3>
@@ -102,15 +97,17 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
 
         {isDonationModalOpen && (
           <DonationModal
-          donationType={donationType}
-          closeModal={closeDonationModal}
-          projectName={project.name}
-          projectId={project.id}
-        />        
+            donationType={donationType}
+            closeModal={closeDonationModal}
+            projectName={project.name}
+            projectId={project.id}
+          />
         )}
       </div>
     </div>
   );
+
+  return typeof window !== "undefined" ? ReactDOM.createPortal(modalContent, document.body) : null;
 };
 
 export default ProjectDetailsPopup;

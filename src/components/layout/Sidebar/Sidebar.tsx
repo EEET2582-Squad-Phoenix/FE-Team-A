@@ -9,7 +9,7 @@ import { useUserStore } from "@/store/user-store";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarToggle } from "./SidebarToggle";
-import { Home, BarChart, CreditCard, Folder, Trash, Users } from "lucide-react";
+import { Home, BarChart, CreditCard, Folder, Trash, Users, HandCoins } from "lucide-react";
 
 export function Sidebar() {
   const sidebar = useSidebarToggle();
@@ -21,7 +21,7 @@ export function Sidebar() {
     DONOR: [
       { name: "Dashboard", path: "/donor/dashboard", icon: <Home size={20} /> },
       { name: "Projects", path: "/donor/projects", icon: <Folder size={20} /> },
-      { name: "My Donation", path: "/donor/donation", icon: <BarChart size={20} /> },
+      { name: "My Donation", path: "/donor/donation", icon: <HandCoins size={20} /> },
       { name: "My Cards", path: "/donor/credit-card", icon: <CreditCard size={20} /> },
     ],
     CHARITY: [

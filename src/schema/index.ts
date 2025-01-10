@@ -65,3 +65,24 @@ export const SignUpSchema = z
   });
 
 export type SignUp = z.infer<typeof SignUpSchema>;
+
+export const cardNumberValidation = z.string().length(16, { message: "Card number must be 16 digits." });
+
+export const expiryDateValidation = z
+  .string()
+  .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, { message: "Expiry date must be in MM/YY format." });
+
+export const cvvValidation = z.string().length(3, { message: "CVV must be 3 digits." });
+
+export const cardHolderValidation = z
+  .string()
+  .min(2, { message: "Cardholder name must be at least 2 characters." });
+
+export const addCardSchema = z.object({
+  cardHolder: cardHolderValidation,
+  number: cardNumberValidation,
+  expiryDate: expiryDateValidation,
+  cvv: cvvValidation,
+});
+
+export type AddCard = z.infer<typeof addCardSchema>;

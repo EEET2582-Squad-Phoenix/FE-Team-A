@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreditCard } from "@/types/creditCard";
-import { deleteCreditCard } from "@/app/api/donate/donateAPI";
+import ConfirmationDialog from "../dialog/ConfirmationDialog";
+
 
 type CreditCardListProps = {
   creditCards: CreditCard[];
@@ -10,40 +11,64 @@ type CreditCardListProps = {
 };
 
 const CreditCardList = ({ creditCards, onRemove }: CreditCardListProps) => {
-  const maskCardNumber = (number: string) =>
-    "**** **** **** " + number.slice(-4);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
-  const handleRemove = async (cardId: string) => {
-    try {
-      await deleteCreditCard(cardId);
-      onRemove(cardId);
-    } catch (err) {
-      alert("Failed to remove credit card.");
+  const handleOpenDialog = (cardId: string) => {
+    setSelectedCardId(cardId);
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedCardId(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedCardId) {
+      onRemove(selectedCardId);
+      setIsDialogOpen(false);
+      setSelectedCardId(null);
     }
   };
+
+  const maskCardNumber = (number: string) =>
+    "**** **** **** " + number.slice(-4);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {creditCards.map((card) => (
         <div
           key={card.cardId}
-          className="p-4 bg-white rounded-lg shadow-md flex justify-between items-center"
+          className="relative bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg p-6 shadow-md transform transition hover:scale-105 hover:shadow-lg"
         >
-          <div>
-            <p className="font-semibold">{card.cardHolder}</p>
-            <p className="text-lg font-semibold">
-              {maskCardNumber(card.number)}
-            </p>
+          <div className="mb-4">
+            <p className="font-light text-sm">Card Holder</p>
+            <p className="font-bold text-lg">{card.cardHolder}</p>
           </div>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handleRemove(card.cardId)}
-          >
-            <Trash2 className="w-5 h-5 text-red-500" />
-          </Button>
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="font-light text-sm">Card Number</p>
+              <p className="font-bold text-xl">{maskCardNumber(card.number)}</p>
+            </div>
+            <Button
+              variant="ghost"
+              className="text-red-500"
+              onClick={() => handleOpenDialog(card.cardId)}
+            >
+              <Trash2 className="w-6 h-6" />
+            </Button>
+          </div>
         </div>
       ))}
+
+      <ConfirmationDialog
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirmDelete}
+        title="Confirm Deletion"
+        warningText="Are you sure you want to delete this credit card?"
+      />
     </div>
   );
 };
