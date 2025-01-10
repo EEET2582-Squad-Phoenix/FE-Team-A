@@ -3,17 +3,15 @@ Important:
     
     DONOR:
 
-        Shortcuts to Manage notification subscriptions (Region and categories)
+        Think of some other shortcuts for donor
 
-        Actually donate
+        Actually donate //partial
         
         Statistic: hook the api in and UI
 
-        Donation History: hook api in and UI (Huy working on it)
-
         Cancel or modify recurring donations.
 
-        Project carousel in dashboard: hook API in when available
+        Project subscribed in dashboard: hook API in when available
 
         
 
@@ -37,3 +35,14 @@ Unimportant:
     Profile
     
     
+
+    Needed route:
+        For Donor:
+        - Get all donation (normal + recurring) made by a donor
+        - Get the recurring donation info the user current subscribed to (like project name, how much per month, recurring date)
+
+        For Charity:
+        - Get all projects owned by a charity
+        - Get projects that is currenly inactive/hidden of that charity
+        - Get all donations a charity has received
+        - Get all donations of a project

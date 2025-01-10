@@ -22,6 +22,7 @@ export function Sidebar() {
       { name: "Dashboard", path: "/donor/dashboard", icon: <Home size={20} /> },
       { name: "Projects", path: "/donor/projects", icon: <Folder size={20} /> },
       { name: "My Donation", path: "/donor/donation", icon: <BarChart size={20} /> },
+      { name: "My Cards", path: "/donor/credit-card", icon: <CreditCard size={20} /> },
     ],
     CHARITY: [
       { name: "Dashboard", path: "/charity/dashboard", icon: <Home size={20} /> },
@@ -67,7 +68,6 @@ export function Sidebar() {
       <SidebarToggle isOpen={sidebar?.isOpen} setIsOpen={sidebar?.setIsOpen} />
 
       <div className="relative h-full flex flex-col overflow-y-auto shadow-md dark:shadow-zinc-800">
-        {/* Add Logo */}
         <div className="flex items-center justify-center gap-2 h-16 p-4">
           <Link href="/" className="flex items-center gap-2">
             <Image

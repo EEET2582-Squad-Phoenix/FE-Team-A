@@ -2,16 +2,29 @@
 export interface IDonation {
     id: number;
     projectName: string;
-    date: string; // could change this to DATE
+    date: string; 
     amount: number; 
-    message?: string; // Optional message attached to the donation
+    isRecurring: boolean;
+    message?: string; 
+    createdAt: string;
   }
   
- 
+  export interface DonationResponse {
+    donations: IDonation[]; 
+  }
+  
   export interface IRecurringDonation {
-    id: number;
+    id: string; 
     projectName: string;
-    amount: number; 
-    nextDate: string; // ISO-8601 date string for the next scheduled payment. // could change this to DATE
+    amount: number;
+    message?: string;
+    isRecurring: boolean;
+    createdAt: string;
+    updatedAt: string;
+  }
+  
+  export interface RecurringDonationResponse {
+    success: boolean;
+    data: IRecurringDonation[];  
   }
   

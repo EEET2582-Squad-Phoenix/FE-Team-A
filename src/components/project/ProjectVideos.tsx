@@ -8,7 +8,7 @@ const ProjectVideos = ({ videos }: ProjectVideosProps) => {
   return (
     <div className="mb-6">
       <h3 className="text-xl font-semibold mb-2">Videos</h3>
-      {videos.length === 0 ? (
+      {videos == null || videos.length === 0 ? (
         <div className="text-center text-gray-500 font-semibold">
           No videos available
         </div>

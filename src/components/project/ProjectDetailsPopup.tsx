@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { IProject } from "@/types/project";
 import ProjectImages from "./ProjectImages";
@@ -6,22 +8,19 @@ import ProjectStats from "./ProjectStats";
 import ProjectCategoryDetails from "./ProjectCategoryDetails";
 import ProjectDuration from "./ProjectDuration";
 import { Button } from "../ui/button";
+import DonationModal from "../donation/DonationModal";
 
 type ProjectDetailsPopupProps = {
   project: IProject;
   closeModal: () => void;
 };
 
-const ProjectDetailsPopup = ({
-  project,
-  closeModal,
-}: ProjectDetailsPopupProps) => {
+const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
-  const [donationType, setDonationType] = useState("one-time"); // Track donation type
+  const [donationType, setDonationType] = useState("one-time");
 
   useEffect(() => {
-    // Close modal if clicked outside the modal content
     const handleClickOutside = (event: MouseEvent) => {
       if (
         popupRef.current &&
@@ -63,17 +62,17 @@ const ProjectDetailsPopup = ({
         <h2 className="text-3xl font-semibold mb-4">{project.name}</h2>
         <p className="text-gray-600 mb-6">{project.description}</p>
 
-        <ProjectImages images={project.img} />
+        <ProjectImages images={project.imageURLs} />
 
-        <ProjectVideos videos={project.vid} />
+        <ProjectVideos videos={project.videoURLs} />
 
-        <ProjectDuration duration={project.duration} />
+        <ProjectDuration startDate={project.startDate} endDate={project.endDate} />
 
         <ProjectStats
           goalAmount={project.goalAmount}
           raisedAmount={project.raisedAmount}
         />
-        
+
         <div className="mt-8">
           <h3 className="text-xl font-semibold mb-2">Support this Project</h3>
           <p className="mb-4">Choose how you want to contribute:</p>
@@ -97,60 +96,18 @@ const ProjectDetailsPopup = ({
 
         <ProjectCategoryDetails
           country={project.country}
-          region={project.region}
+          region={project.continent}
           category={project.category}
         />
 
         {isDonationModalOpen && (
           <DonationModal
-            donationType={donationType}
-            closeModal={closeDonationModal}
-          />
+          donationType={donationType}
+          closeModal={closeDonationModal}
+          projectName={project.name}
+          projectId={project.id}
+        />        
         )}
-      </div>
-    </div>
-  );
-};
-
-// Donation Modal Component
-const DonationModal = ({
-  donationType,
-  closeModal,
-}: {
-  donationType: string;
-  closeModal: () => void;
-}) => {
-  const [amount, setAmount] = useState(0);
-
-  const handleDonate = () => {
-    // Handle donation process (show success/failure, etc.)
-    alert(`Donated ${amount} USD for ${donationType} donation.`);
-    closeModal();
-  };
-
-  return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center p-4">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-80">
-        <h3 className="text-2xl font-semibold mb-4">Make a Donation</h3>
-        <p className="text-gray-600 mb-6">Please choose your donation amount</p>
-        <input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
-          className="w-full p-3 border rounded-lg mb-4"
-          placeholder="Donation Amount (USD)"
-        />
-        <p className="text-sm text-gray-500 mb-6">
-          You selected a {donationType} donation.
-        </p>
-        <div className="flex justify-between">
-          <Button variant="outline" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button variant="default" onClick={handleDonate}>
-            Donate {amount} USD
-          </Button>
-        </div>
       </div>
     </div>
   );

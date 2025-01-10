@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { DollarSign, FileX, FileText, GalleryVerticalEnd, HandCoins, Earth } from "lucide-react";
+import { DollarSign, FileX, FileText, GalleryVerticalEnd, HandCoins, Earth, CreditCard } from "lucide-react";
 
 const Shortcuts = ({ userRole }: { userRole: string }) => {
   const roleBasedShortcuts: Record<string, { label: string; href: string; icon: React.ReactNode }[]> = {
@@ -14,6 +14,7 @@ const Shortcuts = ({ userRole }: { userRole: string }) => {
       { label: "All Projects", href: "/donor/projects", icon: <FileText /> },
       { label: "Your Donations", href: "/donor/donation", icon: <HandCoins /> },
       { label: "Manage Subscription", href: "/donor/donation", icon: <Earth /> },
+      { label: "Your Credit Card", href: "/donor/credit-card", icon: <CreditCard /> },
     ],
   };
 
