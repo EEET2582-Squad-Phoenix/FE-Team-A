@@ -36,6 +36,6 @@ export const GetProjectByCharitiesID = async (): Promise<IProject[]> => {
 };
 
 export const fetchSuggestedProjects = async (): Promise<IProject[]> => {
-  const response = await API.get<IProject[]>("/api/donor/suggested");
-  return response.data;
+  const response = await API.get<{ projects: IProject[] }>("/api/donor/suggested");
+  return response.data.projects; 
 };

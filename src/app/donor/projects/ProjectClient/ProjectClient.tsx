@@ -85,7 +85,6 @@ export default function ProjectClient() {
     return () => observer.disconnect();
   }, [loaderRef, hasMore]);
 
-  // Load more projects when page changes
   useEffect(() => {
     if (page > 1) {
       loadProjects(page, true);
@@ -112,7 +111,6 @@ export default function ProjectClient() {
       />
       <ProjectList projects={projects} />
 
-      {/* Lazy Loading / "Load More" Indicator */}
       <div ref={loaderRef} className="mt-6 flex justify-center">
         {isLoading ? (
           <div className="h-8 w-8 border-4 border-blue-500 rounded-full border-t-transparent animate-spin" />

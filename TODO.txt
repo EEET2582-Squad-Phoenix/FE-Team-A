@@ -4,9 +4,7 @@ Important:
     DONOR:
      
         Statistic: hook the api in and UI
-        Cancel or modify recurring donations.
-
-        API to get user subscription details, add to noti Manage
+        Verify donation flow
         API to get all country + fix the filter
 
     
@@ -33,10 +31,6 @@ Unimportant:
     
 
     Needed route:
-        For Donor:
-        - Get all donation (normal + recurring) made by a donor
-        - Get the recurring donation info the user current subscribed to (like project name, how much per month, recurring date)
-
         For Charity:
         - Get all projects owned by a charity
         - Get projects that is currenly inactive/hidden of that charity

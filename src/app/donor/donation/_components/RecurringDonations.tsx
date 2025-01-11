@@ -1,36 +1,96 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IRecurringDonation } from "@/types/donation";
-import RecurringDonationCard from "./RecurringDonationCard";
+import RecurringSubscriptionCard from "./RecurringSubscriptionCard";
+import { fetchRecurringDonations, cancelRecurringDonation } from "@/app/api/donors/donorsAPI"; 
+import { toast } from "sonner";  
+import ConfirmationDialog from "@/components/dialog/ConfirmationDialog";
+import { Button } from "@/components/ui/button"; 
 
-type RecurringDonationsProps = {
-  donations: IRecurringDonation[];
-};
+export default function RecurringDonations() {
+  const [donations, setDonations] = useState<IRecurringDonation[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false); 
+  const [currentDonationId, setCurrentDonationId] = useState<string | null>(null);
 
-export default function RecurringDonations({ donations }: RecurringDonationsProps) {
-  const handleEdit = (id: number) => {
-    console.log(`Edit donation ${id}`); // Placeholder for edit logic
-    alert(`Edit functionality for Donation ID ${id} goes here.`);
+  const loadRecurringDonations = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await fetchRecurringDonations();
+      setDonations(data);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load recurring donations.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleCancel = (id: number) => {
-    console.log(`Cancel donation ${id}`); // Placeholder for cancel logic
-    alert(`Cancel functionality for Donation ID ${id} goes here.`);
+  useEffect(() => {
+    loadRecurringDonations();  
+  }, []);
+
+  const openConfirmationDialog = (donationId: string) => {
+    setCurrentDonationId(donationId);
+    setIsDialogOpen(true);
   };
 
-  if (!donations.length) {
-    return <p className="text-gray-500">No recurring donations found.</p>;
+  const handleCancelDonation = async () => {
+    if (!currentDonationId) return;
+    try {
+      await cancelRecurringDonation(currentDonationId); 
+      setDonations(donations.filter((donation) => donation.id !== currentDonationId));
+      toast.success("Subscription canceled successfully.");  
+    } catch (error) {
+      console.error("Error canceling donation:", error);
+      toast.error("Failed to cancel subscription.");  
+    } finally {
+      setIsDialogOpen(false);
+      setCurrentDonationId(null);
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center text-red-600">
+        <p>{error}</p>
+        <Button variant="outline" onClick={loadRecurringDonations}>Retry</Button> 
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-4">
-      {donations.map((donation) => (
-        <RecurringDonationCard
-          key={donation.id}
-          donation={donation}
-          onEdit={handleEdit}
-          onCancel={handleCancel}
+    <div>
+      <h2 className="text-2xl font-bold mb-6">Your Recurring Donations</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {donations.map((donation) => (
+          <RecurringSubscriptionCard
+            key={donation.id}
+            id={donation.id}
+            projectName={donation.projectName}
+            amount={donation.amount}
+            message={donation.message || "No message"}
+            nextBillingDate={donation.nextBillingDate}
+            status={donation.status}
+            onCancel={() => openConfirmationDialog(donation.id)} 
+          />
+        ))}
+      </div>
+
+      {currentDonationId && (
+        <ConfirmationDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          onConfirm={handleCancelDonation}  
+          title="Cancel Subscription"
+          warningText="Are you sure you want to cancel this recurring donation?"
         />
-      ))}
+      )}
     </div>
   );
 }

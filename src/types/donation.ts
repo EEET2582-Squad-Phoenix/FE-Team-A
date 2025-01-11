@@ -19,12 +19,14 @@ export interface IDonation {
     amount: number;
     message?: string;
     isRecurring: boolean;
+    status: string;
+    nextBillingDate: number;
     createdAt: string;
     updatedAt: string;
   }
   
   export interface RecurringDonationResponse {
     success: boolean;
-    data: IRecurringDonation[];  
+    data: { donation: IRecurringDonation }[];
   }
   

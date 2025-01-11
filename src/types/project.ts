@@ -5,6 +5,7 @@ export enum ProjectCategory {
     ENVIRONMENT = "ENVIRONMENT",
     RELIGION = "RELIGION",
     HOUSING = "HOUSING",
+    HUMANITARIAN = "HUMANITARIAN",
     OTHER = "OTHER",
   }
   

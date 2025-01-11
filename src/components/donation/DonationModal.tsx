@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { createStripeCheckout, donateAsDonor } from "@/app/api/donate/donateAPI";
+import { createStripeCheckout, donateAsDonor, createRecurringStripeCheckout } from "@/app/api/donate/donateAPI";
 import { CreditCardSelector } from "@/app/donor/donation/_components/CreditCardSelector";
 
 type DonationModalProps = {
@@ -28,44 +28,64 @@ const DonationModal = ({
     try {
       setIsSubmitting(true);
       setError(null);
-  
+
       if (!selectedCard) {
         setError("Please select a credit card.");
         return;
       }
-  
-      // Call the donate API with all required fields
+
+      // Call the donation API
       const donationResponse = await donateAsDonor({
         amount,
         projectId,
-        creditCardId: selectedCard, // Use selected card
-        isRecurring: false,
+        creditCardId: selectedCard,
+        isRecurring: donationType === "recurring",
         message,
       });
-  
-      const donationId = donationResponse.donation.id;
-  
-      // Call the createStripeCheckout API to initiate payment
-      const stripeResponse = await createStripeCheckout({
-        amount,
-        currency: "USD",
-        donationId,
-        projectId,
-      });
-  
-      if (stripeResponse.url) {
-        window.location.href = stripeResponse.url; // Redirect to Stripe checkout
+
+      if (donationType === "recurring") {
+        const subscriptionId = donationResponse.subscriptionId; // Top-level subscriptionId
+        const { id: donationId } = donationResponse.donation;
+
+        if (!subscriptionId) {
+          throw new Error("Subscription ID missing in the response.");
+        }
+
+        // Create a recurring Stripe checkout
+        const stripeResponse = await createRecurringStripeCheckout({
+          subscriptionId,
+          donationId,
+          projectId,
+        });
+
+        if (stripeResponse.url) {
+          window.location.href = stripeResponse.url;
+        } else {
+          setError("Failed to initiate the recurring payment process.");
+        }
       } else {
-        setError("Failed to initiate the payment process.");
+        // Handle one-time donation
+        const { id: donationId } = donationResponse.donation;
+        const stripeResponse = await createStripeCheckout({
+          amount,
+          currency: "USD",
+          donationId,
+          projectId,
+        });
+
+        if (stripeResponse.url) {
+          window.location.href = stripeResponse.url;
+        } else {
+          setError("Failed to initiate the payment process.");
+        }
       }
-    } catch (err) {
+    } catch (err: any) {
       setError("An error occurred while processing your donation.");
       console.error(err);
     } finally {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center p-4">
@@ -95,7 +115,11 @@ const DonationModal = ({
           <Button variant="outline" onClick={closeModal} disabled={isSubmitting}>
             Cancel
           </Button>
-          <Button variant="default" onClick={handleDonate} disabled={isSubmitting || amount <= 0}>
+          <Button
+            variant="default"
+            onClick={handleDonate}
+            disabled={isSubmitting || amount <= 0}
+          >
             {isSubmitting ? "Processing..." : `Donate $${amount}`}
           </Button>
         </div>

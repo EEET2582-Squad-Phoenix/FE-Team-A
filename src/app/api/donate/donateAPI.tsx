@@ -23,7 +23,9 @@ export const donateAsDonor = async ({
     amount: number;
     status: string;
     nextBillingDate?: number;
+    isRecurring: boolean;
   };
+  subscriptionId?: string; // Top-level field for recurring donations
 }> => {
   const response = await API.post("/donate/donor", {
     amount,
@@ -34,6 +36,7 @@ export const donateAsDonor = async ({
   });
   return response.data;
 };
+
 
 
 export const createStripeCheckout = async ({
@@ -55,6 +58,25 @@ export const createStripeCheckout = async ({
     });
     return response.data;
   };
+
+
+  export const createRecurringStripeCheckout = async ({
+    subscriptionId,
+    donationId,
+    projectId,
+  }: {
+    subscriptionId: string;
+    donationId: string;
+    projectId: string;
+  }): Promise<{ url: string }> => {
+    const response = await API.post("/payment/stripe/recurring", {
+      subscriptionId,
+      donationId,
+      projectId,
+    });
+    return response.data;
+  };
+
 
 export const fetchCreditCards = async (): Promise<CreditCard[]> => {
   const response = await API.get<{ success: boolean; data: CreditCard[] }>(

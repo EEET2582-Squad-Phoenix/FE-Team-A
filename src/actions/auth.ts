@@ -54,7 +54,6 @@ export async function getMe(): Promise<IUser | null> {
     const res = await API.get<IUser>("api/auth/me", {
       withCredentials: true,
     });
-    console.log(res.data);
     return extractRoleInfo(res.data);
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
