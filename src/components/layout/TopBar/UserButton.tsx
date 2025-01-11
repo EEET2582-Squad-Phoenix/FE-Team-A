@@ -4,14 +4,13 @@ import LucideIcon from "@/components/lucide-icon";
 import { useUserStore } from "@/store/user-store";
 import { signOut } from "@/actions/auth";
 import { useRouter } from "next/navigation";
-import { ICharityUser, IDonorUser } from "@/types/user";
+import { IUser, ICharityUser, IDonorUser } from "@/types/user";
 import { useState } from "react";
 import { SubscriptionDialog } from "@/app/donor/dashboard/_component/SubscriptionDialog";
 
 export function UserButton() {
   const { logout, currentUser } = useUserStore();
   const router = useRouter();
-
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const userSignOut = async () => {
@@ -19,24 +18,37 @@ export function UserButton() {
     logout();
   };
 
-  const isDonorUser = (user: unknown): user is IDonorUser => {
-    return !!user && (user as IDonorUser).email !== undefined;
+  // Type guards for identifying user roles
+  const isDonorUser = (user: IUser | null): user is IDonorUser => {
+    return user?.role === "DONOR";
   };
 
-  const isCharityUser = (user: unknown): user is ICharityUser => {
-    return !!user && (user as ICharityUser).name !== undefined;
+  const isCharityUser = (user: IUser | null): user is ICharityUser => {
+    return user?.role === "CHARITY";
   };
 
+  // Display the user name based on their role
   const userDisplayName = () => {
     if (!currentUser) return "";
     if (isDonorUser(currentUser)) {
-      return currentUser.email;
+      return currentUser.firstName;
     } else if (isCharityUser(currentUser)) {
       return currentUser.name;
     }
     return "";
   };
 
+  // Avatar image URL or fallback to role-specific defaults
+  const avatarImageUrl = () => {
+    if (isDonorUser(currentUser)) {
+      return currentUser.avatarUrl || getUserImgFromType("DONOR");
+    } else if (isCharityUser(currentUser)) {
+      return getUserImgFromType("CHARITY");
+    }
+    return ""; // Default empty string if user is null
+  };
+
+  // Fallback text for the avatar
   const avatarFallbackText = () => {
     if (!currentUser) return "?";
     if (isDonorUser(currentUser)) {
@@ -62,7 +74,7 @@ export function UserButton() {
         <Avatar className="h-6 w-6">
           <AvatarImage
             className="rounded-full"
-            src={currentUser?.avatarUrl}
+            src={avatarImageUrl()} 
             alt={userDisplayName()}
           />
           <AvatarFallback>{avatarFallbackText()}</AvatarFallback>
@@ -76,7 +88,7 @@ export function UserButton() {
         variant="outline"
         className="flex gap-2 items-center w-full justify-start"
         onClick={() => {
-          userSignOut().then(() => router.push("/auth/login"));
+          userSignOut().then(() => router.push("http://localhost:3000"));
         }}
       >
         <LucideIcon name="LogOut" />
@@ -84,4 +96,16 @@ export function UserButton() {
       </Button>
     </div>
   );
+}
+
+//Fall back images
+function getUserImgFromType(userType: "DONOR" | "CHARITY"): string {
+  switch (userType) {
+    case "DONOR":
+      return "/gura.jpg";
+    case "CHARITY":
+      return "/mumei.jpg";
+    default:
+      return "";
+  }
 }

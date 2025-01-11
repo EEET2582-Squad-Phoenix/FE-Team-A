@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
   const { fetchCurrentUser, currentUser } = useUserStore();
-  const pathname = usePathname();  // Get current route path
+  const pathname = usePathname();  
 
   useEffect(() => {
     
@@ -13,7 +13,6 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
       return;  // Skip fetchCurrentUser if on login/signup pages
     }
 
-    // Only fetch user if there's no user set
     if (!currentUser) {
       fetchCurrentUser();
     }

@@ -10,32 +10,45 @@ export async function signOut(): Promise<void> {
   }
 }
 
-export function extractRoleInfo(user: IUser): IUser {
-  if (user.accountId.role === "DONOR") {
-    const donorUser = user as IDonorUser; // Typecast to Donor
-    return {
-      ...donorUser,
-      avatarUrl: donorUser.avatarUrl || getUserImgFromType(user.accountId.role),
+export function extractRoleInfo(data: any): IUser {
+  const { role } = data; // Extract role from the root level
+
+  if (role === "DONOR") {
+    const donorUser: IDonorUser = {
+      role: "DONOR",
+      id: data.data.id,
+      firstName: data.data.firstName,
+      lastName: data.data.lastName,
+      email: data.email,
+      avatarUrl: data.data.avatarUrl ,
+      introVidUrl: data.data.introVidUrl || null,
+      address: data.data.address || null,
+      language: data.data.language,
+      monthlyDonation: data.data.monthlyDonation,
+      subscriptions: data.data.subscriptions || [],
+      stripeCustomerId: data.data.stripeCustomerId || null,
+      account: data.account || null,
     };
-  } else if (user.accountId.role === "CHARITY") {
-    const charityUser = user as ICharityUser; // Typecast to Charity
-    return {
-      ...charityUser,
-      avatarUrl: getUserImgFromType(user.accountId.role), 
+    return donorUser;
+  } else if (role === "CHARITY") {
+    const charityUser: ICharityUser = {
+      role: "CHARITY",
+      id: data.data.id,
+      name: data.data.name,
+      email: data.email,
+      logoUrl: data.data.logoUrl || [],
+      introVidUrl: data.data.introVidUrl || [],
+      displayedLogo: data.data.displayedLogo || null,
+      displayedIntroVid: data.data.displayedIntroVid || null,
+      address: data.data.address,
+      taxCode: data.data.taxCode,
+      type: data.data.type,
+      monthlyDonation: data.data.monthlyDonation,
+      account: data.account || null,
     };
+    return charityUser;
   } else {
     throw new Error("Unknown role in extractRoleInfo");
-  }
-}
-
-export function getUserImgFromType(userType: IUser["accountId"]["role"]): string {
-  switch (userType) {
-    case "DONOR":
-      return "/gura.jpg";
-    case "CHARITY":
-        return "/mumei.jpg";
-    default:
-      return "";
   }
 }
 
@@ -51,14 +64,19 @@ export async function login(values: { email: string; password: string }): Promis
 
 export async function getMe(): Promise<IUser | null> {
   try {
-    const res = await API.get<IUser>("api/auth/me", {
-      withCredentials: true,
+    const response = await fetch("http://localhost:8080/auth/get-me", {
+      method: "GET",
+      credentials: "include",
     });
-    return extractRoleInfo(res.data);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user profile: ${response.statusText}`);
+    }
+
+    const rawData = await response.json();
+    return extractRoleInfo(rawData);
   } catch (error) {
     console.error("Failed to fetch user profile:", error);
     return null;
   }
 }
-
-
