@@ -4,18 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import ProjectList from "@/components/project/ProjectList";
 import Filter from "@/components/filters/Filter";
 import { IProject, FilterState, ProjectCategory } from "@/types/project";
-import { fetchProjects } from "@/app/api/projects/projectsAPI";
+import { fetchProjects, fetchProjectCountries } from "@/app/api/projects/projectsAPI";
 import { Folder } from "lucide-react";
-
-const COUNTRY_OPTIONS = [
-  "Vietnam",
-  "USA",
-  "South Africa",
-  "Germany",
-  "Ukraine",
-  "Israel",
-  "China",
-];
 
 export default function ProjectClient() {
   const [filters, setFilters] = useState<FilterState>({
@@ -28,6 +18,7 @@ export default function ProjectClient() {
   const loaderRef = useRef<HTMLDivElement>(null);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [countryOptions, setCountryOptions] = useState<string[]>([]);
 
   const loadProjects = async (currentPage = 1, isLoadMore = false) => {
     if (!isLoadMore) {
@@ -44,7 +35,7 @@ export default function ProjectClient() {
           country: filters.country === "All" ? undefined : filters.country,
         },
         currentPage,
-        5 // Items per page
+        5
       );
 
       const newProjects = response.data;
@@ -63,12 +54,23 @@ export default function ProjectClient() {
     }
   };
 
-  // Re-fetch projects when filters change
+  const loadCountryOptions = async () => {
+    try {
+      const countries = await fetchProjectCountries();
+      setCountryOptions([ ...countries]);
+    } catch (error) {
+      console.error("Error fetching country options:", error);
+    }
+  };
+
   useEffect(() => {
-    loadProjects(1, false);
+    loadCountryOptions(); // Fetch countries on mount
+  }, []);
+
+  useEffect(() => {
+    loadProjects(1, false); // Re-fetch projects when filters change
   }, [filters]);
 
-  // Lazy load projects when loaderRef comes into view
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -95,8 +97,7 @@ export default function ProjectClient() {
     <div className="p-6">
       <div className="text-gray-900 mb-10">
         <h1 className="text-3xl font-semibold flex items-center gap-4">
-          <Folder className="w-8 h-8" />{" "}
-          Explore Projects
+          <Folder className="w-8 h-8" /> Explore Projects
         </h1>
         <p className="text-sm text-gray-600">
           Discover exciting projects, filter by category and location, and get
@@ -106,7 +107,7 @@ export default function ProjectClient() {
       <Filter
         filters={filters}
         categories={Object.values(ProjectCategory)}
-        countries={COUNTRY_OPTIONS}
+        countries={countryOptions} // Dynamically fetched countries
         onFilterChange={setFilters}
       />
       <ProjectList projects={projects} />

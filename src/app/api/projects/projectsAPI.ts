@@ -39,3 +39,16 @@ export const fetchSuggestedProjects = async (): Promise<IProject[]> => {
   const response = await API.get<{ projects: IProject[] }>("/api/donor/suggested");
   return response.data.projects; 
 };
+
+export const fetchProjectCountries = async (): Promise<string[]> => {
+  try {
+    const response = await API.get<Record<string, { name: string; continent: string }>>(
+      "/api/charity-project/countries"
+    );
+
+    return Object.values(response.data).map((country) => country.name);
+  } catch (error) {
+    console.error("Error fetching project countries:", error);
+    return [];
+  }
+};

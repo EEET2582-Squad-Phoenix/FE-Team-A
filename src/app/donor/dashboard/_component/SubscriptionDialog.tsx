@@ -15,11 +15,10 @@ import { subscribeUnsubscribe, fetchSubscription } from "@/app/api/donors/donors
 
 const regions = ["AFRICA", "EUROPE", "ASIA", "AMERICA"];
 const categories = [
-  "FOOD",
   "EDUCATION",
   "HEALTH",
   "RELIGION",
-  "ENVIRONMENT",
+  "ENVIRONMENTAL",
   "HOUSING",
   "HUMANITARIAN",
   "OTHER",

@@ -25,7 +25,7 @@ export const donateAsDonor = async ({
     nextBillingDate?: number;
     isRecurring: boolean;
   };
-  subscriptionId?: string; // Top-level field for recurring donations
+  subscriptionId?: string; 
 }> => {
   const response = await API.post("/donate/donor", {
     amount,
@@ -36,8 +36,6 @@ export const donateAsDonor = async ({
   });
   return response.data;
 };
-
-
 
 export const createStripeCheckout = async ({
     amount,
