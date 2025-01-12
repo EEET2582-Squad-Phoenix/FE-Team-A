@@ -43,9 +43,9 @@ export function UserButton() {
     if (isDonorUser(currentUser)) {
       return currentUser.avatarUrl || getUserImgFromType("DONOR");
     } else if (isCharityUser(currentUser)) {
-      return getUserImgFromType("CHARITY");
+      return currentUser.logoUrl[0] || getUserImgFromType("CHARITY");
     }
-    return ""; // Default empty string if user is null
+    return "";
   };
 
   // Fallback text for the avatar
@@ -61,28 +61,34 @@ export function UserButton() {
 
   return (
     <div className="h-full items-center gap-2 hidden sm:flex">
-      <Button
-        variant="ghost"
-        className="flex gap-2 items-center border border-black rounded-full p-2"
-        onClick={() => setIsDialogOpen(true)}
-      >
-        <LucideIcon name="Lightbulb" />
-        Notification Settings
-      </Button>
+      {isDonorUser(currentUser) && (
+        <>
+          <Button
+            variant="ghost"
+            className="flex gap-2 items-center border border-black rounded-full p-2"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            <LucideIcon name="Lightbulb" />
+            Notification Settings
+          </Button>
+          <SubscriptionDialog
+            isOpen={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+          />
+        </>
+      )}
 
       <div className="rounded-md flex items-center border border-primary border-solid p-2 h-10 gap-2">
         <Avatar className="h-6 w-6">
           <AvatarImage
             className="rounded-full"
-            src={avatarImageUrl()} 
+            src={avatarImageUrl()}
             alt={userDisplayName()}
           />
           <AvatarFallback>{avatarFallbackText()}</AvatarFallback>
         </Avatar>
         <p className="text-semibold text-primary text-sm">{userDisplayName()}</p>
       </div>
-
-      <SubscriptionDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
 
       <Button
         variant="outline"
@@ -98,7 +104,8 @@ export function UserButton() {
   );
 }
 
-//Fall back images
+
+//Fall back images for testing
 function getUserImgFromType(userType: "DONOR" | "CHARITY"): string {
   switch (userType) {
     case "DONOR":

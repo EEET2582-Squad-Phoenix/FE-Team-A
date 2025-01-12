@@ -5,7 +5,7 @@ export interface IBaseUser {
   id: string;
   monthlyDonation: number;
   email: string;
-  account: any | null; // Account can be `null` based on the response
+  account: any | null;
 }
 
 // Specific fields for donors
@@ -19,6 +19,7 @@ export interface IDonorUser extends IBaseUser {
   language: string;
   subscriptions: any[]; 
   stripeCustomerId: string | null;
+  totalDonation: number;
 }
 
 // Specific fields for charities

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import AddCreditCardModal from "./AddCreditCardModal";
-import { CreditCard } from "@/types/creditCard";
 import { Plus } from "lucide-react";
 
 type AddCreditCardButtonProps = {
   onAdd: () => void;
+  isCharity: boolean;  // Add a prop to specify whether it's for a donor or charity
 };
 
-const AddCreditCardButton = ({ onAdd }: AddCreditCardButtonProps) => {
+const AddCreditCardButton = ({ onAdd, isCharity }: AddCreditCardButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -25,6 +25,7 @@ const AddCreditCardButton = ({ onAdd }: AddCreditCardButtonProps) => {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onAdd={onAdd}
+        isCharity={isCharity}  // Pass the isCharity prop to the modal
       />
     </>
   );

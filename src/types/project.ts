@@ -18,21 +18,22 @@ export interface IProject {
   videoURLs: string[]; 
   description: string; 
   status: "UNAPPROVED" | "ACTIVE" | "HALTED" | "INACTIVATED" | "COMPLETED"; 
-  haltedReason: string;
   isGlobal: boolean;
   country: string; 
   continent: string;
   category: ProjectCategory[];
   isHighlighted: boolean; 
-  fundStatus: "ON-GOING" | "FULL"; 
+  fundStatus: "ONGOING" | "FULL"; 
   goalAmount: number; 
   raisedAmount: number; 
+  totalDonation: number;
   follower: string[]; 
   startDate: Date;
   endDate: Date;
   isVerified: boolean; 
   createdAt: Date; 
   updatedAt: Date; 
+  videoURL: string; //for updating
 }
    
   export interface ResProjects {

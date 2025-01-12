@@ -1,12 +1,13 @@
 "use client"
 
 import React, { useState, useEffect } from "react";
-import { fetchCreditCards, deleteCreditCard } from "@/app/api/donate/donateAPI";
+import { deleteCreditCard } from "@/app/api/donate/donateAPI";
 import CreditCardList from "@/components/credit-card/CreditCardList";
 import AddCreditCardButton from "@/components/credit-card/AddCreditCardButton";
 import { CreditCard } from "@/types/creditCard";
 import { toast } from "sonner";
 import { CreditCard as CreditCardIcon } from "lucide-react";
+import { fetchCharityCreditCards } from "@/app/api/charities/charitiesAPI";
 
 const CreditCardClient = () => {
   const [creditCards, setCreditCards] = useState<CreditCard[]>([]);
@@ -16,7 +17,7 @@ const CreditCardClient = () => {
   const loadCreditCards = async () => {
     try {
       setLoading(true);
-      const cards = await fetchCreditCards();
+      const cards = await fetchCharityCreditCards();
       setCreditCards(cards);
     } catch (err) {
       setError("Failed to fetch credit cards. Please try again later.");
@@ -53,7 +54,7 @@ const CreditCardClient = () => {
       </div>
 
       <div className="mb-6">
-        <AddCreditCardButton onAdd={loadCreditCards} isCharity={false} />
+        <AddCreditCardButton onAdd={loadCreditCards} isCharity={true} />
       </div>
 
       {loading ? (
@@ -64,6 +65,10 @@ const CreditCardClient = () => {
               className="h-32 bg-gray-200 animate-pulse rounded-lg shadow-md"
             ></div>
           ))}
+        </div>
+      ) : creditCards.length === 0 ? (
+        <div className="text-center text-gray-600">
+          <p>No credit cards found. Please add a card to start receiving donations!.</p>
         </div>
       ) : (
         <CreditCardList

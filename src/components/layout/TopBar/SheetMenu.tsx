@@ -30,7 +30,7 @@ export function SheetMenu() {
             variant="link"
             asChild
           >
-            <Link href="/booking" className="flex items-center gap-2">
+            <Link href="/dashboard" className="flex items-center gap-2">
               <Image
                 src="/Logo.svg"
                 alt="logo image"

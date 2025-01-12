@@ -7,6 +7,7 @@ export interface IDonation {
     isRecurring: boolean;
     message?: string; 
     createdAt: string;
+    donor: string;
   }
   
   export interface DonationResponse {

@@ -4,22 +4,13 @@ Important:
     DONOR:
      
         Statistic: hook the api in and UI
-        Verify donation flow
-        API to get all country + fix the filter
-
-    
-
+        Rework subscription
 
     ORGANIZATION:
 
-        Shortcuts
-
         Manage credit card/bank info
-
         Create project
-        Open project details (edit project, halt/inactivate, view all donation of that project)
         Statistic: hook the api in and UI
-        Donation Overview (display (all) donation history): hook api in and UI 
 
         Delete shard
 
@@ -29,10 +20,3 @@ Unimportant:
     Profile
     
     
-
-    Needed route:
-        For Charity:
-        - Get all projects owned by a charity
-        - Get projects that is currenly inactive/hidden of that charity
-        - Get all donations a charity has received
-        - Get all donations of a project

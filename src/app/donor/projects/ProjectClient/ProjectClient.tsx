@@ -107,7 +107,7 @@ export default function ProjectClient() {
       <Filter
         filters={filters}
         categories={Object.values(ProjectCategory)}
-        countries={countryOptions} // Dynamically fetched countries
+        countries={countryOptions} 
         onFilterChange={setFilters}
       />
       <ProjectList projects={projects} />

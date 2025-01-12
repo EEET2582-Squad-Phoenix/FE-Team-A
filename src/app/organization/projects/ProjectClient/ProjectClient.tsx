@@ -1,117 +1,157 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import ProjectList from "@/components/project/ProjectList";
-import Filter from "@/components/filters/Filter";
-import { IProject, FilterState, ProjectCategory } from "@/types/project";
-import { fetchProjects } from "@/app/api/projects/projectsAPI";
-
-const COUNTRY_OPTIONS = [
-  "Vietnam",
-  "USA",
-  "South Africa",
-  "Germany",
-  "Ukraine",
-  "Israel",
-  "China",
-];
+import React, { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  fetchProjectsForCharity,
+  deactivateProject,
+  updateProject,
+} from "@/app/api/charities/charitiesAPI";
+import { CharityProjectCard } from "@/components/project/CharityProjectCard";
+import CharityProjectDetailsPopup from "@/components/project/CharityProjectDetailsPopup";
+import { EditProjectForm } from "../_components/EditForm";
+import { IProject } from "@/types/project";
+import { toast } from "sonner";
+import HaltProjectForm from "../_components/HaltProjectForm";
+import DeleteProjectForm from "../_components/DeleteProjectForm"; // Import the Delete form
+import { Folder } from "lucide-react";
 
 export default function ProjectClient() {
-  const [filters, setFilters] = useState<FilterState>({
-    name: "",
-    category: "All",
-    country: "All",
-  });
   const [projects, setProjects] = useState<IProject[]>([]);
-  const [page, setPage] = useState(1);
-  const loaderRef = useRef<HTMLDivElement>(null);
-  const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
+  const [isHaltFormOpen, setHaltFormOpen] = useState<boolean>(false); // Control Halt Project form visibility
+  const [isDetailsOpen, setIsDetailsOpen] = useState<boolean>(false); // Track if the details popup is open
+  const [isDeleteFormOpen, setDeleteFormOpen] = useState<boolean>(false); // Track if the delete form is open
+  const [isEditFormOpen, setEditFormOpen] = useState<boolean>(false); // Track if the edit form is open
 
-  const loadProjects = async (currentPage = 1, isLoadMore = false) => {
-    if (!isLoadMore) {
-      setProjects([]); 
-      setPage(1); 
-    }
+  useEffect(() => {
+    loadProjects();
+  }, []);
 
-    setIsLoading(true);
+  const loadProjects = async () => {
     try {
-      const response = await fetchProjects(
-        {
-          name: filters.name || undefined,
-          category: filters.category === "All" ? undefined : filters.category,
-          country: filters.country === "All" ? undefined : filters.country,
-        },
-        currentPage,
-        5 // Items per page
-      );
-
-      const newProjects = response.data;
-
-      if (isLoadMore) {
-        setProjects((prevProjects) => [...prevProjects, ...newProjects]);
-      } else {
-        setProjects(newProjects);
-      }
-
-      setHasMore(currentPage < response.totalPages);
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-    } finally {
-      setIsLoading(false);
+      const projects = await fetchProjectsForCharity();
+      setProjects(projects);
+    } catch {
+      toast.error("Failed to fetch projects.");
     }
   };
 
-  // Re-fetch projects when filters change
-  useEffect(() => {
-    loadProjects(1, false);
-  }, [filters]);
+  const openDetailsPopup = (project: IProject) => {
+    setSelectedProject(project);
+    setIsDetailsOpen(true);
+  };
 
-  // Lazy load projects when loaderRef comes into view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && hasMore) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      },
-      { root: null, rootMargin: "100px" }
-    );
+  const closeDetailsPopup = () => {
+    setIsDetailsOpen(false);
+    setSelectedProject(null);
+  };
 
-    if (loaderRef.current) {
-      observer.observe(loaderRef.current);
+  const openHaltProjectForm = (project: IProject) => {
+    setSelectedProject(project);
+    setIsDetailsOpen(false);
+    setHaltFormOpen(true);
+  };
+
+  const closeHaltProjectForm = () => setHaltFormOpen(false);
+
+  const openDeleteProjectForm = (project: IProject) => {
+    setSelectedProject(project);
+    setDeleteFormOpen(true);
+  };
+
+  const closeDeleteProjectForm = () => setDeleteFormOpen(false);
+
+  const openEditForm = (project: IProject) => {
+    setSelectedProject(project);
+    setEditFormOpen(true);
+  };
+
+  const closeEditForm = () => {
+    setSelectedProject(null);
+    setEditFormOpen(false);
+  };
+
+  const handleSaveProject = async (updatedProject: IProject) => {
+    try {
+      await updateProject(updatedProject);
+      toast.success("Project updated successfully.");
+      loadProjects();
+      closeEditForm();
+    } catch (error) {
+      toast.error("Failed to update the project.");
     }
-    return () => observer.disconnect();
-  }, [loaderRef, hasMore]);
+  };
 
-  // Load more projects when page changes
-  useEffect(() => {
-    if (page > 1) {
-      loadProjects(page, true);
+  const handleDeleteProject = async (
+    projectId: string,
+    deletionReason: string
+  ) => {
+    try {
+      await deactivateProject({ projectId, deletionReason });
+      toast.success("Project deleted successfully.");
+      loadProjects();
+      setDeleteFormOpen(false);
+    } catch (error) {
+      toast.error("Failed to delete the project.");
     }
-  }, [page]);
+  };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Your Projects</h1>
-      <Filter
-        filters={filters}
-        categories={Object.values(ProjectCategory)}
-        countries={COUNTRY_OPTIONS}
-        onFilterChange={setFilters}
-      />
-      <ProjectList projects={projects} />
-
-      {/* Lazy Loading / "Load More" Indicator */}
-      <div ref={loaderRef} className="mt-6 flex justify-center">
-        {isLoading ? (
-          <div className="h-8 w-8 border-4 border-blue-500 rounded-full border-t-transparent animate-spin" />
-        ) : hasMore ? (
-          <p className="text-gray-500 text-lg">Loading more projects...</p>
-        ) : (
-          <p className="text-gray-500 text-lg">That's all~</p>
-        )}
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <div className="text-gray-900 mb-10">
+          <h1 className="text-3xl font-semibold flex items-center gap-4">
+            <Folder className="w-8 h-8" /> My Projects
+          </h1>
+          <p className="text-sm text-gray-600">
+            Manage all your projects in one place!
+          </p>
+        </div>
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project) => (
+          <CharityProjectCard
+            key={project.id}
+            project={project}
+            onViewDetails={openDetailsPopup}
+            onEdit={openEditForm} // Pass the `openEditForm` method here
+            onHalt={openHaltProjectForm}
+            onDelete={openDeleteProjectForm}
+          />
+        ))}
+      </div>
+
+      {isDetailsOpen && selectedProject && (
+        <CharityProjectDetailsPopup
+          project={selectedProject}
+          closeModal={closeDetailsPopup}
+        />
+      )}
+
+      {isHaltFormOpen && selectedProject && (
+        <HaltProjectForm
+          projectId={selectedProject.id}
+          onClose={closeHaltProjectForm}
+        />
+      )}
+
+      {isDeleteFormOpen && selectedProject && (
+        <DeleteProjectForm
+          projectId={selectedProject.id}
+          onClose={closeDeleteProjectForm}
+          onConfirm={handleDeleteProject}
+        />
+      )}
+
+      {isEditFormOpen && selectedProject && (
+        <EditProjectForm
+          project={selectedProject}
+          onClose={closeEditForm}
+          onSave={handleSaveProject}
+        />
+      )}
     </div>
   );
 }

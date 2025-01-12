@@ -5,10 +5,10 @@ import { DollarSign, FileX, FileText, GalleryVerticalEnd, HandCoins, Earth, Cred
 const Shortcuts = ({ userRole }: { userRole: string }) => {
   const roleBasedShortcuts: Record<string, { label: string; href: string; icon: React.ReactNode }[]> = {
     organization: [
-      { label: "Create New Project", href: "/charity/projects/new", icon: <FileText /> },
-      { label: "All Owned Projects", href: "/charity/projects", icon: <GalleryVerticalEnd /> },
-      { label: "Manage Credit Card Info", href: "/charity/credit-card", icon: <DollarSign /> },
-      { label: "Halted Projects", href: "/charity/projects/deleted", icon: <FileX /> },
+      { label: "Create New Project", href: "/organization/projects", icon: <FileText /> },
+      { label: "All Owned Projects", href: "/organization/projects", icon: <GalleryVerticalEnd /> },
+      { label: "Manage Credit Card Info", href: "/organization/credit-card", icon: <DollarSign /> },
+      { label: "Halted Projects", href: "/organization/projects/deleteShard", icon: <FileX /> },
     ],
     donor: [
       { label: "All Projects", href: "/donor/projects", icon: <FileText /> },

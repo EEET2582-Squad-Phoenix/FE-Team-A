@@ -15,17 +15,19 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { addCardSchema, AddCard} from "@/schema"
+import { addCardSchema, AddCard } from "@/schema";
 import { addCreditCard } from "@/app/api/donate/donateAPI";
+import { addCharityCreditCard } from "@/app/api/donate/donateAPI";
 import { CreditCard } from "@/types/creditCard";
 
 type AddCreditCardModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (card: CreditCard) => void;
+  isCharity: boolean; 
 };
 
-const AddCreditCardModal = ({ isOpen, onClose, onAdd }: AddCreditCardModalProps) => {
+const AddCreditCardModal = ({ isOpen, onClose, onAdd, isCharity }: AddCreditCardModalProps) => {
   const form = useForm<AddCard>({
     resolver: zodResolver(addCardSchema),
     defaultValues: {
@@ -34,19 +36,30 @@ const AddCreditCardModal = ({ isOpen, onClose, onAdd }: AddCreditCardModalProps)
       expiryDate: "",
       cvv: "",
     },
-    mode: "onChange"
+    mode: "onChange",
   });
+  
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: AddCard) => {
     setLoading(true);
     try {
-      const newCard = await addCreditCard({
+      const cardData = {
         cardHolder: data.cardHolder,
         number: data.number,
         expiryDate: data.expiryDate,
         CVV: data.cvv,
-      });
+      };
+
+      let newCard: CreditCard;
+
+      // Use the appropriate API call based on isCharity flag
+      if (isCharity) {
+        newCard = await addCharityCreditCard(cardData);
+      } else {
+        newCard = await addCreditCard(cardData);
+      }
+
       onAdd(newCard);
       onClose();
       toast.success("Credit card added successfully!");
@@ -147,7 +160,7 @@ const AddCreditCardModal = ({ isOpen, onClose, onAdd }: AddCreditCardModalProps)
             </div>
             
             <DialogFooter className="flex justify-between space-x-4">
-              <Button 
+              <Button
                 variant="outline"
                 className="px-6 py-2 text-gray-600 hover:bg-gray-200"
                 onClick={onClose}

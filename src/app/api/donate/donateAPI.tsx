@@ -116,3 +116,28 @@ export const deleteCreditCard = async (creditCardId: string): Promise<void> => {
     throw new Error("Failed to delete credit card.");
   }
 };
+
+
+export const addCharityCreditCard = async (creditCardData: {
+  cardHolder: string;
+  number: string;
+  expiryDate: string;
+  CVV: string;
+}): Promise<CreditCard> => {
+  const { currentUser } = useUserStore.getState(); 
+  const charityId = currentUser?.id; 
+
+  if (!charityId) {
+    throw new Error("User not logged in or donor ID is unavailable.");
+  }
+
+  const response = await API.post<{ success: boolean; data: CreditCard }>(
+    `/credit-card/charity/${charityId}`,
+    creditCardData
+  );
+
+  if (!response.data.success) {
+    throw new Error("Failed to add credit card.");
+  }
+  return response.data.data;
+};

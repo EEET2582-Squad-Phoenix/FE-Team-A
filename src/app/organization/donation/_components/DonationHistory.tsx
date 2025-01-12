@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DonationCard from "@/components/donation/DonationCard";
 import { IDonation } from "@/types/donation";
 import { fetchDonations } from "@/app/api/donors/donorsAPI"; 
+import { fetchDonationsByCharity } from "@/app/api/charities/charitiesAPI";
 
 interface DonationHistoryProps {
   currentPage: number;
@@ -20,15 +21,15 @@ const DonationHistory: React.FC<DonationHistoryProps> = ({
     const loadDonations = async () => {
       setIsLoading(true);
       try {
-        const data = await fetchDonations();
-        const donationList = data.map((item: any) => item.donation);
-        setDonations(donationList);
+        const data = await fetchDonationsByCharity(); 
+        setDonations(data); 
       } catch (err) {
         setError("Failed to fetch donations.");
       } finally {
         setIsLoading(false);
       }
     };
+    
 
     loadDonations();
   }, []);  
@@ -47,7 +48,7 @@ const DonationHistory: React.FC<DonationHistoryProps> = ({
           <div className="space-y-4">
             {visibleDonations.length > 0 ? (
               visibleDonations.map((donation) => (
-                <DonationCard key={donation.id} donation={donation}  allowDetailsOpen= {false}/>
+                <DonationCard key={donation.id} donation={donation} allowDetailsOpen= {true}/>
               ))
             ) : (
               <p className="text-gray-500">No donations found.</p>
