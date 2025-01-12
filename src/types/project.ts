@@ -14,8 +14,8 @@ export interface IProject {
   id: string; 
   charityID: string; 
   name: string; 
+  thumbnailUrl: string;
   imageURLs: string[]; 
-  videoURLs: string[]; 
   description: string; 
   status: "UNAPPROVED" | "ACTIVE" | "HALTED" | "INACTIVATED" | "COMPLETED"; 
   isGlobal: boolean;
@@ -33,7 +33,7 @@ export interface IProject {
   isVerified: boolean; 
   createdAt: Date; 
   updatedAt: Date; 
-  videoURL: string; //for updating
+  videoURLs: string; 
 }
    
   export interface ResProjects {

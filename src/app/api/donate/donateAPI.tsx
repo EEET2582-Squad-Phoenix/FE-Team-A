@@ -141,3 +141,22 @@ export const addCharityCreditCard = async (creditCardData: {
   }
   return response.data.data;
 };
+
+export const updateCreditCard = async (
+  creditCardId: string,
+  creditCardData: {
+    cardHolder: string;
+    number: string;
+    CVV: string;
+  }
+): Promise<CreditCard> => {
+  const response = await API.put<{ success: boolean; data: CreditCard }>(
+    `/credit-card/${creditCardId}`,
+    creditCardData
+  );
+
+  if (!response.data.success) {
+    throw new Error("Failed to update the credit card.");
+  }
+  return response.data.data;
+};

@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 
 type AddCreditCardButtonProps = {
   onAdd: () => void;
-  isCharity: boolean;  // Add a prop to specify whether it's for a donor or charity
+  isCharity: boolean;  
 };
 
 const AddCreditCardButton = ({ onAdd, isCharity }: AddCreditCardButtonProps) => {
@@ -25,7 +25,7 @@ const AddCreditCardButton = ({ onAdd, isCharity }: AddCreditCardButtonProps) => 
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onAdd={onAdd}
-        isCharity={isCharity}  // Pass the isCharity prop to the modal
+        isCharity={isCharity}  
       />
     </>
   );

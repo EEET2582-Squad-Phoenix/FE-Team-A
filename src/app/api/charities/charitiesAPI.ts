@@ -13,7 +13,7 @@ export const updateProject = async (project: IProject) => {
     startDate: project.startDate,
     endDate: project.endDate,
     imageURLs: project.imageURLs,
-    videoURLs: project.videoURL,
+    videoURLs: project.videoURLs,
   };
 
   const response = await API.put(

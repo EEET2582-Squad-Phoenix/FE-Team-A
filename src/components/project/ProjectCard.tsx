@@ -18,7 +18,7 @@ export default function ProjectCard({ project }: { project: IProject }) {
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden">
       <img
-        src={project.imageURLs[0]}
+        src={project.thumbnailUrl}
         alt={project.name}
         className="w-full h-[200px] object-contain" 
       />

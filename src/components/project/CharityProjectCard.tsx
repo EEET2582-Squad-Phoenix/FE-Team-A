@@ -29,7 +29,7 @@ export function CharityProjectCard({
   return (
     <Card className="bg-white shadow-lg flex flex-col h-full">
       <img
-        src={project.imageURLs[0]}
+        src={project.thumbnailUrl}
         alt={project.name}
         className="w-full h-[200px] object-cover rounded-t-md"
       />

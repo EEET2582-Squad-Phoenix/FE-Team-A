@@ -39,7 +39,7 @@ export function EditProjectForm({
   const handleInputChange = (field: string, value: any) => {
     setFormData({ ...formData, [field]: value });
   };
-
+  
   const handleSave = async () => {
     onSave(formData);
   };
@@ -151,9 +151,9 @@ export function EditProjectForm({
         </div>
 
         <div>
-          <Label htmlFor="videoURL">Video URL</Label>
+          <Label htmlFor="videoURLs">Video URL</Label>
           <Input
-            id="videoURL"
+            id="videoURLs"
             value={formData.videoURLs || ""}
             onChange={(e) => handleInputChange("videoURLs", e.target.value)}
           />

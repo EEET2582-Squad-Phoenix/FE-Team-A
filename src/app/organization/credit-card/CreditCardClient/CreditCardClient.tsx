@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
-import { deleteCreditCard } from "@/app/api/donate/donateAPI";
+import { deleteCreditCard, updateCreditCard } from "@/app/api/donate/donateAPI";
 import CreditCardList from "@/components/credit-card/CreditCardList";
 import AddCreditCardButton from "@/components/credit-card/AddCreditCardButton";
 import { CreditCard } from "@/types/creditCard";
@@ -37,8 +37,18 @@ const CreditCardClient = () => {
     }
   };
 
+  const handleEditCreditCard = async (cardId: string, updatedCard: { cardHolder: string; CVV: string; number: string }) => {
+    try {
+      await updateCreditCard(cardId, updatedCard);  
+      loadCreditCards();  
+      toast.success("Credit card updated successfully!");
+    } catch (err) {
+      toast.error("Failed to update credit card. Please try again.");
+    }
+  };
+
   useEffect(() => {
-    loadCreditCards();
+    loadCreditCards();  
   }, []);
 
   return (
@@ -68,12 +78,13 @@ const CreditCardClient = () => {
         </div>
       ) : creditCards.length === 0 ? (
         <div className="text-center text-gray-600">
-          <p>No credit cards found. Please add a card to start receiving donations!.</p>
+          <p>No credit cards found. Please add a card to start receiving donations!</p>
         </div>
       ) : (
         <CreditCardList
           creditCards={creditCards}
           onRemove={handleDeleteCreditCard}
+          onEdit={handleEditCreditCard} 
         />
       )}
     </div>
