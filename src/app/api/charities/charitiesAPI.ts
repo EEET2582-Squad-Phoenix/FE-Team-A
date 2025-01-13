@@ -23,6 +23,46 @@ export const updateProject = async (project: IProject) => {
   return response.data;
 };
 
+
+export const addProject = async (projectData: {
+  name: string;
+  description: string;
+  goalAmount: number;
+  country: string;
+  category: string[];
+  startDate: Date;
+  endDate: Date;
+  img: string[];
+  thumbnail?: string;
+  vid?: string | null;
+}): Promise<IProject> => {
+  try {
+    const apiPayload = {
+      name: projectData.name,
+      description: projectData.description,
+      goalAmount: projectData.goalAmount,
+      country: projectData.country,
+      category: projectData.category,
+      startDate: projectData.startDate.toISOString(),
+      endDate: projectData.endDate.toISOString(),
+      img: projectData.img,
+      thumbnail: projectData.thumbnail || null,
+      vid: projectData.vid || null,
+    };
+
+  
+    const response = await API.post("/api/charity-project/createProject", apiPayload);
+
+    return response.data;
+  } catch (error: any) {
+    console.error("Error in addProject:", error?.response?.data || error.message);
+    throw new Error(
+      error?.response?.data?.message || "Failed to add project. Please try again later."
+    );
+  }
+};
+
+
 export const fetchProjectsForCharity = async (): Promise<IProject[]> => {
   const response = await API.get<{ projects: IProject[] }>(
     `/api/charity-project/my_project`

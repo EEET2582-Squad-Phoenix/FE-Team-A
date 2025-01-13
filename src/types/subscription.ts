@@ -3,6 +3,4 @@ export interface ISubscription {
     donorId: string; 
     region: "AFRICA" | "EUROPE" | "ASIA" | "AMERICA"; 
     category: "EDUCATION" | "HEALTH" | "RELIGION" | "ENVIRONMENTAL" | "HOUSING" | "OTHER"; 
-    createdAt: string; 
-    updatedAt: string; 
   }

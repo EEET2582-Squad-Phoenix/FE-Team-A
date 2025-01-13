@@ -6,6 +6,7 @@ import {
   fetchProjectsForCharity,
   deactivateProject,
   updateProject,
+  addProject,
 } from "@/app/api/charities/charitiesAPI";
 import { CharityProjectCard } from "@/components/project/CharityProjectCard";
 import CharityProjectDetailsPopup from "@/components/project/CharityProjectDetailsPopup";
@@ -14,7 +15,8 @@ import { IProject } from "@/types/project";
 import { toast } from "sonner";
 import HaltProjectForm from "../_components/HaltProjectForm";
 import DeleteProjectForm from "../_components/DeleteProjectForm"; // Import the Delete form
-import { Folder } from "lucide-react";
+import { Folder, PlusCircle } from "lucide-react";
+import AddProjectForm from "../_components/AddProjectForm";
 
 export default function ProjectClient() {
   const [projects, setProjects] = useState<IProject[]>([]);
@@ -23,6 +25,7 @@ export default function ProjectClient() {
   const [isDetailsOpen, setIsDetailsOpen] = useState<boolean>(false); // Track if the details popup is open
   const [isDeleteFormOpen, setDeleteFormOpen] = useState<boolean>(false); // Track if the delete form is open
   const [isEditFormOpen, setEditFormOpen] = useState<boolean>(false); // Track if the edit form is open
+  const [isAddFormOpen, setAddFormOpen] = useState<boolean>(false);
 
   useEffect(() => {
     loadProjects();
@@ -97,10 +100,61 @@ export default function ProjectClient() {
     }
   };
 
+  const openAddForm = () => setAddFormOpen(true);
+  const closeAddForm = () => setAddFormOpen(false);
+
+  const handleAddProject = async (newProject: {
+    name: string;
+    description: string;
+    goalAmount: number;
+    country: string;
+    category: string[];
+    startDate: Date;
+    endDate: Date;
+    img: string[];
+    thumbnail?: string;
+    vid?: string | null;
+  }) => {
+    try {
+      if (
+        !newProject.name ||
+        !newProject.description ||
+        !newProject.goalAmount ||
+        !newProject.country ||
+        !newProject.category.length ||
+        !newProject.startDate ||
+        !newProject.endDate
+      ) {
+        toast.error("All required fields must be filled.");
+        return;
+      }
+
+      await addProject({
+        name: newProject.name,
+        description: newProject.description,
+        goalAmount: newProject.goalAmount,
+        country: newProject.country,
+        category: newProject.category,
+        startDate: newProject.startDate,
+        endDate: newProject.endDate,
+        img: newProject.img,
+        thumbnail: newProject.thumbnail,
+        vid: newProject.vid,
+      });
+
+      toast.success(`Project created successfully!`);
+      loadProjects(); 
+      closeAddForm();
+    } catch (error) {
+      toast.error("An error occurred while adding the project.");
+      console.error("Error while adding project:", error);
+    }
+  };
+
   return (
     <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div className="text-gray-900 mb-10">
+      <div className="flex justify-between items-center mb-10">
+        <div className="text-gray-900">
           <h1 className="text-3xl font-semibold flex items-center gap-4">
             <Folder className="w-8 h-8" /> My Projects
           </h1>
@@ -108,6 +162,13 @@ export default function ProjectClient() {
             Manage all your projects in one place!
           </p>
         </div>
+        <Button
+          className="flex items-center gap-2 bg-gradient-to-r from-green-400 to-blue-500 text-white"
+          onClick={openAddForm}
+        >
+          <PlusCircle className="w-5 h-5" />
+          Add Project
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -116,7 +177,7 @@ export default function ProjectClient() {
             key={project.id}
             project={project}
             onViewDetails={openDetailsPopup}
-            onEdit={openEditForm} // Pass the `openEditForm` method here
+            onEdit={openEditForm} 
             onHalt={openHaltProjectForm}
             onDelete={openDeleteProjectForm}
           />
@@ -151,6 +212,10 @@ export default function ProjectClient() {
           onClose={closeEditForm}
           onSave={handleSaveProject}
         />
+      )}
+
+      {isAddFormOpen && (
+        <AddProjectForm onClose={closeAddForm} onSave={handleAddProject} />
       )}
     </div>
   );
