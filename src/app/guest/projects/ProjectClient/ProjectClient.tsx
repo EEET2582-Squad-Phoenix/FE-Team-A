@@ -6,6 +6,7 @@ import Filter from "@/components/filters/Filter";
 import { IProject, FilterState, ProjectCategory } from "@/types/project";
 import { fetchProjects, fetchProjectCountries } from "@/app/api/projects/projectsAPI";
 import { Folder } from "lucide-react";
+import GuestProjectList from "@/components/project/GuestProjectList";
 
 export default function ProjectClient() {
   const [filters, setFilters] = useState<FilterState>({
@@ -64,11 +65,11 @@ export default function ProjectClient() {
   };
 
   useEffect(() => {
-    loadCountryOptions(); // Fetch countries on mount
+    loadCountryOptions(); 
   }, []);
 
   useEffect(() => {
-    loadProjects(1, false); // Re-fetch projects when filters change
+    loadProjects(1, false);
   }, [filters]);
 
   useEffect(() => {
@@ -110,7 +111,7 @@ export default function ProjectClient() {
         countries={countryOptions} 
         onFilterChange={setFilters}
       />
-      <ProjectList projects={projects} />
+      <GuestProjectList projects={projects} />
 
       <div ref={loaderRef} className="mt-6 flex justify-center">
         {isLoading ? (

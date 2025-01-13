@@ -10,6 +10,7 @@ import ProjectCategoryDetails from "./ProjectCategoryDetails";
 import ProjectDuration from "./ProjectDuration";
 import { Button } from "../ui/button";
 import DonationModal from "../donation/DonationModal";
+import GuestDonationModal from "../donation/GuestDonationModal";
 
 type ProjectDetailsPopupProps = {
   project: IProject;
@@ -88,7 +89,7 @@ const GuestProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupPr
         />
 
         {isDonationModalOpen && (
-          <DonationModal
+          <GuestDonationModal
             donationType={donationType}
             closeModal={closeDonationModal}
             projectName={project.name}

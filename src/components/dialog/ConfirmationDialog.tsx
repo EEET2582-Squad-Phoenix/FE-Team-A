@@ -31,7 +31,7 @@ const ConfirmationDialog = ({
             Cancel
           </Button>
           <Button variant="outline" className="bg-red-500 text-white" onClick={onConfirm}>
-            Delete
+            Confirm
           </Button>
         </DialogFooter>
       </DialogContent>

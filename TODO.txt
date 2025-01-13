@@ -4,19 +4,13 @@ Important:
     DONOR:
      
         Statistic: hook the api in and UI
-        Rework subscription
 
     ORGANIZATION:
 
-        Manage credit card/bank info
-        Create project
         Statistic: hook the api in and UI
 
-        Delete shard
 
+Fix name display
 
-Unimportant: 
-    GUEST home UI + donations 
-    Profile
     
     

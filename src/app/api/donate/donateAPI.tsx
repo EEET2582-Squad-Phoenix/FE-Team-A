@@ -37,6 +37,42 @@ export const donateAsDonor = async ({
   return response.data;
 };
 
+export const donateAsGuest = async ({
+  amount,
+  projectId,
+  email,
+  name,
+  message,
+  phone,
+  address,
+}: {
+  amount: number;
+  projectId: string;
+  email: string;
+  name: string;
+  message?: string;
+  phone: string;
+  address: string;
+}): Promise<{
+  donation: {
+    id: string;
+    projectId: string;
+    amount: number;
+    status: string;
+  };
+}> => {
+  const response = await API.post("/donate/guest", {
+    projectId,
+    amount,
+    email,
+    name,
+    message,
+    phone,
+    address,
+  });
+  return response.data;
+};
+
 export const createStripeCheckout = async ({
     amount,
     currency,
