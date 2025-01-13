@@ -22,12 +22,12 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({ onClose, onSave }) => {
     description: "",
     goalAmount: 0,
     country: "",
-    category: [],
+    categories: [],
     startDate: new Date(),
     endDate: new Date(),
     img: [""],
     thumbnail: "",
-    vid: "",
+    vid: [""],
   });
   const [countries, setCountries] = useState<string[]>([]);
 
@@ -55,6 +55,16 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({ onClose, onSave }) => {
     const updatedImages = [...formData.img];
     updatedImages[index] = value;
     setFormData({ ...formData, img: updatedImages });
+  };
+
+  const handleAddVideo = () => {
+    setFormData({ ...formData, vid: [...formData.vid, ""] });
+  };
+
+  const handleVideoChange = (index: number, value: string) => {
+    const updatedVideos = [...formData.vid];
+    updatedVideos[index] = value;
+    setFormData({ ...formData, vid: updatedVideos });
   };
 
   const handleSave = async () => {
@@ -120,26 +130,26 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({ onClose, onSave }) => {
         </div>
 
         <div>
-          <Label htmlFor="category">Category</Label>
+          <Label htmlFor="categories">Category</Label>
           <Select
-            onValueChange={(value) => handleInputChange("category", [...formData.category, value])}
+            onValueChange={(value) => handleInputChange("categories", [...formData.categories, value])}
             value=""
           >
-            <SelectTrigger id="category" className="w-full">
+            <SelectTrigger id="categories" className="w-full">
               Add Category
             </SelectTrigger>
             <SelectContent>
               {["FOOD", "EDUCATION", "HEALTH", "RELIGION", "ENVIRONMENT", "HOUSING", "HUMANITARIAN", "OTHER"].map(
-                (category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
+                (categories) => (
+                  <SelectItem key={categories} value={categories}>
+                    {categories}
                   </SelectItem>
                 )
               )}
             </SelectContent>
           </Select>
           <div className="mt-2">
-            {formData.category.map((cat, idx) => (
+            {formData.categories.map((cat, idx) => (
               <span
                 key={idx}
                 className="bg-blue-100 text-blue-700 px-2 py-1 rounded-md text-xs mr-2"
@@ -184,12 +194,27 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({ onClose, onSave }) => {
         </div>
 
         <div>
-          <Label htmlFor="vid">Video URL</Label>
-          <Input
-            id="vid"
-            value={formData.vid}
-            onChange={(e) => handleInputChange("vid", e.target.value)}
-          />
+          <Label>Video URLs</Label>
+          {formData.vid.map((url, index) => (
+            <div key={index} className="flex items-center gap-2 mb-2">
+              <Input
+                value={url}
+                onChange={(e) => handleVideoChange(index, e.target.value)}
+              />
+              <Button
+                variant="destructive"
+                onClick={() =>
+                  setFormData({
+                    ...formData,
+                    vid: formData.vid.filter((_, i) => i !== index),
+                  })
+                }
+              >
+                Remove
+              </Button>
+            </div>
+          ))}
+          <Button onClick={handleAddVideo}>Add Video URL</Button>
         </div>
 
         <div className="space-y-4">

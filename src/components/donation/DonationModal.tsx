@@ -44,7 +44,7 @@ const DonationModal = ({
       });
 
       if (donationType === "recurring") {
-        const subscriptionId = donationResponse.subscriptionId; // Top-level subscriptionId
+        const subscriptionId = donationResponse.subscriptionId; 
         const { id: donationId } = donationResponse.donation;
 
         if (!subscriptionId) {

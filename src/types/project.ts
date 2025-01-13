@@ -21,19 +21,19 @@ export interface IProject {
   isGlobal: boolean;
   country: string; 
   continent: string;
-  category: ProjectCategory[];
+  categories: ProjectCategory[];
   isHighlighted: boolean; 
   fundStatus: "ONGOING" | "FULL"; 
   goalAmount: number; 
   raisedAmount: number; 
   totalDonation: number;
-  follower: string[]; 
   startDate: Date;
   endDate: Date;
   isVerified: boolean; 
   createdAt: Date; 
   updatedAt: Date; 
-  videoURLs: string; 
+  videoURLs: string[]; 
+  originalProjectId: string;
 }
    
   export interface ResProjects {

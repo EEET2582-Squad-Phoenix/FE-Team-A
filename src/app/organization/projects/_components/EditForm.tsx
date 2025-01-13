@@ -4,7 +4,12 @@ import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "sonner";
@@ -39,7 +44,7 @@ export function EditProjectForm({
   const handleInputChange = (field: string, value: any) => {
     setFormData({ ...formData, [field]: value });
   };
-  
+
   const handleSave = async () => {
     onSave(formData);
   };
@@ -83,7 +88,9 @@ export function EditProjectForm({
               id="goalAmount"
               type="number"
               value={formData.goalAmount || ""}
-              onChange={(e) => handleInputChange("goalAmount", parseFloat(e.target.value))}
+              onChange={(e) =>
+                handleInputChange("goalAmount", parseFloat(e.target.value))
+              }
             />
           </div>
         </div>
@@ -111,15 +118,21 @@ export function EditProjectForm({
           <Label htmlFor="category">Category</Label>
           <Select
             onValueChange={(value) => handleInputChange("category", [value])}
-            value={formData.category?.[0] || ""}
+            value={formData.categories?.[0] || ""}
           >
             <SelectTrigger id="category" className="w-full">
               Select Category
             </SelectTrigger>
             <SelectContent>
               {[
-                "FOOD", "EDUCATION", "HEALTH", "RELIGION", "ENVIRONMENT",
-                "HOUSING", "HUMANITARIAN", "OTHER",
+                "FOOD",
+                "EDUCATION",
+                "HEALTH",
+                "RELIGION",
+                "ENVIRONMENT",
+                "HOUSING",
+                "HUMANITARIAN",
+                "OTHER",
               ].map((category) => (
                 <SelectItem key={category} value={category}>
                   {category}
@@ -150,14 +163,36 @@ export function EditProjectForm({
           </div>
         </div>
 
-        <div>
-          <Label htmlFor="videoURLs">Video URL</Label>
-          <Input
-            id="videoURLs"
-            value={formData.videoURLs || ""}
-            onChange={(e) => handleInputChange("videoURLs", e.target.value)}
-          />
-        </div>
+        {formData.videoURLs?.map((url, index) => (
+          <div key={index} className="flex items-center gap-2 mb-2">
+            <Input
+              value={url}
+              onChange={(e) => {
+                const updatedVideos = [...(formData.videoURLs || [])];
+                updatedVideos[index] = e.target.value;
+                handleInputChange("videoURLs", updatedVideos);
+              }}
+            />
+            <Button
+              variant="destructive"
+              onClick={() => {
+                const updatedVideos = formData.videoURLs.filter(
+                  (_, i) => i !== index
+                );
+                handleInputChange("videoURLs", updatedVideos);
+              }}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
+        <Button
+          onClick={() =>
+            handleInputChange("videoURLs", [...(formData.videoURLs || []), ""])
+          }
+        >
+          Add Video URL
+        </Button>
 
         <div className="space-y-2">
           <Label>Image URLs</Label>
@@ -186,7 +221,10 @@ export function EditProjectForm({
           ))}
           <Button
             onClick={() =>
-              handleInputChange("imageURLs", [...(formData.imageURLs || []), ""])
+              handleInputChange("imageURLs", [
+                ...(formData.imageURLs || []),
+                "",
+              ])
             }
           >
             Add Image URL

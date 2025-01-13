@@ -5,7 +5,7 @@ import { IProject } from "@/types/project";
 type CarouselSlideProps = {
   project: IProject;
   isActive: boolean;
-  onClick: () => void; // Pass this prop to handle the click
+  onClick: () => void; 
 };
 
 export default function CarouselSlide({ project, isActive, onClick }: CarouselSlideProps) {
@@ -14,11 +14,11 @@ export default function CarouselSlide({ project, isActive, onClick }: CarouselSl
       className={`flex-shrink-0 w-full relative transition-opacity ${
         isActive ? "opacity-100" : "opacity-0"
       }`}
-      onClick={onClick} // Trigger onClick when clicked on the slide
+      onClick={onClick} 
     >
-      {project.imageURLs && project.imageURLs.length > 0 ? (
+      {project.thumbnailUrl && project.thumbnailUrl.length > 0 ? (
         <Image
-          src={project.imageURLs[0] || "/gura.jpg"} // Default image if none exists
+          src={project.thumbnailUrl} 
           alt={project.name}
           width={1200}
           height={500}
@@ -31,7 +31,6 @@ export default function CarouselSlide({ project, isActive, onClick }: CarouselSl
         </div>
       )}
 
-      {/* Project Information */}
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
         <h2 className="text-white text-xl font-bold">{project.name}</h2>
         <p className="text-gray-200">{project.description}</p>

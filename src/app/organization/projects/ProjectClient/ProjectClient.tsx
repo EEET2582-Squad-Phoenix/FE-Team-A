@@ -108,12 +108,12 @@ export default function ProjectClient() {
     description: string;
     goalAmount: number;
     country: string;
-    category: string[];
+    categories: string[];
     startDate: Date;
     endDate: Date;
     img: string[];
     thumbnail?: string;
-    vid?: string | null;
+    vid?: string[] | null;
   }) => {
     try {
       if (
@@ -121,7 +121,7 @@ export default function ProjectClient() {
         !newProject.description ||
         !newProject.goalAmount ||
         !newProject.country ||
-        !newProject.category.length ||
+        !newProject.categories.length ||
         !newProject.startDate ||
         !newProject.endDate
       ) {
@@ -134,7 +134,7 @@ export default function ProjectClient() {
         description: newProject.description,
         goalAmount: newProject.goalAmount,
         country: newProject.country,
-        category: newProject.category,
+        categories: newProject.categories,
         startDate: newProject.startDate,
         endDate: newProject.endDate,
         img: newProject.img,

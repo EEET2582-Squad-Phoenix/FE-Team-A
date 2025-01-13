@@ -29,7 +29,7 @@ export function Sidebar() {
       { name: "Projects", path: "/organization/projects", icon: <Folder size={20} /> },
       { name: "Donations Overview", path: "/organization/donation", icon: <BarChart size={20} /> },
       { name: "Credit Card Info", path: "/organization/credit-card", icon: <CreditCard size={20} /> },
-      { name: "Deleted Shard", path: "/organization/projects/deleted-shard", icon: <Trash size={20} /> },
+      { name: "Inactive Projects", path: "/organization/inactive-projects", icon: <Trash size={20} /> },
     ],
     GUEST: [
       { name: "Home", path: "/projects", icon: <Home size={20} /> }

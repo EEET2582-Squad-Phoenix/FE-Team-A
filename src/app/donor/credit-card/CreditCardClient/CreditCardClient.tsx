@@ -63,7 +63,7 @@ const CreditCardClient = () => {
       </div>
 
       <div className="mb-6">
-        <AddCreditCardButton onAdd={loadCreditCards} isCharity={true} />
+        <AddCreditCardButton onAdd={loadCreditCards} isCharity={false} />
       </div>
 
       {loading ? (

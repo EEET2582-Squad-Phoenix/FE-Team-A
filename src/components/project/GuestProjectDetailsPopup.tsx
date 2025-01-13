@@ -16,7 +16,7 @@ type ProjectDetailsPopupProps = {
   closeModal: () => void;
 };
 
-const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) => {
+const GuestProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [donationType, setDonationType] = useState("one-time");
@@ -70,7 +70,6 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
 
         <div className="mt-8">
           <h3 className="text-xl font-semibold mb-2">Support this Project</h3>
-          <p className="mb-4">Choose how you want to contribute:</p>
           <div className="flex space-x-4">
             <Button
               variant="outline"
@@ -78,13 +77,6 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
               onClick={() => handleDonationClick("one-time")}
             >
               One-Time Donation
-            </Button>
-            <Button
-              variant="outline"
-              className="flex-1 py-3 px-6 text-center text-white bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 border border-transparent rounded-full shadow-lg hover:shadow-2xl transition duration-200 ease-in-out transform hover:scale-105"
-              onClick={() => handleDonationClick("recurring")}
-            >
-              Recurring Donation
             </Button>
           </div>
         </div>
@@ -110,4 +102,4 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
   return typeof window !== "undefined" ? ReactDOM.createPortal(modalContent, document.body) : null;
 };
 
-export default ProjectDetailsPopup;
+export default GuestProjectDetailsPopup;

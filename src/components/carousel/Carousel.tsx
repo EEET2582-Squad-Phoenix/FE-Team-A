@@ -6,13 +6,13 @@ import { IProject } from "@/types/project";
 import { fetchHighlightedProjects } from "@/app/api/projects/projectsAPI";
 import { Button } from "../ui/button";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import ProjectDetailsPopup from "../project/ProjectDetailsPopup"; // Adjust the import path
+import ProjectDetailsPopup from "../project/ProjectDetailsPopup";
 
 export default function Carousel() {
   const [projects, setProjects] = useState<IProject[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<IProject | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const loadHighlightedProjects = async () => {
@@ -27,14 +27,15 @@ export default function Carousel() {
     loadHighlightedProjects();
   }, []);
 
-  // Automatically switch slides every 5 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        projects.length ? (prevIndex + 1) % projects.length : 0
-      );
-    }, 5000);
-    return () => clearInterval(interval);
+    if (projects.length) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) =>
+          projects.length ? (prevIndex + 1) % projects.length : 0
+        );
+      }, 5000);
+      return () => clearInterval(interval);
+    }
   }, [projects]);
 
   const goToPreviousSlide = () => {
@@ -50,64 +51,78 @@ export default function Carousel() {
   };
 
   const handleSlideClick = (project: IProject) => {
-    setSelectedProject(project); // Set selected project when a slide is clicked
-    setIsModalOpen(true); // Open modal when a project is selected
+    setSelectedProject(project);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
-    setSelectedProject(null); // Clear the selected project
+    setIsModalOpen(false);
+    setSelectedProject(null);
   };
 
   return (
     <div className="relative overflow-hidden w-full max-w-4xl mx-auto">
-      {/* Carousel Content */}
-      <div
-        className="flex transition-transform duration-700 ease-in-out"
-        style={{
-          transform: `translateX(-${currentIndex * 100}%)`,
-        }}
-      >
-        {projects.map((project, index) => (
-          <CarouselSlide
-            key={project.id}
-            project={project}
-            isActive={index === currentIndex}
-            onClick={() => handleSlideClick(project)} 
-          />
-        ))}
-      </div>
+      {projects.length > 0 ? (
+        <>
+          {/* Carousel Slides */}
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{
+              transform: `translateX(-${currentIndex * 100}%)`,
+            }}
+          >
+            {projects.map((project, index) => (
+              <CarouselSlide
+                key={project._id}
+                project={project}
+                isActive={index === currentIndex}
+                onClick={() => handleSlideClick(project)}
+              />
+            ))}
+          </div>
 
-      <Button
-        onClick={goToPreviousSlide}
-        variant="outline" size="icon"
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-600"
-      >
-        <ChevronLeft />
-      </Button>
+          {/* Navigation Buttons */}
+          <Button
+            onClick={goToPreviousSlide}
+            variant="outline"
+            size="icon"
+            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-600"
+          >
+            <ChevronLeft />
+          </Button>
+          <Button
+            onClick={goToNextSlide}
+            variant="outline"
+            size="icon"
+            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-600"
+          >
+            <ChevronRight />
+          </Button>
 
-      <Button
-        onClick={goToNextSlide}
-        variant="outline" size="icon"
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-600"
-      >
-        <ChevronRight />
-      </Button>
+          {/* Dots Indicator */}
+          <div className="flex justify-center mt-4 space-x-2">
+            {projects.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2.5 h-2.5 rounded-full ${
+                  index === currentIndex ? "bg-blue-500" : "bg-gray-400"
+                }`}
+                onClick={() => setCurrentIndex(index)}
+              />
+            ))}
+          </div>
 
-      <div className="flex justify-center mt-4 space-x-2">
-        {projects.map((_, index) => (
-          <button
-            key={index}
-            className={`w-2.5 h-2.5 rounded-full ${
-              index === currentIndex ? "bg-blue-500" : "bg-gray-400"
-            }`}
-            onClick={() => setCurrentIndex(index)}
-          />
-        ))}
-      </div>
-
-      {isModalOpen && selectedProject && (
-        <ProjectDetailsPopup project={selectedProject} closeModal={closeModal} />
+          {/* Project Details Modal */}
+          {isModalOpen && selectedProject && (
+            <ProjectDetailsPopup project={selectedProject} closeModal={closeModal} />
+          )}
+        </>
+      ) : (
+        // No Projects Message
+        <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
+          <p className="text-xl font-semibold text-gray-800">No highlighted projects available.</p>
+          <p className="text-sm text-gray-600 mt-2">Check back later for featured projects!</p>
+        </div>
       )}
     </div>
   );

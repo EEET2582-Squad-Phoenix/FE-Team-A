@@ -36,7 +36,7 @@ const HaltProjectForm = ({ projectId, onClose }: HaltProjectFormProps) => {
 
         <div className="mb-4">
           <p className="text-sm text-gray-600">
-            When halting a project, you need to provide a message for users to explain why the project is being paused. This will help keep everyone informed and provide transparency regarding the status change.
+            You need to provide a message for users to explain why the project is being haulted/unhaulted. This will help keep everyone informed and provide transparency regarding the status change.
           </p>
         </div>
 
@@ -69,7 +69,7 @@ const HaltProjectForm = ({ projectId, onClose }: HaltProjectFormProps) => {
           <Button
             onClick={handleHaltProject}
             className="flex-1 bg-red-600 hover:bg-red-700 text-white"
-            disabled={!isFormValid} // Disable button if form is not valid
+            disabled={!isFormValid} 
           >
             <CheckCircle size={20} className="mr-2" />
             Confirm

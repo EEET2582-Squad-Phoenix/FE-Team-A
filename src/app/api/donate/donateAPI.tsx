@@ -92,15 +92,10 @@ export const addCreditCard = async (creditCardData: {
   expiryDate: string;
   CVV: string;
 }): Promise<CreditCard> => {
-  const { currentUser } = useUserStore.getState(); 
-  const donorId = currentUser?.id; 
-
-  if (!donorId) {
-    throw new Error("User not logged in or donor ID is unavailable.");
-  }
+ 
 
   const response = await API.post<{ success: boolean; data: CreditCard }>(
-    `/credit-card/donor/${donorId}`,
+    "/credit-card/donor",
     creditCardData
   );
 
@@ -124,15 +119,9 @@ export const addCharityCreditCard = async (creditCardData: {
   expiryDate: string;
   CVV: string;
 }): Promise<CreditCard> => {
-  const { currentUser } = useUserStore.getState(); 
-  const charityId = currentUser?.id; 
-
-  if (!charityId) {
-    throw new Error("User not logged in or donor ID is unavailable.");
-  }
 
   const response = await API.post<{ success: boolean; data: CreditCard }>(
-    `/credit-card/charity/${charityId}`,
+    "/credit-card/charity",
     creditCardData
   );
 

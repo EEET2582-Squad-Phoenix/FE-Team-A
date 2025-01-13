@@ -44,7 +44,6 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
     }
   };
 
-  const maskCardNumber = (number: string) => "**** **** **** " + number.slice(-4);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -60,7 +59,7 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
           <div className="flex justify-between items-center">
             <div>
               <p className="font-light text-sm">Card Number</p>
-              <p className="font-bold text-xl">{maskCardNumber(card.number)}</p>
+              <p className="font-bold text-xl">{card.number}</p>
             </div>
             <div className="flex gap-2">
               <Button
@@ -82,7 +81,6 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
         </div>
       ))}
       
-      {/* Delete Confirmation Dialog */}
       <ConfirmationDialog
         isOpen={isDeleteDialogOpen}
         onClose={handleCloseDeleteDialog}
@@ -91,7 +89,6 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
         warningText="Are you sure you want to delete this credit card?"
       />
 
-      {/* Edit Credit Card Dialog */}
       <EditCreditCardDialog
         isOpen={isEditDialogOpen}
         onClose={handleCloseEditDialog}

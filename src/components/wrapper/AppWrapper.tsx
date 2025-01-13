@@ -9,8 +9,8 @@ export function AppWrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     
-    if (pathname.includes("/auth")) {
-      return;  // Skip fetchCurrentUser if on login/signup pages
+    if (pathname.includes("/guest")) {
+      return;  
     }
 
     if (!currentUser) {

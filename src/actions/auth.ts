@@ -11,7 +11,7 @@ export async function signOut(): Promise<void> {
 }
 
 export function extractRoleInfo(data: any): IUser {
-  const { role } = data; // Extract role from the root level
+  const { role } = data; 
 
   if (role === "DONOR") {
     const donorUser: IDonorUser = {
@@ -28,6 +28,7 @@ export function extractRoleInfo(data: any): IUser {
       subscriptions: data.data.subscriptions || [],
       stripeCustomerId: data.data.stripeCustomerId || null,
       account: data.account || null,
+      totalDonation: data.data.totalDonation
     };
     return donorUser;
   } else if (role === "CHARITY") {
@@ -76,7 +77,6 @@ export async function getMe(): Promise<IUser | null> {
     const rawData = await response.json();
     return extractRoleInfo(rawData);
   } catch (error) {
-    console.error("Failed to fetch user profile:", error);
     return null;
   }
 }

@@ -116,7 +116,7 @@ export const CharityProjectDetailsPopup = ({
             <p className="text-gray-600 mb-6">{project.description}</p>
 
             <ProjectImages images={project.imageURLs} />
-            <ProjectVideos video={project.videoURLs} />
+            <ProjectVideos videos={project.videoURLs} />
 
             <ProjectStats
               goalAmount={project.goalAmount}
@@ -126,7 +126,7 @@ export const CharityProjectDetailsPopup = ({
             <ProjectCategoryDetails
               country={project.country}
               region={project.continent}
-              category={project.category}
+              category={project.categories}
             />
 
             <ProjectDuration

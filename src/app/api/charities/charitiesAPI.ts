@@ -8,7 +8,7 @@ export const updateProject = async (project: IProject) => {
     name: project.name,
     description: project.description,
     country: project.country,
-    category: project.category,
+    categories: project.categories,
     goalAmount: project.goalAmount,
     startDate: project.startDate,
     endDate: project.endDate,
@@ -29,12 +29,12 @@ export const addProject = async (projectData: {
   description: string;
   goalAmount: number;
   country: string;
-  category: string[];
+  categories: string[];
   startDate: Date;
   endDate: Date;
   img: string[];
   thumbnail?: string;
-  vid?: string | null;
+  vid?: string[] | null;
 }): Promise<IProject> => {
   try {
     const apiPayload = {
@@ -42,7 +42,7 @@ export const addProject = async (projectData: {
       description: projectData.description,
       goalAmount: projectData.goalAmount,
       country: projectData.country,
-      category: projectData.category,
+      categories: projectData.categories,
       startDate: projectData.startDate.toISOString(),
       endDate: projectData.endDate.toISOString(),
       img: projectData.img,
@@ -67,7 +67,7 @@ export const fetchProjectsForCharity = async (): Promise<IProject[]> => {
   const response = await API.get<{ projects: IProject[] }>(
     `/api/charity-project/my_project`
   );
-  return response.data.projects; // Return the actual projects array
+  return response.data.projects; 
 };
 
 interface CharityDeleteDTO {
@@ -86,6 +86,15 @@ export const deactivateProject = async ({
   return response.data;
 };
 
+export const recoverProject = async ({
+  projectId,
+}: {projectId : string}) => {
+  const response = await API.post("/api/charity-project/restore", {
+    projectId,
+  });
+  return response.data;
+};
+
 export const haltProject = async ({
   projectId,
   donorReason,
@@ -100,7 +109,6 @@ export const haltProject = async ({
     donorReason,
     charityReason,
   });
-  window.location.reload();
   return response.data;
 };
 
@@ -136,3 +144,9 @@ export const fetchCharityCreditCards = async (): Promise<CreditCard[]> => {
   return response.data.data;
 };
 
+export const fetchDeletedProjects = async (): Promise<IProject[]> => {
+  const response = await API.get<{ projects: IProject[] }>(
+    `/api/charity-project/my_inactive`
+  );
+  return response.data.projects; 
+};
