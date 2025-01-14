@@ -54,7 +54,9 @@ const RecurringSubscriptionCard = ({
       <p className="text-sm text-gray-700 mb-2">
         <Calendar className="inline w-4 h-4 mr-2 text-blue-500" />
         Next Billing:{" "}
-        <span className="font-semibold">{new Date(nextBillingDate).toLocaleDateString()}</span>
+        <span className="font-semibold">
+          {new Date(nextBillingDate).toLocaleDateString()}
+        </span>
       </p>
 
       <p className="text-sm text-gray-500 italic">"{message}"</p>

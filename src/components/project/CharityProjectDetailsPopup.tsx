@@ -154,7 +154,11 @@ export const CharityProjectDetailsPopup = ({
                 )}
 
               {donations.map((donation: any) => (
-                <DonationCard key={donation.id} donation={donation} allowDetailsOpen={false} />
+                <DonationCard
+                  key={donation.id}
+                  donation={donation}
+                  allowDetailsOpen={false}
+                />
               ))}
             </div>
           </div>

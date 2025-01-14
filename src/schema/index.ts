@@ -1,11 +1,12 @@
 import { z } from "zod";
 
+//Schema for loggin in, made for testing
 const passwordValidation = new RegExp(
   /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z0-9!@#$%^&*(),.?":{}|<>]{6,}$/
 );
-const phoneValidation = new RegExp(
-  /^((\+84\s\d{3}\s\d{3}\s\d{3})|(0\d{3}\s\d{3}\s\d{3})|((\+84|0)\d{9}))$/
-);
+// const phoneValidation = new RegExp(
+//   /^((\+84\s\d{3}\s\d{3}\s\d{3})|(0\d{3}\s\d{3}\s\d{3})|((\+84|0)\d{9}))$/
+// );
 const nameValidation = new RegExp(
   /^(?=\b[A-Za-z]*[A-Z][a-z]*\b)(?!.*[A-Z]{2})[A-Za-z ]+$/
 );
@@ -65,6 +66,8 @@ export const SignUpSchema = z
   });
 
 export type SignUp = z.infer<typeof SignUpSchema>;
+
+//SCHEMA FOR ADDING CARD
 
 export const cardNumberValidation = z.string().length(16, { message: "Card number must be 16 digits." });
 

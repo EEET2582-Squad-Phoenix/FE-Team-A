@@ -43,7 +43,9 @@ export default function SuggestedProjectsCarousel() {
       <h2 className="text-xl font-bold mb-4">Suggested Projects</h2>
       {projects.length === 0 ? (
         <div className="text-center text-gray-600">
-          <p className="text-lg">No suggested projects are available at the moment.</p>
+          <p className="text-lg">
+            No suggested projects are available at the moment.
+          </p>
           <p className="text-sm">Check back later or explore other projects!</p>
         </div>
       ) : (

@@ -24,19 +24,16 @@ const ProjectDuration = ({ startDate, endDate }: ProjectDurationProps) => {
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {/* Start Date */}
         <div className="flex flex-col items-center sm:items-start p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow">
           <p className="text-lg text-gray-600">Start Date</p>
           <p className="font-semibold text-2xl">{formattedStartDate}</p>
         </div>
 
-        {/* End Date */}
         <div className="flex flex-col items-center sm:items-start p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow">
           <p className="text-lg text-gray-600">End Date</p>
           <p className="font-semibold text-2xl">{formattedEndDate}</p>
         </div>
 
-        {/* Days Left */}
         <div className="flex flex-col items-center sm:items-start p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow col-span-full sm:col-span-2">
           <p className="text-lg text-gray-600">Days Left</p>
           <p

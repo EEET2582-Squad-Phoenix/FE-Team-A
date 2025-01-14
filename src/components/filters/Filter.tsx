@@ -16,7 +16,6 @@ export default function Filter({
 }: FilterProps) {
   return (
     <div className="flex flex-wrap gap-4 mb-6">
-      {/* Search by Project Name */}
       <input
         type="text"
         placeholder="Search by Project Name"
@@ -25,11 +24,12 @@ export default function Filter({
         onChange={(e) => onFilterChange({ ...filters, name: e.target.value })}
       />
 
-      {/* Filter by Category */}
       <select
         className="p-2 border border-gray-300 rounded"
         value={filters.category}
-        onChange={(e) => onFilterChange({ ...filters, category: e.target.value })}
+        onChange={(e) =>
+          onFilterChange({ ...filters, category: e.target.value })
+        }
       >
         <option value="All">All Categories</option>
         {categories.map((category) => (
@@ -39,11 +39,12 @@ export default function Filter({
         ))}
       </select>
 
-      {/* Filter by Country */}
       <select
         className="p-2 border border-gray-300 rounded"
         value={filters.country}
-        onChange={(e) => onFilterChange({ ...filters, country: e.target.value })}
+        onChange={(e) =>
+          onFilterChange({ ...filters, country: e.target.value })
+        }
       >
         <option value="All">All Countries</option>
         {countries.map((country) => (

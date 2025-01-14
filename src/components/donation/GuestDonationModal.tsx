@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { donateAsGuest } from "@/app/api/donate/donateAPI";
+import { toast } from "sonner";
 
 type DonationModalProps = {
   donationType: string;
@@ -47,7 +48,7 @@ const GuestDonationModal = ({
       });
 
       
-      alert(`Donation successful! Thank you for supporting ${projectName}.`);
+      toast.success(`Donation successful! Thank you for supporting ${projectName}.`);
       closeModal();
     } catch (err: any) {
       setError("An error occurred while processing your donation.");

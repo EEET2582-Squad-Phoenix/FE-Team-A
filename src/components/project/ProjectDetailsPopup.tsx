@@ -16,14 +16,20 @@ type ProjectDetailsPopupProps = {
   closeModal: () => void;
 };
 
-const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) => {
+const ProjectDetailsPopup = ({
+  project,
+  closeModal,
+}: ProjectDetailsPopupProps) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [donationType, setDonationType] = useState("one-time");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
         closeModal();
       }
     };
@@ -64,9 +70,15 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
 
         <ProjectVideos videos={project.videoURLs} />
 
-        <ProjectDuration startDate={project.startDate} endDate={project.endDate} />
+        <ProjectDuration
+          startDate={project.startDate}
+          endDate={project.endDate}
+        />
 
-        <ProjectStats goalAmount={project.goalAmount} raisedAmount={project.raisedAmount} />
+        <ProjectStats
+          goalAmount={project.goalAmount}
+          raisedAmount={project.raisedAmount}
+        />
 
         <div className="mt-8">
           <h3 className="text-xl font-semibold mb-2">Support this Project</h3>
@@ -107,7 +119,9 @@ const ProjectDetailsPopup = ({ project, closeModal }: ProjectDetailsPopupProps) 
     </div>
   );
 
-  return typeof window !== "undefined" ? ReactDOM.createPortal(modalContent, document.body) : null;
+  return typeof window !== "undefined"
+    ? ReactDOM.createPortal(modalContent, document.body)
+    : null;
 };
 
 export default ProjectDetailsPopup;

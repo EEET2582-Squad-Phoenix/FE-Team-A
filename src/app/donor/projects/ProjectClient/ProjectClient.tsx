@@ -4,7 +4,10 @@ import React, { useState, useEffect, useRef } from "react";
 import ProjectList from "@/components/project/ProjectList";
 import Filter from "@/components/filters/Filter";
 import { IProject, FilterState, ProjectCategory } from "@/types/project";
-import { fetchProjects, fetchProjectCountries } from "@/app/api/projects/projectsAPI";
+import {
+  fetchProjects,
+  fetchProjectCountries,
+} from "@/app/api/projects/projectsAPI";
 import { Folder } from "lucide-react";
 
 export default function ProjectClient() {
@@ -57,7 +60,7 @@ export default function ProjectClient() {
   const loadCountryOptions = async () => {
     try {
       const countries = await fetchProjectCountries();
-      setCountryOptions([ ...countries]);
+      setCountryOptions([...countries]);
     } catch (error) {
       console.error("Error fetching country options:", error);
     }
@@ -107,7 +110,7 @@ export default function ProjectClient() {
       <Filter
         filters={filters}
         categories={Object.values(ProjectCategory)}
-        countries={countryOptions} 
+        countries={countryOptions}
         onFilterChange={setFilters}
       />
       <ProjectList projects={projects} />

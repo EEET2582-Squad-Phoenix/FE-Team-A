@@ -4,45 +4,29 @@ import RecommendedProject from "./_component/RecommendedProject";
 import Leaderboard from "@/components/leaderboard/Leaderboard";
 import Shortcuts from "@/components/shortcuts/Shortcuts";
 import { Home } from "lucide-react";
+import QuickStatistics from "@/components/statistic/QuickStatistics";
 
 export default async function Page() {
   return (
     <div className="p-6">
-     <div className="text-gray-900 mb-10">
+      <div className="text-gray-900 mb-10">
         <h1 className="text-3xl font-semibold flex items-center gap-4">
           <Home className="w-8 h-8" />
           Dashboard Overview
         </h1>
         <p className="text-sm text-gray-600">
-          Track your donations, supported projects, and manage all your interactions in one place.
+          Track your donations, supported projects, and manage all your
+          interactions in one place.
         </p>
       </div>
 
       <HighlightedProjectCarousel />
 
       <div className="mt-8">
-        <Shortcuts userRole="donor"/>
+        <Shortcuts userRole="donor" />
       </div>
 
-      {/* Statistic. TODO: make it a component */}
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">Your Stats</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-white shadow rounded-lg">
-            <h3 className="text-lg font-semibold">Total Donations</h3>
-            <p className="text-xl font-bold">$5,000</p>
-          </div>
-          <div className="p-4 bg-white shadow rounded-lg">
-            <h3 className="text-lg font-semibold">Projects Supported</h3>
-            <p className="text-xl font-bold">25</p>
-          </div>
-          <div className="p-4 bg-white shadow rounded-lg">
-            <h3 className="text-lg font-semibold">Monthly Donations</h3>
-            <p className="text-xl font-bold">$500</p>
-          </div>
-        </div>
-      </div>
-
+      <QuickStatistics />
       <RecommendedProject />
       <Leaderboard />
     </div>

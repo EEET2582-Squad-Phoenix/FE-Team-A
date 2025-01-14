@@ -2,7 +2,11 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { createStripeCheckout, donateAsDonor, createRecurringStripeCheckout } from "@/app/api/donate/donateAPI";
+import {
+  createStripeCheckout,
+  donateAsDonor,
+  createRecurringStripeCheckout,
+} from "@/app/api/donate/donateAPI";
 import { CreditCardSelector } from "@/app/donor/donation/_components/CreditCardSelector";
 
 type DonationModalProps = {
@@ -34,7 +38,6 @@ const DonationModal = ({
         return;
       }
 
-      // Call the donation API
       const donationResponse = await donateAsDonor({
         amount,
         projectId,
@@ -44,14 +47,13 @@ const DonationModal = ({
       });
 
       if (donationType === "recurring") {
-        const subscriptionId = donationResponse.subscriptionId; 
+        const subscriptionId = donationResponse.subscriptionId;
         const { id: donationId } = donationResponse.donation;
 
         if (!subscriptionId) {
           throw new Error("Subscription ID missing in the response.");
         }
 
-        // Create a recurring Stripe checkout
         const stripeResponse = await createRecurringStripeCheckout({
           subscriptionId,
           donationId,
@@ -64,7 +66,6 @@ const DonationModal = ({
           setError("Failed to initiate the recurring payment process.");
         }
       } else {
-        // Handle one-time donation
         const { id: donationId } = donationResponse.donation;
         const stripeResponse = await createStripeCheckout({
           amount,
@@ -96,7 +97,10 @@ const DonationModal = ({
           "Thank you for choosing us to make a difference! Your generosity
           empowers communities and changes lives."
         </p>
-        <CreditCardSelector selectedCard={selectedCard} onSelectCard={setSelectedCard} />
+        <CreditCardSelector
+          selectedCard={selectedCard}
+          onSelectCard={setSelectedCard}
+        />
         <input
           type="number"
           value={amount}
@@ -112,7 +116,11 @@ const DonationModal = ({
         />
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <div className="flex justify-between">
-          <Button variant="outline" onClick={closeModal} disabled={isSubmitting}>
+          <Button
+            variant="outline"
+            onClick={closeModal}
+            disabled={isSubmitting}
+          >
             Cancel
           </Button>
           <Button

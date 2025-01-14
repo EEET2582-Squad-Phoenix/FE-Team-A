@@ -4,7 +4,12 @@ import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetchProjectCountries } from "@/app/api/projects/projectsAPI";
@@ -105,7 +110,9 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({ onClose, onSave }) => {
               id="goalAmount"
               type="number"
               value={formData.goalAmount || ""}
-              onChange={(e) => handleInputChange("goalAmount", parseFloat(e.target.value))}
+              onChange={(e) =>
+                handleInputChange("goalAmount", parseFloat(e.target.value))
+              }
             />
           </div>
         </div>
@@ -132,20 +139,29 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({ onClose, onSave }) => {
         <div>
           <Label htmlFor="categories">Category</Label>
           <Select
-            onValueChange={(value) => handleInputChange("categories", [...formData.categories, value])}
+            onValueChange={(value) =>
+              handleInputChange("categories", [...formData.categories, value])
+            }
             value=""
           >
             <SelectTrigger id="categories" className="w-full">
               Add Category
             </SelectTrigger>
             <SelectContent>
-              {["FOOD", "EDUCATION", "HEALTH", "RELIGION", "ENVIRONMENT", "HOUSING", "HUMANITARIAN", "OTHER"].map(
-                (categories) => (
-                  <SelectItem key={categories} value={categories}>
-                    {categories}
-                  </SelectItem>
-                )
-              )}
+              {[
+                "FOOD",
+                "EDUCATION",
+                "HEALTH",
+                "RELIGION",
+                "ENVIRONMENT",
+                "HOUSING",
+                "HUMANITARIAN",
+                "OTHER",
+              ].map((categories) => (
+                <SelectItem key={categories} value={categories}>
+                  {categories}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <div className="mt-2">

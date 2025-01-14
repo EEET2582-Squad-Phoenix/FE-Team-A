@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,10 +29,18 @@ type EditCreditCardDialogProps = {
   isOpen: boolean;
   onClose: () => void;
   card: CreditCard | null;
-  onEdit: (cardId: string, updatedCard: { cardHolder: string; CVV: string; number: string }) => void;
+  onEdit: (
+    cardId: string,
+    updatedCard: { cardHolder: string; CVV: string; number: string }
+  ) => void;
 };
 
-const EditCreditCardDialog = ({ isOpen, onClose, card, onEdit }: EditCreditCardDialogProps) => {
+const EditCreditCardDialog = ({
+  isOpen,
+  onClose,
+  card,
+  onEdit,
+}: EditCreditCardDialogProps) => {
   const form = useForm<AddCard>({
     resolver: zodResolver(addCardSchema),
     defaultValues: {
@@ -65,11 +79,16 @@ const EditCreditCardDialog = ({ isOpen, onClose, card, onEdit }: EditCreditCardD
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-xl p-6 rounded-lg shadow-lg transition-all bg-white">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold">Edit Credit Card</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold">
+            Edit Credit Card
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="mt-4 space-y-6"
+          >
             <FormField
               control={form.control}
               name="cardHolder"
@@ -87,7 +106,7 @@ const EditCreditCardDialog = ({ isOpen, onClose, card, onEdit }: EditCreditCardD
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="number"
@@ -107,7 +126,7 @@ const EditCreditCardDialog = ({ isOpen, onClose, card, onEdit }: EditCreditCardD
                 </FormItem>
               )}
             />
-            
+
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -127,7 +146,7 @@ const EditCreditCardDialog = ({ isOpen, onClose, card, onEdit }: EditCreditCardD
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="cvv"

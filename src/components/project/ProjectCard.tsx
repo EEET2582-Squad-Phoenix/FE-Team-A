@@ -20,7 +20,7 @@ export default function ProjectCard({ project }: { project: IProject }) {
       <img
         src={project.thumbnailUrl}
         alt={project.name}
-        className="w-full h-[200px] object-contain" 
+        className="w-full h-[200px] object-contain"
       />
       <div className="p-4">
         <h3 className="text-lg font-bold">{project.name}</h3>
@@ -37,7 +37,9 @@ export default function ProjectCard({ project }: { project: IProject }) {
           View More
         </button>
 
-        {isModalOpen && <ProjectDetailsPopup project={project} closeModal={closeModal} />}
+        {isModalOpen && (
+          <ProjectDetailsPopup project={project} closeModal={closeModal} />
+        )}
       </div>
     </div>
   );

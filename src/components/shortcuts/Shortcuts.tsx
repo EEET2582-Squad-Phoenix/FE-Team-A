@@ -1,20 +1,55 @@
 import React from "react";
 import Link from "next/link";
-import { DollarSign, FileX, FileText, GalleryVerticalEnd, HandCoins, Earth, CreditCard } from "lucide-react";
+import {
+  DollarSign,
+  FileX,
+  FileText,
+  GalleryVerticalEnd,
+  HandCoins,
+  Earth,
+  CreditCard,
+} from "lucide-react";
 
 const Shortcuts = ({ userRole }: { userRole: string }) => {
-  const roleBasedShortcuts: Record<string, { label: string; href: string; icon: React.ReactNode }[]> = {
+  const roleBasedShortcuts: Record<
+    string,
+    { label: string; href: string; icon: React.ReactNode }[]
+  > = {
     organization: [
-      { label: "View All Donations", href: "/organization/donation", icon: <HandCoins /> },
-      { label: "All Owned Projects", href: "/organization/projects", icon: <GalleryVerticalEnd /> },
-      { label: "Manage Credit Card Info", href: "/organization/credit-card", icon: <DollarSign /> },
-      { label: "Inactive Projects", href: "/organization/projects/inactive-projects", icon: <FileX /> },
+      {
+        label: "View All Donations",
+        href: "/organization/donation",
+        icon: <HandCoins />,
+      },
+      {
+        label: "All Owned Projects",
+        href: "/organization/projects",
+        icon: <GalleryVerticalEnd />,
+      },
+      {
+        label: "Manage Credit Card Info",
+        href: "/organization/credit-card",
+        icon: <DollarSign />,
+      },
+      {
+        label: "Inactive Projects",
+        href: "/organization/projects/inactive-projects",
+        icon: <FileX />,
+      },
     ],
     donor: [
       { label: "All Projects", href: "/donor/projects", icon: <FileText /> },
       { label: "Your Donations", href: "/donor/donation", icon: <HandCoins /> },
-      { label: "Manage Subscription", href: "/donor/donation", icon: <Earth /> },
-      { label: "Your Credit Card", href: "/donor/credit-card", icon: <CreditCard /> },
+      {
+        label: "Manage Subscription",
+        href: "/donor/donation",
+        icon: <Earth />,
+      },
+      {
+        label: "Your Credit Card",
+        href: "/donor/credit-card",
+        icon: <CreditCard />,
+      },
     ],
   };
 

@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { IProject } from "@/types/project";
 import { Eye, Edit, OctagonMinus, Trash } from "lucide-react";
 
@@ -16,10 +22,9 @@ export function CharityProjectCard({
   onHalt: (project: IProject) => void;
   onDelete: (project: IProject) => void;
 }) {
-
   const handleHaltClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onHalt(project); 
+    onHalt(project);
   };
 
   const isHalted = project.status === "HALTED";
@@ -34,8 +39,12 @@ export function CharityProjectCard({
         className="w-full h-[200px] object-cover rounded-t-md"
       />
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">{project.name}</CardTitle>
-        <CardDescription className="text-gray-600">{project.description}</CardDescription>
+        <CardTitle className="text-lg font-semibold text-gray-900">
+          {project.name}
+        </CardTitle>
+        <CardDescription className="text-gray-600">
+          {project.description}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
         <div className="text-sm text-gray-700 mb-auto">
@@ -63,7 +72,7 @@ export function CharityProjectCard({
         <div className="flex gap-2 w-full">
           <Button
             variant="outline"
-            onClick={() => onEdit(project)} 
+            onClick={() => onEdit(project)}
             className="flex items-center gap-2 w-full bg-gradient-to-r from-green-400 to-teal-500 text-white"
           >
             <Edit /> Edit

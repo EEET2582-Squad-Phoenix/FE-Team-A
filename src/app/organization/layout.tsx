@@ -23,10 +23,10 @@ export default function Layout({ children }: PropsWithChildren) {
             overflow-hidden
             data-[collapsed=false]:lg:ml-[68px] 
             data-[collapsed=true]:lg:ml-60
-          `,
+          `
         )}
       >
-        <Navbar title = "Welcome"/>
+        <Navbar title="Welcome" />
         <DynamicBreadcrumb />
         {children}
       </main>

@@ -5,10 +5,13 @@ import { Plus } from "lucide-react";
 
 type AddCreditCardButtonProps = {
   onAdd: () => void;
-  isCharity: boolean;  
+  isCharity: boolean;
 };
 
-const AddCreditCardButton = ({ onAdd, isCharity }: AddCreditCardButtonProps) => {
+const AddCreditCardButton = ({
+  onAdd,
+  isCharity,
+}: AddCreditCardButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -25,7 +28,7 @@ const AddCreditCardButton = ({ onAdd, isCharity }: AddCreditCardButtonProps) => 
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onAdd={onAdd}
-        isCharity={isCharity}  
+        isCharity={isCharity}
       />
     </>
   );

@@ -45,9 +45,7 @@ export default function Carousel() {
   };
 
   const goToNextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex + 1) % projects.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
   };
 
   const handleSlideClick = (project: IProject) => {
@@ -64,7 +62,6 @@ export default function Carousel() {
     <div className="relative overflow-hidden w-full max-w-4xl mx-auto">
       {projects.length > 0 ? (
         <>
-          {/* Carousel Slides */}
           <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{
@@ -81,7 +78,6 @@ export default function Carousel() {
             ))}
           </div>
 
-          {/* Navigation Buttons */}
           <Button
             onClick={goToPreviousSlide}
             variant="outline"
@@ -99,7 +95,6 @@ export default function Carousel() {
             <ChevronRight />
           </Button>
 
-          {/* Dots Indicator */}
           <div className="flex justify-center mt-4 space-x-2">
             {projects.map((_, index) => (
               <button
@@ -112,16 +107,21 @@ export default function Carousel() {
             ))}
           </div>
 
-          {/* Project Details Modal */}
           {isModalOpen && selectedProject && (
-            <ProjectDetailsPopup project={selectedProject} closeModal={closeModal} />
+            <ProjectDetailsPopup
+              project={selectedProject}
+              closeModal={closeModal}
+            />
           )}
         </>
       ) : (
-        // No Projects Message
         <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
-          <p className="text-xl font-semibold text-gray-800">No highlighted projects available.</p>
-          <p className="text-sm text-gray-600 mt-2">Check back later for featured projects!</p>
+          <p className="text-xl font-semibold text-gray-800">
+            No highlighted projects available.
+          </p>
+          <p className="text-sm text-gray-600 mt-2">
+            Check back later for featured projects!
+          </p>
         </div>
       )}
     </div>

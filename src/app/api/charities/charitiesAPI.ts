@@ -23,7 +23,6 @@ export const updateProject = async (project: IProject) => {
   return response.data;
 };
 
-
 export const addProject = async (projectData: {
   name: string;
   description: string;
@@ -50,24 +49,29 @@ export const addProject = async (projectData: {
       vid: projectData.vid || null,
     };
 
-  
-    const response = await API.post("/api/charity-project/createProject", apiPayload);
+    const response = await API.post(
+      "/api/charity-project/createProject",
+      apiPayload
+    );
 
     return response.data;
   } catch (error: any) {
-    console.error("Error in addProject:", error?.response?.data || error.message);
+    console.error(
+      "Error in addProject:",
+      error?.response?.data || error.message
+    );
     throw new Error(
-      error?.response?.data?.message || "Failed to add project. Please try again later."
+      error?.response?.data?.message ||
+        "Failed to add project. Please try again later."
     );
   }
 };
-
 
 export const fetchProjectsForCharity = async (): Promise<IProject[]> => {
   const response = await API.get<{ projects: IProject[] }>(
     `/api/charity-project/my_project`
   );
-  return response.data.projects; 
+  return response.data.projects;
 };
 
 interface CharityDeleteDTO {
@@ -86,9 +90,7 @@ export const deactivateProject = async ({
   return response.data;
 };
 
-export const recoverProject = async ({
-  projectId,
-}: {projectId : string}) => {
+export const recoverProject = async ({ projectId }: { projectId: string }) => {
   const response = await API.post("/api/charity-project/restore", {
     projectId,
   });
@@ -123,9 +125,7 @@ export const fetchDonationsByProjectId = async (
   }
 };
 
-
-export const fetchDonationsByCharity = async (
-): Promise<any[]> => {
+export const fetchDonationsByCharity = async (): Promise<any[]> => {
   try {
     const response = await API.get("donate/charity/my_donation");
     return response.data.donations;
@@ -148,5 +148,42 @@ export const fetchDeletedProjects = async (): Promise<IProject[]> => {
   const response = await API.get<{ projects: IProject[] }>(
     `/api/charity-project/my_inactive`
   );
-  return response.data.projects; 
+  return response.data.projects;
+};
+
+//FOR EXTERNAL API CALLS
+const API_BASE_URL = "http://localhost:8080";
+
+export const fetchDonationValue = async (
+  userId: string,
+  isDonor: boolean
+): Promise<number> => {
+  const response = await fetch(
+    `${API_BASE_URL}/statistics/donation-value/target?userTargetID=${userId}&isDonor=${isDonor}`,
+    { credentials: "include" }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch donation value: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.value;
+};
+
+export const fetchProjectCount = async (
+  userId: string,
+  isDonor: boolean
+): Promise<number> => {
+  const response = await fetch(
+    `${API_BASE_URL}/statistics/project-count/target?userTargetID=${userId}&isDonor=${isDonor}`,
+    { credentials: "include" }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch project count: ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  return data.value;
 };

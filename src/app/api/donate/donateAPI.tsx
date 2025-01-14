@@ -1,4 +1,3 @@
-import { useUserStore } from "@/store/user-store";
 import { CreditCard } from "@/types/creditCard";
 import API from "@/utils/axiosClient";
 
@@ -25,7 +24,7 @@ export const donateAsDonor = async ({
     nextBillingDate?: number;
     isRecurring: boolean;
   };
-  subscriptionId?: string; 
+  subscriptionId?: string;
 }> => {
   const response = await API.post("/donate/donor", {
     amount,
@@ -74,43 +73,41 @@ export const donateAsGuest = async ({
 };
 
 export const createStripeCheckout = async ({
+  amount,
+  currency,
+  donationId,
+  projectId,
+}: {
+  amount: number;
+  currency: string;
+  donationId: string;
+  projectId: string;
+}): Promise<{ url: string }> => {
+  const response = await API.post("/payment/stripe/checkout", {
     amount,
     currency,
     donationId,
     projectId,
-  }: {
-    amount: number;
-    currency: string;
-    donationId: string;
-    projectId: string;
-  }): Promise<{ url: string }> => {
-    const response = await API.post("/payment/stripe/checkout", {
-      amount,
-      currency,
-      donationId,
-      projectId,
-    });
-    return response.data;
-  };
+  });
+  return response.data;
+};
 
-
-  export const createRecurringStripeCheckout = async ({
+export const createRecurringStripeCheckout = async ({
+  subscriptionId,
+  donationId,
+  projectId,
+}: {
+  subscriptionId: string;
+  donationId: string;
+  projectId: string;
+}): Promise<{ url: string }> => {
+  const response = await API.post("/payment/stripe/recurring", {
     subscriptionId,
     donationId,
     projectId,
-  }: {
-    subscriptionId: string;
-    donationId: string;
-    projectId: string;
-  }): Promise<{ url: string }> => {
-    const response = await API.post("/payment/stripe/recurring", {
-      subscriptionId,
-      donationId,
-      projectId,
-    });
-    return response.data;
-  };
-
+  });
+  return response.data;
+};
 
 export const fetchCreditCards = async (): Promise<CreditCard[]> => {
   const response = await API.get<{ success: boolean; data: CreditCard[] }>(
@@ -128,8 +125,6 @@ export const addCreditCard = async (creditCardData: {
   expiryDate: string;
   CVV: string;
 }): Promise<CreditCard> => {
- 
-
   const response = await API.post<{ success: boolean; data: CreditCard }>(
     "/credit-card/donor",
     creditCardData
@@ -148,14 +143,12 @@ export const deleteCreditCard = async (creditCardId: string): Promise<void> => {
   }
 };
 
-
 export const addCharityCreditCard = async (creditCardData: {
   cardHolder: string;
   number: string;
   expiryDate: string;
   CVV: string;
 }): Promise<CreditCard> => {
-
   const response = await API.post<{ success: boolean; data: CreditCard }>(
     "/credit-card/charity",
     creditCardData

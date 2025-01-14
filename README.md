@@ -1,8 +1,10 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
-First, install all dependencies:
-npm i
+## Getting Started (IMPORTANT NOTE)
+MAKE SURE YOU RUN TEAM B'S FRONT END FIRST, AND THEN THIS FRONT END IN ORDER TO HAVE THE CORRECT ROUTING
+
+First, install all dependencies(DUE TO VERSION DIFFERENT, --FORCE IS REQUIRED TO INSTALL ALL DEPENDENCIES)
+npm i --force
 
 Then, run the development server:
 
@@ -16,9 +18,9 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+IF YOU HAVE DONE IT RIGHT, THIS SHOULD BE RUN ON LOCAL HOST 3001 INSTEAD OF 3000 (3000 SHOULD BE TEAM B'S)
+DON'T NEED TO OPEN ON BROWSER, OPEN'S TEAM B'S FRONT END ON THE BROWSER AND LOGIN FROM THERE INSTEAD
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

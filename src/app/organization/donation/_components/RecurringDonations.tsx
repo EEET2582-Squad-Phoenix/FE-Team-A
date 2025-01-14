@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { IRecurringDonation } from "@/types/donation";
 import RecurringSubscriptionCard from "./RecurringSubscriptionCard";
-import { fetchRecurringDonations, cancelRecurringDonation } from "@/app/api/donors/donorsAPI";
+import {
+  fetchRecurringDonations,
+  cancelRecurringDonation,
+} from "@/app/api/donors/donorsAPI";
 import { toast } from "sonner";
 import ConfirmationDialog from "@/components/dialog/ConfirmationDialog";
 import { Button } from "@/components/ui/button";
@@ -11,7 +14,9 @@ export default function RecurringDonations() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [currentDonationId, setCurrentDonationId] = useState<string | null>(null);
+  const [currentDonationId, setCurrentDonationId] = useState<string | null>(
+    null
+  );
 
   const loadRecurringDonations = async () => {
     setIsLoading(true);
@@ -40,7 +45,9 @@ export default function RecurringDonations() {
     if (!currentDonationId) return;
     try {
       await cancelRecurringDonation(currentDonationId);
-      setDonations(donations.filter((donation) => donation.id !== currentDonationId));
+      setDonations(
+        donations.filter((donation) => donation.id !== currentDonationId)
+      );
       toast.success("Subscription canceled successfully.");
     } catch (error) {
       console.error("Error canceling donation:", error);
@@ -59,7 +66,9 @@ export default function RecurringDonations() {
     return (
       <div className="flex flex-col items-center text-red-600">
         <p>{error}</p>
-        <Button variant="outline" onClick={loadRecurringDonations}>Retry</Button>
+        <Button variant="outline" onClick={loadRecurringDonations}>
+          Retry
+        </Button>
       </div>
     );
   }
@@ -70,7 +79,9 @@ export default function RecurringDonations() {
       {donations.length === 0 ? (
         <div className="text-center text-gray-600">
           <p className="text-lg">You have no recurring donations.</p>
-          <p className="text-sm">Consider starting one to support a project you care about!</p>
+          <p className="text-sm">
+            Consider starting one to support a project you care about!
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

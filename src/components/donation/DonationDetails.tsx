@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 
@@ -22,7 +27,11 @@ interface Donor {
   monthlyDonation: number;
 }
 
-const DonationDetails: React.FC<DonationDetailsProps> = ({ isOpen, onClose, donorId }) => {
+const DonationDetails: React.FC<DonationDetailsProps> = ({
+  isOpen,
+  onClose,
+  donorId,
+}) => {
   const [donor, setDonor] = useState<Donor | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -92,7 +101,9 @@ const DonationDetails: React.FC<DonationDetailsProps> = ({ isOpen, onClose, dono
               <h2 className="text-xl font-semibold text-gray-800">
                 {donor.firstName} {donor.lastName}
               </h2>
-              <p className="text-gray-600">{donor.address || "No address provided"}</p>
+              <p className="text-gray-600">
+                {donor.address || "No address provided"}
+              </p>
             </div>
 
             {donor.introVidUrl && (
@@ -117,7 +128,11 @@ const DonationDetails: React.FC<DonationDetailsProps> = ({ isOpen, onClose, dono
         )}
 
         <div className="flex justify-center">
-          <Button id="donationDetailsCloseButton" variant="outline" onClick={onClose}>
+          <Button
+            id="donationDetailsCloseButton"
+            variant="outline"
+            onClick={onClose}
+          >
             Close
           </Button>
         </div>

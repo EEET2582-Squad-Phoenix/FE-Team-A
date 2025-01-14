@@ -9,7 +9,15 @@ import { useUserStore } from "@/store/user-store";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SidebarToggle } from "./SidebarToggle";
-import { Home, BarChart, CreditCard, Folder, Trash, Users, HandCoins } from "lucide-react";
+import {
+  Home,
+  BarChart,
+  CreditCard,
+  Folder,
+  Trash,
+  Users,
+  HandCoins,
+} from "lucide-react";
 
 export function Sidebar() {
   const sidebar = useSidebarToggle();
@@ -21,23 +29,49 @@ export function Sidebar() {
     DONOR: [
       { name: "Dashboard", path: "/donor/dashboard", icon: <Home size={20} /> },
       { name: "Projects", path: "/donor/projects", icon: <Folder size={20} /> },
-      { name: "My Donation", path: "/donor/donation", icon: <HandCoins size={20} /> },
-      { name: "My Cards", path: "/donor/credit-card", icon: <CreditCard size={20} /> },
+      {
+        name: "My Donation",
+        path: "/donor/donation",
+        icon: <HandCoins size={20} />,
+      },
+      {
+        name: "My Cards",
+        path: "/donor/credit-card",
+        icon: <CreditCard size={20} />,
+      },
     ],
     CHARITY: [
-      { name: "Dashboard", path: "/organization/dashboard", icon: <Home size={20} /> },
-      { name: "Projects", path: "/organization/projects", icon: <Folder size={20} /> },
-      { name: "Donations Overview", path: "/organization/donation", icon: <BarChart size={20} /> },
-      { name: "Credit Card Info", path: "/organization/credit-card", icon: <CreditCard size={20} /> },
-      { name: "Inactive Projects", path: "/organization/inactive-projects", icon: <Trash size={20} /> },
+      {
+        name: "Dashboard",
+        path: "/organization/dashboard",
+        icon: <Home size={20} />,
+      },
+      {
+        name: "Projects",
+        path: "/organization/projects",
+        icon: <Folder size={20} />,
+      },
+      {
+        name: "Donations Overview",
+        path: "/organization/donation",
+        icon: <BarChart size={20} />,
+      },
+      {
+        name: "Credit Card Info",
+        path: "/organization/credit-card",
+        icon: <CreditCard size={20} />,
+      },
+      {
+        name: "Inactive Projects",
+        path: "/organization/inactive-projects",
+        icon: <Trash size={20} />,
+      },
     ],
-    GUEST: [
-      { name: "Home", path: "/projects", icon: <Home size={20} /> }
-    ],
+    GUEST: [{ name: "Home", path: "/projects", icon: <Home size={20} /> }],
   };
 
   const navItems = React.useMemo(() => {
-    if (isLoading) return []; 
+    if (isLoading) return [];
 
     const baseRole = pathname.startsWith("/donor")
       ? "DONOR"
@@ -89,7 +123,6 @@ export function Sidebar() {
         </div>
         <Separator className="flex-grow-0" />
 
-        {/* Navigation Links */}
         <nav className="flex flex-col space-y-3 mt-5 px-3">
           {navItems.map((item) => (
             <Link

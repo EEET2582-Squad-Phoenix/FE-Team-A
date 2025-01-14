@@ -24,7 +24,7 @@ export const CreditCardSelector: React.FC<CreditCardSelectorProps> = ({
         const creditCards = await fetchCreditCards();
         setCards(creditCards);
         if (creditCards.length > 0 && !selectedCard) {
-          onSelectCard(creditCards[0].cardId); 
+          onSelectCard(creditCards[0].cardId);
         }
       } catch (err) {
         setError("Failed to fetch credit cards.");
@@ -42,7 +42,10 @@ export const CreditCardSelector: React.FC<CreditCardSelectorProps> = ({
 
   return (
     <div className="mb-4">
-      <label htmlFor="credit-card" className="block text-sm font-medium text-gray-700">
+      <label
+        htmlFor="credit-card"
+        className="block text-sm font-medium text-gray-700"
+      >
         Select Credit Card
       </label>
       <select

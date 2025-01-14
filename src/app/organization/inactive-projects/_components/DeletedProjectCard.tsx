@@ -1,7 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { IProject } from "@/types/project";
-import { Eye, Edit, OctagonMinus, Trash } from "lucide-react";
+import { Eye, RotateCcw } from "lucide-react";
 
 export function DeletedProjectCard({
   project,
@@ -12,7 +18,6 @@ export function DeletedProjectCard({
   onViewDetails: (project: IProject) => void;
   onRecoverProject: (project: IProject) => void;
 }) {
-
   return (
     <Card className="bg-white shadow-lg flex flex-col h-full">
       <img
@@ -21,11 +26,14 @@ export function DeletedProjectCard({
         className="w-full h-[200px] object-cover rounded-t-md"
       />
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">{project.name}</CardTitle>
-        <CardDescription className="text-gray-600">{project.description}</CardDescription>
+        <CardTitle className="text-lg font-semibold text-gray-900">
+          {project.name}
+        </CardTitle>
+        <CardDescription className="text-gray-600">
+          {project.description}
+        </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1">
-      </CardContent>
+      <CardContent className="flex-1"></CardContent>
 
       <div className="flex flex-col gap-2 p-4 mt-auto">
         <Button
@@ -39,9 +47,9 @@ export function DeletedProjectCard({
         <Button
           variant="outline"
           onClick={() => onRecoverProject(project)}
-          className="flex items-center gap-2 w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
+          className="flex items-center gap-2 w-full bg-gradient-to-r from-green-500 to-emerald-700 text-white"
         >
-          <Eye /> Revert 
+          <RotateCcw /> Recover Project
         </Button>
       </div>
     </Card>

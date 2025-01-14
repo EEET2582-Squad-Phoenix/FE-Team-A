@@ -1,6 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type ConfirmationDialogProps = {
   isOpen: boolean;
@@ -30,7 +36,11 @@ const ConfirmationDialog = ({
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="outline" className="bg-red-500 text-white" onClick={onConfirm}>
+          <Button
+            variant="outline"
+            className="bg-red-500 text-white"
+            onClick={onConfirm}
+          >
             Confirm
           </Button>
         </DialogFooter>

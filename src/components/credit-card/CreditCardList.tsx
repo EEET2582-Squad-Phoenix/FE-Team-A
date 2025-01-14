@@ -8,10 +8,17 @@ import EditCreditCardDialog from "./EditCardDialog";
 type CreditCardListProps = {
   creditCards: CreditCard[];
   onRemove: (cardId: string) => void;
-  onEdit: (cardId: string, updatedCard: { cardHolder: string, CVV: string, number: string }) => void; // Pass edit handler
+  onEdit: (
+    cardId: string,
+    updatedCard: { cardHolder: string; CVV: string; number: string }
+  ) => void; // Pass edit handler
 };
 
-const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) => {
+const CreditCardList = ({
+  creditCards,
+  onRemove,
+  onEdit,
+}: CreditCardListProps) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
@@ -44,7 +51,6 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
     }
   };
 
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {creditCards.map((card) => (
@@ -65,7 +71,7 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
               <Button
                 variant="ghost"
                 className="text-yellow-400"
-                onClick={() => handleOpenEditDialog(card)} // Open edit dialog
+                onClick={() => handleOpenEditDialog(card)} 
               >
                 <Edit2 className="w-6 h-6" />
               </Button>
@@ -80,7 +86,7 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
           </div>
         </div>
       ))}
-      
+
       <ConfirmationDialog
         isOpen={isDeleteDialogOpen}
         onClose={handleCloseDeleteDialog}
@@ -93,7 +99,7 @@ const CreditCardList = ({ creditCards, onRemove, onEdit }: CreditCardListProps) 
         isOpen={isEditDialogOpen}
         onClose={handleCloseEditDialog}
         card={selectedCard}
-        onEdit={onEdit} 
+        onEdit={onEdit}
       />
     </div>
   );

@@ -1,7 +1,17 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import {
   Select,
   SelectTrigger,
@@ -11,7 +21,10 @@ import {
 } from "@/components/ui/select";
 import LucideIcon from "@/components/lucide-icon";
 import { toast } from "sonner";
-import { subscribeUnsubscribe, fetchSubscription } from "@/app/api/donors/donorsAPI";
+import {
+  subscribeUnsubscribe,
+  fetchSubscription,
+} from "@/app/api/donors/donorsAPI";
 
 const regions = ["AFRICA", "EUROPE", "ASIA", "AMERICA"];
 const categories = [
@@ -29,7 +42,10 @@ interface SubscriptionDialogProps {
   onClose: () => void;
 }
 
-export const SubscriptionDialog: React.FC<SubscriptionDialogProps> = ({ isOpen, onClose }) => {
+export const SubscriptionDialog: React.FC<SubscriptionDialogProps> = ({
+  isOpen,
+  onClose,
+}) => {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [currentSubscription, setCurrentSubscription] = useState<{
@@ -45,8 +61,7 @@ export const SubscriptionDialog: React.FC<SubscriptionDialogProps> = ({ isOpen, 
         try {
           const subscription = await fetchSubscription();
           setCurrentSubscription(subscription);
-        } catch {
-        }
+        } catch {}
       };
 
       loadSubscription();
@@ -62,9 +77,15 @@ export const SubscriptionDialog: React.FC<SubscriptionDialogProps> = ({ isOpen, 
     setLoading(true);
     try {
       if (currentSubscription) {
-        await subscribeUnsubscribe(currentSubscription.continent, currentSubscription.category);
+        await subscribeUnsubscribe(
+          currentSubscription.continent,
+          currentSubscription.category
+        );
       }
-      const response = await subscribeUnsubscribe(selectedRegion, selectedCategory);
+      const response = await subscribeUnsubscribe(
+        selectedRegion,
+        selectedCategory
+      );
       toast.success(response.message);
       setCurrentSubscription({
         continent: selectedRegion,
@@ -97,10 +118,16 @@ export const SubscriptionDialog: React.FC<SubscriptionDialogProps> = ({ isOpen, 
               </CardTitle>
               <CardDescription className="text-gray-700 mt-2">
                 <div>
-                  Region: <span className="font-semibold">{currentSubscription.continent}</span>
+                  Region:{" "}
+                  <span className="font-semibold">
+                    {currentSubscription.continent}
+                  </span>
                 </div>
                 <div>
-                  Category: <span className="font-semibold">{currentSubscription.category}</span>
+                  Category:{" "}
+                  <span className="font-semibold">
+                    {currentSubscription.category}
+                  </span>
                 </div>
               </CardDescription>
             </CardHeader>
@@ -109,8 +136,13 @@ export const SubscriptionDialog: React.FC<SubscriptionDialogProps> = ({ isOpen, 
 
         <div className="space-y-6">
           <div>
-            <h3 className="font-semibold text-gray-700 text-lg">Select Region</h3>
-            <Select value={selectedRegion || undefined} onValueChange={setSelectedRegion}>
+            <h3 className="font-semibold text-gray-700 text-lg">
+              Select Region
+            </h3>
+            <Select
+              value={selectedRegion || undefined}
+              onValueChange={setSelectedRegion}
+            >
               <SelectTrigger className="w-full border border-gray-300 rounded-lg p-2">
                 <SelectValue placeholder="Choose a Region" />
               </SelectTrigger>
@@ -125,8 +157,13 @@ export const SubscriptionDialog: React.FC<SubscriptionDialogProps> = ({ isOpen, 
           </div>
 
           <div>
-            <h3 className="font-semibold text-gray-700 text-lg">Select Category</h3>
-            <Select value={selectedCategory || undefined} onValueChange={setSelectedCategory}>
+            <h3 className="font-semibold text-gray-700 text-lg">
+              Select Category
+            </h3>
+            <Select
+              value={selectedCategory || undefined}
+              onValueChange={setSelectedCategory}
+            >
               <SelectTrigger className="w-full border border-gray-300 rounded-lg p-2">
                 <SelectValue placeholder="Choose a Category" />
               </SelectTrigger>

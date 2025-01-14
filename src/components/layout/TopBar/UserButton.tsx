@@ -18,7 +18,6 @@ export function UserButton() {
     logout();
   };
 
-  // Type guards for identifying user roles
   const isDonorUser = (user: IUser | null): user is IDonorUser => {
     return user?.role === "DONOR";
   };
@@ -27,7 +26,6 @@ export function UserButton() {
     return user?.role === "CHARITY";
   };
 
-  // Display the user name based on their role
   const userDisplayName = () => {
     if (!currentUser) return "";
     if (isDonorUser(currentUser)) {
@@ -87,7 +85,9 @@ export function UserButton() {
           />
           <AvatarFallback>{avatarFallbackText()}</AvatarFallback>
         </Avatar>
-        <p className="text-semibold text-primary text-sm">{userDisplayName()}</p>
+        <p className="text-semibold text-primary text-sm truncate max-w-full overflow-hidden text-ellipsis">
+          {userDisplayName()}
+        </p>
       </div>
 
       <Button
@@ -103,7 +103,6 @@ export function UserButton() {
     </div>
   );
 }
-
 
 //Fall back images for testing
 function getUserImgFromType(userType: "DONOR" | "CHARITY"): string {

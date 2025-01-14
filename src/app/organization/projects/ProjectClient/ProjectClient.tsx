@@ -143,7 +143,7 @@ export default function ProjectClient() {
       });
 
       toast.success(`Project created successfully!`);
-      loadProjects(); 
+      loadProjects();
       closeAddForm();
     } catch (error) {
       toast.error("An error occurred while adding the project.");
@@ -177,7 +177,7 @@ export default function ProjectClient() {
             key={project.id}
             project={project}
             onViewDetails={openDetailsPopup}
-            onEdit={openEditForm} 
+            onEdit={openEditForm}
             onHalt={openHaltProjectForm}
             onDelete={openDeleteProjectForm}
           />

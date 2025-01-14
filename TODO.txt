@@ -1,16 +1,1 @@
-
-Important:
-    
-    DONOR:
-     
-        Statistic: hook the api in and UI
-
-    ORGANIZATION:
-
-        Statistic: hook the api in and UI
-
-
-Fix name display
-
-    
-    
+ALL DONE

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import DonationHistory from "../_components/DonationHistory"; 
+import DonationHistory from "../_components/DonationHistory";
 import { HandCoins } from "lucide-react";
 import RecurringDonations from "../_components/RecurringDonations";
 
@@ -9,7 +9,6 @@ export default function DonationsClientPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
-  // Pagination handlers
   const handleNextPage = () => {
     setCurrentPage((prev) => prev + 1);
   };
@@ -22,7 +21,7 @@ export default function DonationsClientPage() {
     <div className="p-6">
       <div className="text-gray-900 mb-10">
         <h1 className="text-3xl font-semibold flex items-center gap-4">
-          <HandCoins className="w-8 h-8" /> 
+          <HandCoins className="w-8 h-8" />
           Your Donations
         </h1>
         <p className="text-sm text-gray-600">
@@ -49,7 +48,7 @@ export default function DonationsClientPage() {
           </button>
           <button
             onClick={handleNextPage}
-            disabled={currentPage * pageSize >= 100} 
+            disabled={currentPage * pageSize >= 100}
             className={`px-4 py-2 bg-gray-200 rounded ${
               currentPage * pageSize >= 100
                 ? "opacity-50 cursor-not-allowed"

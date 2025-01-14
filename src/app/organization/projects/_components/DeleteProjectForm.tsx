@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 
@@ -11,11 +17,14 @@ type DeleteProjectFormProps = {
   onConfirm: (projectId: string, deletionReason: string) => Promise<void>;
 };
 
-const DeleteProjectForm = ({ projectId, onClose, onConfirm }: DeleteProjectFormProps) => {
+const DeleteProjectForm = ({
+  projectId,
+  onClose,
+  onConfirm,
+}: DeleteProjectFormProps) => {
   const [deletionReason, setDeletionReason] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Check if the form is valid (deletionReason has input)
   const isFormValid = deletionReason.trim() !== "";
 
   const remainingChars = 150 - deletionReason.length;
@@ -33,10 +42,9 @@ const DeleteProjectForm = ({ projectId, onClose, onConfirm }: DeleteProjectFormP
 
     try {
       setIsSubmitting(true);
-      // Call the delete API
       await onConfirm(projectId, deletionReason);
       toast.success("Project deleted successfully!");
-      onClose();  
+      onClose();
     } catch (error) {
       toast.error("Failed to delete the project.");
     } finally {
@@ -45,7 +53,12 @@ const DeleteProjectForm = ({ projectId, onClose, onConfirm }: DeleteProjectFormP
   };
 
   return (
-    <Dialog open={true} onOpenChange={(open) => { if (!open) onClose(); }}>
+    <Dialog
+      open={true}
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <DialogContent className="bg-white p-6 rounded-lg max-w-md mx-auto space-y-6 shadow-lg">
         <DialogHeader>
           <DialogTitle>Reason for Project Deletion</DialogTitle>
@@ -53,10 +66,14 @@ const DeleteProjectForm = ({ projectId, onClose, onConfirm }: DeleteProjectFormP
 
         <div>
           <p className="text-sm text-gray-600 mb-4">
-            Deleting a project is a significant decision. Please provide a reason for deletion. This message will help the admins understand why you’re requesting to remove it.
+            Deleting a project is a significant decision. Please provide a
+            reason for deletion. This message will help the admins understand
+            why you’re requesting to remove it.
           </p>
 
-          <label className="block text-sm font-medium mb-2">Reason for Deletion</label>
+          <label className="block text-sm font-medium mb-2">
+            Reason for Deletion
+          </label>
           <Input
             value={deletionReason}
             onChange={(e) => setDeletionReason(e.target.value)}
@@ -66,7 +83,8 @@ const DeleteProjectForm = ({ projectId, onClose, onConfirm }: DeleteProjectFormP
             required
           />
           <p className="text-sm text-gray-500 mt-2">
-            {remainingChars} character{remainingChars !== 1 ? 's' : ''} remaining
+            {remainingChars} character{remainingChars !== 1 ? "s" : ""}{" "}
+            remaining
           </p>
         </div>
 
@@ -79,7 +97,9 @@ const DeleteProjectForm = ({ projectId, onClose, onConfirm }: DeleteProjectFormP
             className="flex-1 bg-red-600 hover:bg-red-700 text-white"
             disabled={!isFormValid || isSubmitting}
           >
-            {isSubmitting ? "Deleting..." : (
+            {isSubmitting ? (
+              "Deleting..."
+            ) : (
               <>
                 <CheckCircle size={20} className="mr-2" />
                 Confirm

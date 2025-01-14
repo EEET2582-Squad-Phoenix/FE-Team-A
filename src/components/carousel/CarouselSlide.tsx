@@ -5,20 +5,24 @@ import { IProject } from "@/types/project";
 type CarouselSlideProps = {
   project: IProject;
   isActive: boolean;
-  onClick: () => void; 
+  onClick: () => void;
 };
 
-export default function CarouselSlide({ project, isActive, onClick }: CarouselSlideProps) {
+export default function CarouselSlide({
+  project,
+  isActive,
+  onClick,
+}: CarouselSlideProps) {
   return (
     <div
       className={`flex-shrink-0 w-full relative transition-opacity ${
         isActive ? "opacity-100" : "opacity-0"
       }`}
-      onClick={onClick} 
+      onClick={onClick}
     >
       {project.thumbnailUrl && project.thumbnailUrl.length > 0 ? (
         <Image
-          src={project.thumbnailUrl} 
+          src={project.thumbnailUrl}
           alt={project.name}
           width={1200}
           height={500}

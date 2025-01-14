@@ -9,7 +9,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-// import { SidenavMenu } from "@/components/layout";
 import Image from "next/image";
 
 export function SheetMenu() {
@@ -31,17 +30,11 @@ export function SheetMenu() {
             asChild
           >
             <Link href="/dashboard" className="flex items-center gap-2">
-              <Image
-                src="/Logo.svg"
-                alt="logo image"
-                width={40}
-                height={40}
-              />
+              <Image src="/Logo.svg" alt="logo image" width={40} height={40} />
               <SheetTitle className="font-bold text-lg">Charitan</SheetTitle>
             </Link>
           </Button>
         </SheetHeader>
-        {/* <SidenavMenu isOpen /> */}
       </SheetContent>
     </Sheet>
   );

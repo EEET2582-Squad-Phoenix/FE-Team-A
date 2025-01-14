@@ -4,7 +4,7 @@ import { MapPin, Flag, Tags } from "lucide-react";
 type ProjectCategoryDetailsProps = {
   country: string;
   region: string;
-  category: string[]; // Updated to array
+  category: string[]; 
 };
 
 const ProjectCategoryDetails = ({
@@ -37,7 +37,6 @@ const ProjectCategoryDetails = ({
           <Tags className="text-3xl text-green-500 mr-4" />
           <div>
             <p className="text-sm text-gray-600">Category</p>
-            {/* Display categories as a comma-separated list */}
             <p className="font-semibold text-xl">{category.join(", ")}</p>
           </div>
         </div>

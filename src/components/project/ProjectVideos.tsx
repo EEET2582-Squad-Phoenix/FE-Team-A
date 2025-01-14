@@ -15,7 +15,10 @@ const ProjectVideos = ({ videos }: ProjectVideosProps) => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {videos.map((video, index) => (
-            <div key={index} className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg">
+            <div
+              key={index}
+              className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg"
+            >
               <iframe
                 src={video}
                 className="w-full h-full rounded-lg"
